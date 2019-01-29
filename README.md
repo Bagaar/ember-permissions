@@ -1,31 +1,21 @@
-@bagaar/ember-permissions
-==============================================================================
+# Bagaar Ember Permissions
 
-[Short description of the addon.]
+![Bagaar Logo](https://bagaar.be/hubfs/logo-bagaar-black.svg)
 
+**`@bagaar/ember-permissions` is built and maintained by [Bagaar](http://bagaar.be).**
 
-Compatibility
-------------------------------------------------------------------------------
+[![Build Status](https://travis-ci.org/Bagaar/ember-permissions.svg?branch=master)](https://travis-ci.org/Bagaar/ember-permissions)
 
-* Ember.js v2.18 or above
-* Ember CLI v2.13 or above
+Permission management for Ember applications.
 
+## Installation
 
-Installation
-------------------------------------------------------------------------------
-
-```
+```shell
 ember install @bagaar/ember-permissions
 ```
 
+## Usage
 
-Usage
-------------------------------------------------------------------------------
+## License
 
-[Longer description of how to use the addon in apps.]
-
-
-License
-------------------------------------------------------------------------------
-
-This project is licensed under the [MIT License](LICENSE.md).
+This project is licensed under the [MIT License](./LICENSE.md).
