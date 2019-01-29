@@ -3,7 +3,7 @@
 ## Installation
 
 * `git clone <repository-url>`
-* `cd bagaar-ember-permissions`
+* `cd @bagaar/ember-permissions`
 * `npm install`
 
 ## Linting

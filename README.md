@@ -1,4 +1,4 @@
-bagaar-ember-permissions
+@bagaar/ember-permissions
 ==============================================================================
 
 [Short description of the addon.]
@@ -15,7 +15,7 @@ Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install bagaar-ember-permissions
+ember install @bagaar/ember-permissions
 ```
 
 
