@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const PERMISSION_A = 'PERMISSION_A';
@@ -24,6 +24,8 @@ module('Integration | Helper | can-access-route', function (hooks) {
     assert.equal(this.element.textContent.trim(), 'true');
 
     permissionsService.setPermissions([]);
+
+    await settled();
 
     assert.equal(this.element.textContent.trim(), 'false');
   });
