@@ -4,7 +4,7 @@
 
 **`@bagaar/ember-permissions` is built and maintained by [Bagaar](http://bagaar.be).**
 
-[![Build Status](https://travis-ci.org/Bagaar/ember-permissions.svg?branch=master)](https://travis-ci.org/Bagaar/ember-permissions)
+[![Build Status](https://travis-ci.org/Bagaar/ember-permissions.svg?branch=master)](https://travis-ci.org/Bagaar/ember-permissions) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 Permission management for Ember applications.
 
