@@ -14,6 +14,164 @@ Permission management for Ember applications.
 ember install @bagaar/ember-permissions
 ```
 
+## Public API
+
+### `permissions` Service
+
+#### Methods
+
+##### 1\. `setPermissions`
+
+Allows you to set the permissions for the current session.
+
+###### Arguments
+
+An array of permissions.
+
+###### Returns
+
+/
+
+###### Example
+
+```javascript
+setPermissions([
+  'view-users',
+  'create-users',
+  'edit-users'
+]);
+```
+
+##### 2\. `setRoutePermissions`
+
+Allows you to set the required permissions per route.
+
+###### Arguments
+
+An object of which the keys are route names and the values are arrays of required permissions.
+
+###### Returns
+
+/
+
+###### Example
+
+```javascript
+setRoutePermissions({
+  'users.index': ['view-users'],
+  'users.create': ['create-users'],
+  'users.edit': ['edit-users']
+});
+```
+
+##### 3\. `hasPermissions`
+
+Checks if all the provided permissions are available for the current session.
+
+###### Arguments
+
+Separate permissions OR an array of permissions.
+
+###### Returns
+
+Returns `true` if all the provided permissions are available for the current session, `false` if otherwise.
+
+###### Example
+
+```javascript
+hasPermissions('view-users', 'create-users', 'edit-users');
+
+// OR
+
+hasPermissions(['view-users', 'create-users', 'edit-users']);
+```
+
+##### 4\. `canAccessRoute`
+
+Checks if the provided route can be accessed.
+
+###### Arguments
+
+A route's name.
+
+###### Returns
+
+Returns `true` if the provided route can be accessed, `false` if otherwise.
+
+###### Example
+
+```javascript
+canAccessRoute('users.index');
+```
+
+##### 4\. `startWatchingTransitions`
+
+Allows you to manually start watching transitions. "Watching transitions" means that the service will check each transition and see if it's allowed based on the required permissions per route. If a transition is not allowed the `route-access-denied` event will be triggered.
+
+###### Arguments
+
+/
+
+###### Returns
+
+/
+
+###### Example
+
+```javascript
+startWatchingTransitions();
+```
+
+#### Events
+
+##### 1\. `route-access-denied`
+
+Triggered when a transition occurs that is not allowed.
+
+###### Parameters
+
+The denied transition.
+
+--------------------------------------------------------------------------------
+
+### Helpers
+
+#### 1\. `has-permissions`
+
+Checks if all the provided permissions are available for the current session.
+
+###### Arguments
+
+Separate permissions.
+
+###### Returns
+
+Returns `true` if all the provided permissions are available for the current session, `false` if otherwise.
+
+###### Example
+
+```handlebars
+{{has-permissions "view-users" "create-users" "edit-users"}}
+```
+
+#### 2\. `can-access-route`
+
+Checks if the provided route can be accessed.
+
+###### Arguments
+
+A route's name.
+
+###### Returns
+
+Returns `true` if the provided route can be accessed, `false` if otherwise.
+
+###### Example
+
+```handlebars
+{{can-access-route "users.index"}}
+```
+
 ## Usage
 
 ### 1\. Setting Permissions for the Current Session
@@ -36,7 +194,7 @@ export default Route.extend({
 });
 ```
 
-### 2\. Checking Permissions
+### 2\. Checking Permissions for the Current Session
 
 #### Via the `permissions` Service
 
@@ -68,7 +226,7 @@ export default Controller.extend({
 {{/if}}
 ```
 
-### 3\. Setting Route Permissions for the Current Session
+### 3\. Setting the Required Permissions per Route
 
 ```javascript
 // app/route-permissions.js
@@ -96,7 +254,7 @@ export default {
 };
 ```
 
-### 4\. Checking Route Permissions
+### 4\. Checking If a Route Can Be Accessed
 
 #### Via the `permissions` Service
 
