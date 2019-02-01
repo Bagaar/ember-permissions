@@ -8,6 +8,13 @@
 
 Permission management for Ember applications.
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Public API](#public-api)
+- [License](#license)
+
 ## Installation
 
 ```shell
