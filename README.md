@@ -144,6 +144,14 @@ Triggered when a transition occurs that is not allowed.
 
 The denied transition.
 
+###### Example
+
+```javascript
+permissionsService.on('route-access-denied', ( /* deniedTransition */ ) => {
+  routerService.replaceWith('error', { error: 'access-denied' });
+});
+```
+
 --------------------------------------------------------------------------------
 
 ### Helpers
