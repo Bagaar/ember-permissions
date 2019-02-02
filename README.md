@@ -10,11 +10,16 @@ Permission management for Ember applications.
 
 ## Table of Contents
 
+- [Introduction](#introduction)
 - [Support](#support)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Public API](#public-api)
 - [License](#license)
+
+## Introduction
+
+`@bagaar/ember-permissions` is an addon that allows you to manage and check permissions for the current session. It also allows you to define required permissions per route so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is not allowed, a specific event is triggered so you can decide how to handle the denied transition.
 
 ## Support
 
