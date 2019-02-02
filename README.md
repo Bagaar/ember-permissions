@@ -52,7 +52,7 @@ An array of permissions.
 ###### Example
 
 ```javascript
-setPermissions([
+permissionsService.setPermissions([
   'view-users',
   'create-users',
   'edit-users'
@@ -74,7 +74,7 @@ An object of which the keys are route names and the values are arrays of require
 ###### Example
 
 ```javascript
-setRoutePermissions({
+permissionsService.setRoutePermissions({
   'users.index': ['view-users'],
   'users.create': ['create-users'],
   'users.edit': ['edit-users']
@@ -96,11 +96,19 @@ Returns `true` if all the provided permissions are available for the current ses
 ###### Example
 
 ```javascript
-hasPermissions('view-users', 'create-users', 'edit-users');
+// As separate permissions.
+permissionsService.hasPermissions(
+  'view-users',
+  'create-users',
+  'edit-users'
+);
 
-// OR
-
-hasPermissions(['view-users', 'create-users', 'edit-users']);
+// As an array of permissions.
+permissionsService.hasPermissions([
+  'view-users',
+  'create-users',
+  'edit-users'
+]);
 ```
 
 ##### 4\. `canAccessRoute`
@@ -118,7 +126,7 @@ Returns `true` if the provided route can be accessed, `false` if otherwise.
 ###### Example
 
 ```javascript
-canAccessRoute('users.index');
+permissionsService.canAccessRoute('users.index');
 ```
 
 ##### 4\. `startWatchingTransitions`
@@ -136,7 +144,7 @@ Allows you to manually start watching transitions. "Watching transitions" means 
 ###### Example
 
 ```javascript
-startWatchingTransitions();
+permissionsService.startWatchingTransitions();
 ```
 
 #### Events
