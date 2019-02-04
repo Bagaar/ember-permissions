@@ -23,7 +23,9 @@ Permission management for Ember applications.
 
 ## Support
 
-**`@bagaar/ember-permissions` supports Ember v3.6 and up.** The reason for this is because Ember's new [router service](https://emberjs.com/api/ember/3.6/classes/RouterService) is being used. More specifically, the new `routeWillChange` and `routeDidChange` events.
+**`@bagaar/ember-permissions` supports Ember v3.6 and up.**
+
+The reason for this is because Ember's new [router service](https://emberjs.com/api/ember/3.6/classes/RouterService) is being used. More specifically, the new `routeWillChange` and `routeDidChange` events.
 
 ## Installation
 
@@ -83,7 +85,7 @@ export default {
 };
 ```
 
-Next, extend the `application` route from step 1:
+Next, extend the `application` route from step 1 as follows:
 
 1. Use the `setRoutePermissions` method to pass along the required permissions per route to the `permissions` service.
 2. Handle the `route-access-denied` event to determine what to do when a transition is denied.
@@ -117,7 +119,7 @@ export default Route.extend({
 
 Now each transition will be checked to see if it's allowed based on the required permissions per route. If a transition is not allowed the `route-access-denied` event will be triggered.
 
-Since the required permissions per route are set as well, we can start checking if routes can be accessed. In the example below, we use the `can-access-route` helper to do so.
+Since the required permissions per route are now set, we can start checking if routes can be accessed. In the example below, we use the `can-access-route` helper to do so.
 
 ```handlebars
 {{! app/templates/components/menu.hbs }}
