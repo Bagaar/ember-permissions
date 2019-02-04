@@ -63,7 +63,7 @@ Once the permissions are set, we can start checking their presence. In the examp
 {{! app/templates/users/index.hbs }}
 
 {{#if (has-permissions "delete-users")}}
-  <button onclick={{action deleteUser userRecord}} type="button">
+  <button onclick={{action this.deleteUser userRecord}} type="button">
     Delete User
   </button>
 {{/if}}
