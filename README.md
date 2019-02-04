@@ -207,7 +207,9 @@ Returns `true` if the provided route can be accessed, `false` if otherwise.
 
 ## Usage
 
-### 1\. Setting Permissions for the Current Session
+### 1\. Setting and Checking Permissions for the Current Session
+
+First, we need to let the `permissions` service know which permissions are available for the current session. In the example below, we're using an additional service to request the permissions from a server API. Afterwards, we pass along the permissions to the `permissions` service via the `setPermissions` method.
 
 ```javascript
 // app/routes/application.js
@@ -220,34 +222,14 @@ export default Route.extend({
   permissionsService: service('permissions'),
 
   async beforeModel() {
-    let permissions = await this.apiService.request('permissions');
+    let permissions = await this.apiService.request('/permissions');
 
     this.permissionsService.setPermissions(permissions);
   }
 });
 ```
 
-### 2\. Checking Permissions for the Current Session
-
-#### Via the `permissions` Service
-
-```javascript
-// app/controllers/users/index.js
-
-import Controller from '@ember/controller';
-import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
-
-export default Controller.extend({
-  permissionsService: service('permissions'),
-
-  showDeleteUserButton: computed(function () {
-    return this.permissionsService.hasPermissions('delete-users');
-  })
-});
-```
-
-#### Via the `has-permissions` Helper
+Once the permissions are set, we can start checking their presence. In the example below, we use the `has-permissions` helper to conditionally render a button based on the presence of a specific permission.
 
 ```handlebars
 {{! app/templates/users/index.hbs }}
@@ -259,7 +241,11 @@ export default Controller.extend({
 {{/if}}
 ```
 
-### 3\. Setting the Required Permissions per Route
+> **NOTE:** If you need to check permissions inside a JavaScript file, you can use the `hasPermissions` method on the `permissions` service instead.
+
+### 2\. Setting the Required Permissions per Route, Watching Transitions and Checking Route Access
+
+Start of with defining the required permissions per route. You're free to define them where you want, as long as the format is the same as shown below.
 
 ```javascript
 // app/route-permissions.js
@@ -271,44 +257,41 @@ export default {
 };
 ```
 
-```javascript
-// app/instance-initializers/route-permissions.js
+Next, extend the `application` route from step 1:
 
-import routePermissions from 'app-name/route-permissions';
-
-export function initialize(applicationInstance) {
-  let permissionsService = applicationInstance.lookup('service:permissions');
-
-  permissionsService.setRoutePermissions(routePermissions);
-}
-
-export default {
-  initialize
-};
-```
-
-### 4\. Checking If a Route Can Be Accessed
-
-#### Via the `permissions` Service
+1. Use the `setRoutePermissions` method to pass along the required permissions per route to the `permissions` service.
+2. Handle the `route-access-denied` event to determine what to do when a transition is denied.
+3. Call `startWatchingTransitions` to manually start watching transitions.
 
 ```javascript
-// app/routes/users/index.js
+// app/routes/application.js
 
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import routePermissions from 'app-name/route-permissions';
 
 export default Route.extend({
+  apiService: service('api'),
   permissionsService: service('permissions'),
 
-  beforeModel() {
-    if (!this.permissionsService.canAccessRoute(this.routeName)) {
+  async beforeModel() {
+    let permissions = await this.apiService.request('/permissions');
+
+    this.permissionsService.setPermissions(permissions);
+    this.permissionsService.setRoutePermissions(routePermissions);
+
+    this.permissionsService.on('route-access-denied', () => {
       this.replaceWith('error', { error: 'route-access-denied' });
-    }
+    });
+
+    this.permissionsService.startWatchingTransitions();
   }
 });
 ```
 
-#### Via the `can-access-route` Helper
+Now each transition will be checked to see if it's allowed based on the required permissions per route. If a transition is not allowed the `route-access-denied` event will be triggered.
+
+Since the required permissions per route are set as well, we can start checking if routes can be accessed. In the example below, we use the `can-access-route` helper to do so.
 
 ```handlebars
 {{! app/templates/components/menu.hbs }}
@@ -322,56 +305,7 @@ export default Route.extend({
 {{/if}}
 ```
 
-### 5\. Watching Transitions and Handling the `route-access-denied` Event
-
-```javascript
-// app/route-permissions.js
-
-export default {
-  'users.index': ['view-users'],
-  'users.create': ['create-users'],
-  'users.edit': ['edit-users']
-};
-```
-
-```javascript
-// app/instance-initializers/route-permissions.js
-
-import routePermissions from 'app-name/route-permissions';
-
-export function initialize(applicationInstance) {
-  let permissionsService = applicationInstance.lookup('service:permissions');
-  let routerService = applicationInstance.lookup('service:router');
-
-  permissionsService.setRoutePermissions(routePermissions);
-  permissionsService.on('route-access-denied', () => {
-    routerService.replaceWith('error', { error: 'route-access-denied' });
-  });
-}
-
-export default {
-  initialize
-};
-```
-
-```javascript
-// app/routes/application.js
-
-import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
-
-export default Route.extend({
-  apiService: service('api'),
-  permissionsService: service('permissions'),
-
-  async beforeModel() {
-    let permissions = await this.apiService.request('permissions');
-
-    this.permissionsService.setPermissions(permissions);
-    this.permissionsService.startWatchingTransitions();
-  }
-});
-```
+> **NOTE:** If you need to check if a route can be accessed inside a JavaScript file, you can use the `canAccessRoute` method on the `permissions` service instead.
 
 ## License
 
