@@ -19,7 +19,7 @@ Permission management for Ember applications.
 
 ## Introduction
 
-`@bagaar/ember-permissions` is an addon that allows you to **manage and check permissions** for the current user session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is not allowed, a specific event is triggered so you can decide how to handle the denied transition.
+`@bagaar/ember-permissions` is an addon that allows you to **manage and validate permissions** for the current user session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is not allowed, a specific event is triggered so you can decide how to handle the denied transition.
 
 ## Support
 
@@ -69,7 +69,7 @@ Once the permissions are set, we can start checking their presence. In the examp
 {{/if}}
 ```
 
-> **NOTE:** If you need to check permissions inside a JavaScript file, you can use the [`hasPermissions`](#haspermissions) method on the `permissions` service instead.
+> **NOTE:** If you need to validate permissions inside a JavaScript file, you can use the [`hasPermissions`](#haspermissions) method on the `permissions` service instead.
 
 ### 2\. Setting up Route Permissions
 
@@ -135,7 +135,7 @@ Since the required permissions per route are now set, we can start checking if r
 {{/if}}
 ```
 
-> **NOTE:** If you need to check if a route can be accessed inside a JavaScript file, you can use the [`canAccessRoute`](#canaccessroute) method on the `permissions` service instead.
+> **NOTE:** If you need to validate if a route can be accessed inside a JavaScript file, you can use the [`canAccessRoute`](#canaccessroute) method on the `permissions` service instead.
 
 ## Public API
 
@@ -237,7 +237,7 @@ permissionsService.canAccessRoute('users.index');
 
 ##### startWatchingTransitions
 
-Allows you to manually start watching transitions. "Watching transitions" means that the service will check each transition and see if it's allowed based on the required permissions per route. If a transition is not allowed the `route-access-denied` event will be triggered.
+Allows you to manually start watching transitions. "Watching transitions" means that the service will validate each transition and see if it's allowed based on the required permissions per route. If a transition is not allowed the `route-access-denied` event will be triggered.
 
 ###### Arguments
 

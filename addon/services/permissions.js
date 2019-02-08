@@ -90,7 +90,7 @@ export default Service.extend(Evented, {
 
     this.set('isWatchingTransitions', true);
 
-    // Check the initial transition if `startWatchingTransitions` was called during.
+    // Validate the initial transition if `startWatchingTransitions` was called during.
     if (this.initialTransition && !this.canAccessRoute(this.initialTransition.to.name)) {
       this.trigger('route-access-denied', this.initialTransition);
     }
