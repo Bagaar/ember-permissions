@@ -237,7 +237,7 @@ permissionsService.canAccessRoute('users.index');
 
 ##### startWatchingTransitions
 
-Allows you to manually start watching transitions. "Watching transitions" means that the service will validate each transition and see if it's allowed based on the required permissions per route. If a transition is not allowed the `route-access-denied` event will be triggered.
+Allows you to manually start watching transitions. "Watching transitions" means that the service will validate each transition and see if it's allowed based on the required permissions per route. If a transition is not allowed the [`route-access-denied`](#route-access-denied) event will be triggered.
 
 ###### Arguments
 
