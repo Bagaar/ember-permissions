@@ -22,7 +22,8 @@
     "lint:js": "eslint .",
     "start": "ember serve",
     "test": "ember test",
-    "test:all": "ember try:each"
+    "test:all": "ember try:each",
+    "release": "standard-version"
   },
   "dependencies": {
     "ember-cli-babel": "^7.1.2"
@@ -53,7 +54,8 @@
     "eslint-plugin-ember": "^6.2.0",
     "eslint-plugin-node": "^8.0.1",
     "loader.js": "^4.7.0",
-    "qunit-dom": "^0.8.0"
+    "qunit-dom": "^0.8.0",
+    "standard-version": "^4.4.0"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
