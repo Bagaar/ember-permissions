@@ -19,7 +19,7 @@ Permission management for Ember applications.
 
 ## Introduction
 
-`@bagaar/ember-permissions` is an addon that allows you to **manage and check permissions** for the current session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is not allowed, a specific event is triggered so you can decide how to handle the denied transition.
+`@bagaar/ember-permissions` is an addon that allows you to **manage and check permissions** for the current user session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is not allowed, a specific event is triggered so you can decide how to handle the denied transition.
 
 ## Support
 
@@ -37,7 +37,7 @@ ember install @bagaar/ember-permissions
 
 ### 1\. Setting up User Session Permissions
 
-First, we need to let the `permissions` service know which permissions are available for the current session. In the example below, we're using an additional service to request the permissions from a server API. Afterwards, we pass along the permissions to the `permissions` service via the [`setPermissions`](#setpermissions) method.
+First, we need to let the `permissions` service know which permissions are available for the current user session. In the example below, we're using an additional service to request the permissions from a server API. Afterwards, we pass along the permissions to the `permissions` service via the [`setPermissions`](#setpermissions) method.
 
 ```javascript
 // app/routes/application.js
@@ -145,7 +145,7 @@ Since the required permissions per route are now set, we can start checking if r
 
 ##### setPermissions
 
-Allows you to set the permissions for the current session.
+Allows you to set the permissions for the current user session.
 
 ###### Arguments
 
@@ -189,7 +189,7 @@ permissionsService.setRoutePermissions({
 
 ##### hasPermissions
 
-Checks if all the provided permissions are available for the current session.
+Checks if all the provided permissions are available for the current user session.
 
 ###### Arguments
 
@@ -197,7 +197,7 @@ Separate permissions OR an array of permissions.
 
 ###### Returns
 
-Returns `true` if all the provided permissions are available for the current session, `false` if otherwise.
+Returns `true` if all the provided permissions are available for the current user session, `false` if otherwise.
 
 ###### Example
 
@@ -277,7 +277,7 @@ permissionsService.on('route-access-denied', ( /* deniedTransition */ ) => {
 
 #### has-permissions
 
-Checks if all the provided permissions are available for the current session.
+Checks if all the provided permissions are available for the current user session.
 
 ###### Arguments
 
@@ -285,7 +285,7 @@ Separate permissions.
 
 ###### Returns
 
-Returns `true` if all the provided permissions are available for the current session, `false` if otherwise.
+Returns `true` if all the provided permissions are available for the current user session, `false` if otherwise.
 
 ###### Example
 
