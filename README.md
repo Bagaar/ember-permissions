@@ -267,7 +267,9 @@ The denied transition.
 
 ```javascript
 permissionsService.on('route-access-denied', ( /* deniedTransition */ ) => {
-  routerService.replaceWith('error', { error: 'access-denied' });
+  // Handle the 'route-access-denied' event.
+  // E.g. redirect to a generic error route.
+  routerService.replaceWith('error', { error: 'route-access-denied' });
 });
 ```
 
