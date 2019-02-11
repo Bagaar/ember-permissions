@@ -73,7 +73,7 @@ Once the permissions are set, we can start checking their presence. In the examp
 
 ### 2\. Setting up Route Permissions
 
-Start of with defining the required permissions per route. You're free to define them where you want, as long as the format is the same as shown below.
+Start off with defining the required permissions per route. You're free to define them where you want, as long as the format is the same as shown below.
 
 ```javascript
 // app/route-permissions.js
