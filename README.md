@@ -89,7 +89,7 @@ Next, edit the `application` route from step 1 as follows:
 
 1. Use the [`setRoutePermissions`](#setroutepermissions) method to pass along the required permissions per route to the `permissions` service.
 2. Handle the [`route-access-denied`](#route-access-denied) event to determine what to do when a transition is denied.
-3. Call [`startWatchingTransitions`](#startwatchingtransitions) to enable route validation.
+3. Call [`enableRouteValidation`](#enableroutevalidation).
 
 ```javascript
 // app/routes/application.js
@@ -114,7 +114,7 @@ export default Route.extend({
       this.replaceWith('error', { error: 'route-access-denied' });
     });
 
-    this.permissionsService.startWatchingTransitions();
+    this.permissionsService.enableRouteValidation();
   }
 });
 ```
@@ -235,9 +235,9 @@ Returns `true` if the provided route can be accessed, `false` if otherwise.
 permissionsService.canAccessRoute('users.index');
 ```
 
-##### startWatchingTransitions
+##### enableRouteValidation
 
-Allows you to manually start watching transitions. "Watching transitions" means that the service will validate each transition and see if it's allowed based on the required permissions per route. If a transition is not allowed the [`route-access-denied`](#route-access-denied) event will be triggered.
+This will tell the service that it should start validating each transition and confirm that it's allowed based on the required permissions per route. If a transition is not allowed the [`route-access-denied`](#route-access-denied) event will be triggered.
 
 ###### Arguments
 
@@ -250,7 +250,7 @@ Allows you to manually start watching transitions. "Watching transitions" means 
 ###### Example
 
 ```javascript
-permissionsService.startWatchingTransitions();
+permissionsService.enableRouteValidation();
 ```
 
 #### Events

@@ -13,7 +13,7 @@ export default Service.extend(Evented, {
    */
 
   initialTransition: null,
-  isWatchingTransitions: false,
+  isRouteValidationEnabled: false,
   permissions: null,
   routePermissions: null,
 
@@ -83,14 +83,14 @@ export default Service.extend(Evented, {
     return routeTreePermissions;
   },
 
-  startWatchingTransitions() {
-    if (this.isWatchingTransitions) {
+  enableRouteValidation() {
+    if (this.isRouteValidationEnabled) {
       return;
     }
 
-    this.set('isWatchingTransitions', true);
+    this.set('isRouteValidationEnabled', true);
 
-    // Validate the initial transition if `startWatchingTransitions` was called during.
+    // Validate the initial transition if `enableRouteValidation` was called during it.
     if (this.initialTransition && !this.canAccessRoute(this.initialTransition.to.name)) {
       this.trigger('route-access-denied', this.initialTransition);
     }
