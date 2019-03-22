@@ -1,3 +1,4 @@
+import { EVENTS } from '@bagaar/ember-permissions/config'
 import Evented from '@ember/object/evented'
 import Service, { inject as service } from '@ember/service'
 
@@ -35,12 +36,12 @@ export default Service.extend(Evented, {
 
   setPermissions (permissions) {
     this.set('permissions', permissions)
-    this.trigger('permissions-changed')
+    this.trigger(EVENTS.PERMISSIONS_CHANGED)
   },
 
   setRoutePermissions (routePermissions) {
     this.set('routePermissions', routePermissions)
-    this.trigger('route-permissions-changed')
+    this.trigger(EVENTS.ROUTE_PERMISSIONS_CHANGED)
   },
 
   cacheInitialTransition () {
