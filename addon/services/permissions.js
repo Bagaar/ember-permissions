@@ -1,5 +1,5 @@
-import Evented from '@ember/object/evented';
-import Service, { inject as service } from '@ember/service';
+import Evented from '@ember/object/evented'
+import Service, { inject as service } from '@ember/service'
 
 export default Service.extend(Evented, {
   /**
@@ -21,84 +21,87 @@ export default Service.extend(Evented, {
    * Hooks
    */
 
-  init() {
-    this._super(...arguments);
+  init () {
+    this._super(...arguments)
 
-    this.setPermissions([]);
-    this.setRoutePermissions({});
-    this.cacheInitialTransition();
+    this.setPermissions([])
+    this.setRoutePermissions({})
+    this.cacheInitialTransition()
   },
 
   /**
    * Methods
    */
 
-  setPermissions(permissions) {
-    this.set('permissions', permissions);
-    this.trigger('permissions-changed');
+  setPermissions (permissions) {
+    this.set('permissions', permissions)
+    this.trigger('permissions-changed')
   },
 
-  setRoutePermissions(routePermissions) {
-    this.set('routePermissions', routePermissions);
-    this.trigger('route-permissions-changed');
+  setRoutePermissions (routePermissions) {
+    this.set('routePermissions', routePermissions)
+    this.trigger('route-permissions-changed')
   },
 
-  cacheInitialTransition() {
-    this.routerService.one('routeWillChange', (transition) => {
-      this.set('initialTransition', transition);
-    });
+  cacheInitialTransition () {
+    this.routerService.one('routeWillChange', transition => {
+      this.set('initialTransition', transition)
+    })
 
     this.routerService.one('routeDidChange', () => {
-      this.set('initialTransition', null);
-    });
+      this.set('initialTransition', null)
+    })
   },
 
-  hasPermissions(...args) {
-    let permissions = Array.isArray(args[0]) ? args[0] : args;
+  hasPermissions (...args) {
+    let permissions = Array.isArray(args[0]) ? args[0] : args
 
-    return permissions.every((permission) => {
-      return this.permissions.includes(permission);
-    });
+    return permissions.every(permission => {
+      return this.permissions.includes(permission)
+    })
   },
 
-  canAccessRoute(routeName) {
-    let routeTreePermissions = this.getRouteTreePermissions(routeName);
+  canAccessRoute (routeName) {
+    let routeTreePermissions = this.getRouteTreePermissions(routeName)
 
-    return this.hasPermissions(routeTreePermissions);
+    return this.hasPermissions(routeTreePermissions)
   },
 
-  getRouteTreePermissions(routeName) {
-    let routeNameSplitted = routeName.split('.');
-    let routeTreePermissions = [];
+  getRouteTreePermissions (routeName) {
+    let routeNameSplitted = routeName.split('.')
+    let routeTreePermissions = []
 
     for (let index = 0; index < routeNameSplitted.length; index++) {
-      let routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.');
-      let routePermissions = this.routePermissions[routeNameJoined];
+      let routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.')
+      let routePermissions = this.routePermissions[routeNameJoined]
 
       if (routePermissions) {
-        routeTreePermissions.push(...routePermissions);
+        routeTreePermissions.push(...routePermissions)
       }
     }
 
-    return routeTreePermissions;
+    return routeTreePermissions
   },
 
-  enableRouteValidation() {
+  enableRouteValidation () {
     if (this.isRouteValidationEnabled) {
-      return;
+      return
     }
 
-    this.set('isRouteValidationEnabled', true);
+    this.set('isRouteValidationEnabled', true)
 
     // Validate the initial transition if `enableRouteValidation` was called during it.
-    if (this.initialTransition && !this.canAccessRoute(this.initialTransition.to.name)) {
-      this.trigger('route-access-denied', this.initialTransition);
+    if (
+      this.initialTransition &&
+      !this.canAccessRoute(this.initialTransition.to.name)
+    ) {
+      this.trigger('route-access-denied', this.initialTransition)
     }
 
-    this.routerService.on('routeWillChange', (transition) => {
+    this.routerService.on('routeWillChange', transition => {
       if (transition.to && !this.canAccessRoute(transition.to.name)) {
-        this.trigger('route-access-denied', transition);
+        this.trigger('route-access-denied', transition)
       }
-    });
-  },
-});
+    })
+  }
+})

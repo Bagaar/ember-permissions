@@ -1,1 +1,4 @@
-export { default, hasPermissions } from '@bagaar/ember-permissions/helpers/has-permissions';
+export {
+  default,
+  hasPermissions
+} from '@bagaar/ember-permissions/helpers/has-permissions'
