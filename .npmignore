@@ -13,6 +13,7 @@
 /.eslintignore
 /.eslintrc.js
 /.gitignore
+/.prettierignore
 /.template-lintrc.js
 /.travis.yml
 /.watchmanconfig
