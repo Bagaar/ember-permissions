@@ -15,6 +15,7 @@ Permission management for Ember applications.
 - [Installation](#installation)
 - [Usage](#usage)
 - [Public API](#public-api)
+- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
@@ -312,6 +313,10 @@ Returns `true` if the provided route can be accessed, `false` if otherwise.
 ```handlebars
 {{can-access-route "users.index"}}
 ```
+
+## Contributing
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
 
 ## License
 
