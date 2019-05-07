@@ -27,7 +27,6 @@ export default Service.extend(Evented, {
 
     this.setPermissions([])
     this.setRoutePermissions({})
-    this.cacheInitialTransition()
   },
 
   /**
