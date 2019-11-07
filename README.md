@@ -4,7 +4,7 @@
 
 **`@bagaar/ember-permissions` is built and maintained by [Bagaar](https://bagaar.be).**
 
-[![NPM Version](https://badge.fury.io/js/%40bagaar%2Fember-permissions.svg)](https://badge.fury.io/js/%40bagaar%2Fember-permissions) [![Build Status](https://travis-ci.org/Bagaar/ember-permissions.svg?branch=master)](https://travis-ci.org/Bagaar/ember-permissions) [![Ember Observer Score](https://emberobserver.com/badges/-bagaar-ember-permissions.svg)](https://emberobserver.com/addons/@bagaar/ember-permissions) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![NPM Version](https://badge.fury.io/js/%40bagaar%2Fember-permissions.svg)](https://badge.fury.io/js/%40bagaar%2Fember-permissions) [![Build Status](https://travis-ci.com/Bagaar/ember-permissions.svg?branch=master)](https://travis-ci.com/Bagaar/ember-permissions) [![Ember Observer Score](https://emberobserver.com/badges/-bagaar-ember-permissions.svg)](https://emberobserver.com/addons/@bagaar/ember-permissions) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 Permission management for Ember applications.
 
@@ -316,7 +316,7 @@ Returns `true` if the provided route can be accessed, `false` if otherwise.
 
 ## Contributing
 
-See the [Contributing](CONTRIBUTING.md) guide for details.
+See the [Contributing](./CONTRIBUTING.md) guide for details.
 
 ## License
 
