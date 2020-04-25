@@ -66,7 +66,7 @@ export default Service.extend({
   },
 
   hasPermissions (...args) {
-    let permissions = Array.isArray(args[0]) ? args[0] : args
+    const permissions = Array.isArray(args[0]) ? args[0] : args
 
     return permissions.every(permission => {
       return this.permissions.includes(permission)
@@ -74,18 +74,18 @@ export default Service.extend({
   },
 
   canAccessRoute (routeName) {
-    let routeTreePermissions = this.getRouteTreePermissions(routeName)
+    const routeTreePermissions = this.getRouteTreePermissions(routeName)
 
     return this.hasPermissions(routeTreePermissions)
   },
 
   getRouteTreePermissions (routeName) {
-    let routeNameSplitted = routeName.split('.')
-    let routeTreePermissions = []
+    const routeNameSplitted = routeName.split('.')
+    const routeTreePermissions = []
 
     for (let index = 0; index < routeNameSplitted.length; index++) {
-      let routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.')
-      let routePermissions = this.routePermissions[routeNameJoined]
+      const routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.')
+      const routePermissions = this.routePermissions[routeNameJoined]
 
       if (routePermissions) {
         routeTreePermissions.push(...routePermissions)

@@ -51,7 +51,7 @@ export default Route.extend({
   permissionsService: service('permissions'),
 
   async beforeModel() {
-    let permissions = await this.apiService.request('/permissions');
+    const permissions = await this.apiService.request('/permissions');
 
     this.permissionsService.setPermissions(permissions);
   }
@@ -105,7 +105,7 @@ export default Route.extend({
   permissionsService: service('permissions'),
 
   async beforeModel() {
-    let permissions = await this.apiService.request('/permissions');
+    const permissions = await this.apiService.request('/permissions');
 
     this.permissionsService.setPermissions(permissions);
     this.permissionsService.setRoutePermissions(routePermissions);

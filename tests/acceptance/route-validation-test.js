@@ -11,8 +11,8 @@ module('Acceptance | route validation', function (hooks) {
   setupApplicationTest(hooks)
 
   test(`it only triggers the 'route-access-denied' event when 'enableRouteValidation' is called`, async function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
-    let Router = this.owner.resolveRegistration('router:main')
+    const permissionsService = this.owner.lookup('service:permissions')
+    const Router = this.owner.resolveRegistration('router:main')
 
     Router.map(function () {
       this.route(ROUTE_A)

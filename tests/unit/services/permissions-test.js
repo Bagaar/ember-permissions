@@ -11,7 +11,7 @@ module('Unit | Service | permissions', function (hooks) {
   setupTest(hooks)
 
   test('setPermissions', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
     let isHandlerCalled = false
 
     function handler () {
@@ -29,7 +29,7 @@ module('Unit | Service | permissions', function (hooks) {
   })
 
   test('setRoutePermissions', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
     let isHandlerCalled = false
 
     function handler () {
@@ -51,7 +51,7 @@ module('Unit | Service | permissions', function (hooks) {
   })
 
   test('hasPermissions', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
 
     permissionsService.setPermissions([PERMISSION_A])
 
@@ -63,7 +63,7 @@ module('Unit | Service | permissions', function (hooks) {
   })
 
   test('canAccessRoute', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
 
     permissionsService.setPermissions([PERMISSION_A])
     permissionsService.setRoutePermissions({
@@ -76,7 +76,7 @@ module('Unit | Service | permissions', function (hooks) {
   })
 
   test('getRouteTreePermissions', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
 
     const ROUTE_A_ROUTE_B = `${ROUTE_A}.${ROUTE_B}`
 
