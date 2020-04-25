@@ -24,9 +24,7 @@ Permission management for Ember applications.
 
 ## Support
 
-**`@bagaar/ember-permissions` supports Ember v3.6 and up.**
-
-The reason for this is that Ember's new [router service](https://emberjs.com/api/ember/3.6/classes/RouterService) is being used. More specifically, the new `routeWillChange` and `routeDidChange` events.
+**`@bagaar/ember-permissions` supports Ember v3.12 and up.**
 
 ## Installation
 
