@@ -73,16 +73,15 @@
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
-  "lint-staged": {
-    "*.js": [
-      "prettier-standard",
-      "eslint --fix",
-      "git add"
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier-standard",
+      "eslint --fix"
+    ]
   }
 }
