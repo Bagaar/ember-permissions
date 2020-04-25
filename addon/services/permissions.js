@@ -1,4 +1,5 @@
 import { EVENTS } from '@bagaar/ember-permissions/config'
+import { assert } from '@ember/debug'
 import { addListener, sendEvent } from '@ember/object/events'
 import Service, { inject as service } from '@ember/service'
 
@@ -11,12 +12,22 @@ export default class PermissionsService extends Service {
   routePermissions = {}
 
   setPermissions (permissions) {
+    assert(
+      '`permissions` is required and should be an array.',
+      permissions && Array.isArray(permissions)
+    )
+
     this.permissions = permissions
 
     sendEvent(this, EVENTS.PERMISSIONS_CHANGED)
   }
 
   setRoutePermissions (routePermissions) {
+    assert(
+      '`routePermissions` is required and should be an object.',
+      routePermissions && typeof routePermissions === 'object'
+    )
+
     this.routePermissions = routePermissions
 
     sendEvent(this, EVENTS.ROUTE_PERMISSIONS_CHANGED)
@@ -53,6 +64,11 @@ export default class PermissionsService extends Service {
   }
 
   canAccessRoute (routeName) {
+    assert(
+      '`routeName` is required and should be a string.',
+      routeName && typeof routeName === 'string'
+    )
+
     const routeTreePermissions = this.getRouteTreePermissions(routeName)
 
     return this.hasPermissions(routeTreePermissions)

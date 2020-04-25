@@ -10,6 +10,16 @@ const ROUTE_B = 'ROUTE_B'
 module('Unit | Service | permissions', function (hooks) {
   setupTest(hooks)
 
+  test('setPermissions throws', function (assert) {
+    const permissionsService = this.owner.lookup('service:permissions')
+
+    assert.throws(() => {
+      permissionsService.setPermissions()
+    })
+
+    permissionsService.setPermissions([])
+  })
+
   test('setPermissions', function (assert) {
     const permissionsService = this.owner.lookup('service:permissions')
     let isHandlerCalled = false
@@ -26,6 +36,20 @@ module('Unit | Service | permissions', function (hooks) {
 
     assert.ok(isHandlerCalled)
     assert.deepEqual(permissionsService.permissions, [PERMISSION_A])
+  })
+
+  test('setRoutePermissions throws', function (assert) {
+    const permissionsService = this.owner.lookup('service:permissions')
+
+    assert.throws(() => {
+      permissionsService.setRoutePermissions()
+    })
+
+    assert.throws(() => {
+      permissionsService.setRoutePermissions(null)
+    })
+
+    permissionsService.setRoutePermissions({})
   })
 
   test('setRoutePermissions', function (assert) {
@@ -60,6 +84,20 @@ module('Unit | Service | permissions', function (hooks) {
 
     assert.notOk(permissionsService.hasPermissions(PERMISSION_B))
     assert.notOk(permissionsService.hasPermissions([PERMISSION_B]))
+  })
+
+  test('canAccessRoute throws', function (assert) {
+    const permissionsService = this.owner.lookup('service:permissions')
+
+    assert.throws(() => {
+      permissionsService.canAccessRoute()
+    })
+
+    assert.throws(() => {
+      permissionsService.canAccessRoute('')
+    })
+
+    permissionsService.canAccessRoute('route-name')
   })
 
   test('canAccessRoute', function (assert) {
