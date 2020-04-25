@@ -1,5 +1,6 @@
 import { EVENTS } from '@bagaar/ember-permissions/config'
 import Helper from '@ember/component/helper'
+import { addListener, removeListener } from '@ember/object/events'
 import { bind } from '@ember/runloop'
 import { inject as service } from '@ember/service'
 
@@ -19,15 +20,30 @@ export default Helper.extend({
 
     this.recompute = bind(this, this.recompute)
 
-    this.permissionsService.on(EVENTS.PERMISSIONS_CHANGED, this.recompute)
-    this.permissionsService.on(EVENTS.ROUTE_PERMISSIONS_CHANGED, this.recompute)
+    addListener(
+      this.permissionsService,
+      EVENTS.PERMISSIONS_CHANGED,
+      this.recompute
+    )
+
+    addListener(
+      this.permissionsService,
+      EVENTS.ROUTE_PERMISSIONS_CHANGED,
+      this.recompute
+    )
   },
 
   willDestroy () {
     this._super(...arguments)
 
-    this.permissionsService.off(EVENTS.PERMISSIONS_CHANGED, this.recompute)
-    this.permissionsService.off(
+    removeListener(
+      this.permissionsService,
+      EVENTS.PERMISSIONS_CHANGED,
+      this.recompute
+    )
+
+    removeListener(
+      this.permissionsService,
       EVENTS.ROUTE_PERMISSIONS_CHANGED,
       this.recompute
     )

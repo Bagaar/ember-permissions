@@ -1,8 +1,8 @@
 import { EVENTS } from '@bagaar/ember-permissions/config'
-import Evented from '@ember/object/evented'
+import { addListener, sendEvent } from '@ember/object/events'
 import Service, { inject as service } from '@ember/service'
 
-export default Service.extend(Evented, {
+export default Service.extend({
   /**
    * Services
    */
@@ -35,22 +35,34 @@ export default Service.extend(Evented, {
 
   setPermissions (permissions) {
     this.set('permissions', permissions)
-    this.trigger(EVENTS.PERMISSIONS_CHANGED)
+    sendEvent(this, EVENTS.PERMISSIONS_CHANGED)
   },
 
   setRoutePermissions (routePermissions) {
     this.set('routePermissions', routePermissions)
-    this.trigger(EVENTS.ROUTE_PERMISSIONS_CHANGED)
+    sendEvent(this, EVENTS.ROUTE_PERMISSIONS_CHANGED)
   },
 
   cacheInitialTransition () {
-    this.routerService.one('routeWillChange', transition => {
-      this.set('initialTransition', transition)
-    })
+    addListener(
+      this.routerService,
+      'routeWillChange',
+      this,
+      transition => {
+        this.set('initialTransition', transition)
+      },
+      true
+    )
 
-    this.routerService.one('routeDidChange', () => {
-      this.set('initialTransition', null)
-    })
+    addListener(
+      this.routerService,
+      'routeDidChange',
+      this,
+      () => {
+        this.set('initialTransition', null)
+      },
+      true
+    )
   },
 
   hasPermissions (...args) {
@@ -95,12 +107,12 @@ export default Service.extend(Evented, {
       this.initialTransition &&
       !this.canAccessRoute(this.initialTransition.to.name)
     ) {
-      this.trigger('route-access-denied', this.initialTransition)
+      sendEvent(this, 'route-access-denied', [this.initialTransition])
     }
 
-    this.routerService.on('routeWillChange', transition => {
+    addListener(this.routerService, 'routeWillChange', transition => {
       if (transition.to && !this.canAccessRoute(transition.to.name)) {
-        this.trigger('route-access-denied', transition)
+        sendEvent(this, 'route-access-denied', [transition])
       }
     })
   }

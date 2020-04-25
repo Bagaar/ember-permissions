@@ -1,5 +1,6 @@
-import { module, test } from 'qunit'
+import { addListener, removeListener } from '@ember/object/events'
 import { setupTest } from 'ember-qunit'
+import { module, test } from 'qunit'
 
 const PERMISSION_A = 'PERMISSION_A'
 const PERMISSION_B = 'PERMISSION_B'
@@ -17,9 +18,11 @@ module('Unit | Service | permissions', function (hooks) {
       isHandlerCalled = true
     }
 
-    permissionsService.on('permissions-changed', handler)
+    addListener(permissionsService, 'permissions-changed', handler)
+
     permissionsService.setPermissions([PERMISSION_A])
-    permissionsService.off('permissions-changed', handler)
+
+    removeListener(permissionsService, 'permissions-changed', handler)
 
     assert.ok(isHandlerCalled)
     assert.deepEqual(permissionsService.permissions, [PERMISSION_A])
@@ -33,11 +36,13 @@ module('Unit | Service | permissions', function (hooks) {
       isHandlerCalled = true
     }
 
-    permissionsService.on('route-permissions-changed', handler)
+    addListener(permissionsService, 'route-permissions-changed', handler)
+
     permissionsService.setRoutePermissions({
       [ROUTE_A]: [PERMISSION_A]
     })
-    permissionsService.off('route-permissions-changed', handler)
+
+    removeListener(permissionsService, 'route-permissions-changed', handler)
 
     assert.ok(isHandlerCalled)
     assert.deepEqual(permissionsService.routePermissions, {

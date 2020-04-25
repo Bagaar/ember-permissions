@@ -1,6 +1,7 @@
-import { module, test } from 'qunit'
+import { addListener } from '@ember/object/events'
 import { visit } from '@ember/test-helpers'
 import { setupApplicationTest } from 'ember-qunit'
+import { module, test } from 'qunit'
 
 const PERMISSION_A = 'PERMISSION_A'
 const ROUTE_A = 'ROUTE_A'
@@ -24,7 +25,8 @@ module('Acceptance | route validation', function (hooks) {
       isHandlerCalled = true
     }
 
-    permissionsService.one('route-access-denied', handler)
+    addListener(permissionsService, 'route-access-denied', this, handler, true)
+
     permissionsService.setRoutePermissions({
       [ROUTE_A]: [PERMISSION_A]
     })
