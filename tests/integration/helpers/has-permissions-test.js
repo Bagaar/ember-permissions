@@ -1,7 +1,7 @@
-import { module, test } from 'qunit'
+import { render } from '@ember/test-helpers'
 import { setupRenderingTest } from 'ember-qunit'
-import { render, settled } from '@ember/test-helpers'
 import hbs from 'htmlbars-inline-precompile'
+import { module, test } from 'qunit'
 
 const PERMISSION_A = 'PERMISSION_A'
 
@@ -13,16 +13,14 @@ module('Integration | Helper | has-permissions', function (hooks) {
 
     permissionsService.setPermissions([PERMISSION_A])
 
-    this.set('permission', PERMISSION_A)
+    this.permission = PERMISSION_A
 
-    await render(hbs`{{has-permissions permission}}`)
+    await render(hbs`{{has-permissions this.permission}}`)
 
-    assert.equal(this.element.textContent.trim(), 'true')
+    assert.dom().hasText('true')
 
     permissionsService.setPermissions([])
 
-    await settled()
-
-    assert.equal(this.element.textContent.trim(), 'false')
+    assert.dom().hasText('false')
   })
 })

@@ -43,19 +43,19 @@ First, we need to let the `permissions` service know which permissions are avail
 ```javascript
 // app/routes/application.js
 
-import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route'
+import { inject as service } from '@ember/service'
 
-export default Route.extend({
-  apiService: service('api'),
-  permissionsService: service('permissions'),
-
-  async beforeModel() {
-    const permissions = await this.apiService.request('/permissions');
-
-    this.permissionsService.setPermissions(permissions);
+export default class ApplicationRoute extends Route {
+  @service('api') apiService
+  @service('permissions') permissionsService
+  
+  async beforeModel () {
+    const permissions = await this.apiService.request('/permissions')
+    
+    this.permissionsService.setPermissions(permissions)
   }
-});
+}
 ```
 
 Once the permissions are set, we can start checking their presence. In the example below, we use the [`has-permissions`](#has-permissions) helper to conditionally render a button based on the presence of a specific permission.
@@ -83,7 +83,7 @@ export default {
   'users.index': ['view-users'],
   'users.create': ['create-users'],
   'users.edit': ['edit-users']
-};
+}
 ```
 
 Next, edit the `application` route from step 1 as follows:
@@ -95,30 +95,30 @@ Next, edit the `application` route from step 1 as follows:
 ```javascript
 // app/routes/application.js
 
-import { addListener } from '@ember/object/events';
-import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
-import routePermissions from 'app-name/route-permissions';
+import { addListener } from '@ember/object/events'
+import Route from '@ember/routing/route'
+import { inject as service } from '@ember/service'
+import routePermissions from 'app-name/route-permissions'
 
-export default Route.extend({
-  apiService: service('api'),
-  permissionsService: service('permissions'),
-
-  async beforeModel() {
-    const permissions = await this.apiService.request('/permissions');
-
-    this.permissionsService.setPermissions(permissions);
-    this.permissionsService.setRoutePermissions(routePermissions);
+export default class ApplicationRoute extends Route {
+  @service('api') apiService
+  @service('permissions') permissionsService
+  
+  async beforeModel () {
+    const permissions = await this.apiService.request('/permissions')
+    
+    this.permissionsService.setPermissions(permissions)
+    this.permissionsService.setRoutePermissions(routePermissions)
     
     addListener(this.permissionsService, 'route-access-denied', () => {
       // Handle the 'route-access-denied' event.
       // E.g. redirect to a generic error route.
-      this.transitionTo('error', { error: 'route-access-denied' });
-    });
+      this.transitionTo('error', { error: 'route-access-denied' })
+    })
 
-    this.permissionsService.enableRouteValidation();
+    this.permissionsService.enableRouteValidation()
   }
-});
+}
 ```
 
 Now each transition will be validated based on the required permissions per route. If a transition is not allowed the [`route-access-denied`](#route-access-denied) event will be triggered.
@@ -164,7 +164,7 @@ permissionsService.setPermissions([
   'view-users',
   'create-users',
   'edit-users'
-]);
+])
 ```
 
 ##### setRoutePermissions
@@ -186,7 +186,7 @@ permissionsService.setRoutePermissions({
   'users.index': ['view-users'],
   'users.create': ['create-users'],
   'users.edit': ['edit-users']
-});
+})
 ```
 
 ##### hasPermissions
@@ -209,14 +209,14 @@ permissionsService.hasPermissions(
   'view-users',
   'create-users',
   'edit-users'
-);
+)
 
 // As an array of permissions.
 permissionsService.hasPermissions([
   'view-users',
   'create-users',
   'edit-users'
-]);
+])
 ```
 
 ##### canAccessRoute
@@ -234,7 +234,7 @@ Returns `true` if the provided route can be accessed, `false` if otherwise.
 ###### Example
 
 ```javascript
-permissionsService.canAccessRoute('users.index');
+permissionsService.canAccessRoute('users.index')
 ```
 
 ##### enableRouteValidation
@@ -252,7 +252,7 @@ This will tell the service that it should start validating each transition and c
 ###### Example
 
 ```javascript
-permissionsService.enableRouteValidation();
+permissionsService.enableRouteValidation()
 ```
 
 #### Events
@@ -271,8 +271,8 @@ The denied transition.
 addListener(permissionsService, 'route-access-denied', ( /* deniedTransition */ ) => {
   // Handle the 'route-access-denied' event.
   // E.g. redirect to a generic error route.
-  routerService.transitionTo('error', { error: 'route-access-denied' });
-});
+  routerService.transitionTo('error', { error: 'route-access-denied' })
+})
 ```
 
 --------------------------------------------------------------------------------

@@ -2,46 +2,25 @@ import { EVENTS } from '@bagaar/ember-permissions/config'
 import { addListener, sendEvent } from '@ember/object/events'
 import Service, { inject as service } from '@ember/service'
 
-export default Service.extend({
-  /**
-   * Services
-   */
+export default class PermissionsService extends Service {
+  @service('router') routerService
 
-  routerService: service('router'),
-
-  /**
-   * State
-   */
-
-  initialTransition: null,
-  isRouteValidationEnabled: false,
-  permissions: null,
-  routePermissions: null,
-
-  /**
-   * Hooks
-   */
-
-  init () {
-    this._super(...arguments)
-
-    this.setPermissions([])
-    this.setRoutePermissions({})
-  },
-
-  /**
-   * Methods
-   */
+  initialTransition = null
+  isRouteValidationEnabled = false
+  permissions = []
+  routePermissions = {}
 
   setPermissions (permissions) {
-    this.set('permissions', permissions)
+    this.permissions = permissions
+
     sendEvent(this, EVENTS.PERMISSIONS_CHANGED)
-  },
+  }
 
   setRoutePermissions (routePermissions) {
-    this.set('routePermissions', routePermissions)
+    this.routePermissions = routePermissions
+
     sendEvent(this, EVENTS.ROUTE_PERMISSIONS_CHANGED)
-  },
+  }
 
   cacheInitialTransition () {
     addListener(
@@ -49,7 +28,7 @@ export default Service.extend({
       'routeWillChange',
       this,
       transition => {
-        this.set('initialTransition', transition)
+        this.initialTransition = transition
       },
       true
     )
@@ -59,11 +38,11 @@ export default Service.extend({
       'routeDidChange',
       this,
       () => {
-        this.set('initialTransition', null)
+        this.initialTransition = null
       },
       true
     )
-  },
+  }
 
   hasPermissions (...args) {
     const permissions = Array.isArray(args[0]) ? args[0] : args
@@ -71,13 +50,13 @@ export default Service.extend({
     return permissions.every(permission => {
       return this.permissions.includes(permission)
     })
-  },
+  }
 
   canAccessRoute (routeName) {
     const routeTreePermissions = this.getRouteTreePermissions(routeName)
 
     return this.hasPermissions(routeTreePermissions)
-  },
+  }
 
   getRouteTreePermissions (routeName) {
     const routeNameSplitted = routeName.split('.')
@@ -93,14 +72,14 @@ export default Service.extend({
     }
 
     return routeTreePermissions
-  },
+  }
 
   enableRouteValidation () {
     if (this.isRouteValidationEnabled) {
       return
     }
 
-    this.set('isRouteValidationEnabled', true)
+    this.isRouteValidationEnabled = true
 
     // Validate the initial transition if `enableRouteValidation` was called during it.
     if (
@@ -116,4 +95,4 @@ export default Service.extend({
       }
     })
   }
-})
+}

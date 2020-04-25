@@ -1,43 +1,36 @@
 import { EVENTS } from '@bagaar/ember-permissions/config'
 import Helper from '@ember/component/helper'
+import { action } from '@ember/object'
 import { addListener, removeListener } from '@ember/object/events'
-import { bind } from '@ember/runloop'
 import { inject as service } from '@ember/service'
 
-export default Helper.extend({
-  /**
-   * Services
-   */
+export default class HasPermissionsHelper extends Helper {
+  @service('permissions') permissionsService
 
-  permissionsService: service('permissions'),
-
-  /**
-   * Hooks
-   */
-
-  init () {
-    this._super(...arguments)
-
-    this.recompute = bind(this, this.recompute)
+  constructor () {
+    super(...arguments)
 
     addListener(
       this.permissionsService,
       EVENTS.PERMISSIONS_CHANGED,
-      this.recompute
+      this.handlePermissionsChanged
     )
-  },
+  }
 
   willDestroy () {
-    this._super(...arguments)
-
     removeListener(
       this.permissionsService,
       EVENTS.PERMISSIONS_CHANGED,
-      this.recompute
+      this.handlePermissionsChanged
     )
-  },
+  }
 
   compute (permissions) {
     return this.permissionsService.hasPermissions(permissions)
   }
-})
+
+  @action
+  handlePermissionsChanged () {
+    this.recompute()
+  }
+}

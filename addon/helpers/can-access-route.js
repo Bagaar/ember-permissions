@@ -1,55 +1,53 @@
 import { EVENTS } from '@bagaar/ember-permissions/config'
 import Helper from '@ember/component/helper'
+import { action } from '@ember/object'
 import { addListener, removeListener } from '@ember/object/events'
-import { bind } from '@ember/runloop'
 import { inject as service } from '@ember/service'
 
-export default Helper.extend({
-  /**
-   * Services
-   */
+export default class CanAccessRouteHelper extends Helper {
+  @service('permissions') permissionsService
 
-  permissionsService: service('permissions'),
-
-  /**
-   * Hooks
-   */
-
-  init () {
-    this._super(...arguments)
-
-    this.recompute = bind(this, this.recompute)
+  constructor () {
+    super(...arguments)
 
     addListener(
       this.permissionsService,
       EVENTS.PERMISSIONS_CHANGED,
-      this.recompute
+      this.handlePermissionsChanged
     )
 
     addListener(
       this.permissionsService,
       EVENTS.ROUTE_PERMISSIONS_CHANGED,
-      this.recompute
+      this.handleRoutePermissionsChanged
     )
-  },
+  }
 
   willDestroy () {
-    this._super(...arguments)
-
     removeListener(
       this.permissionsService,
       EVENTS.PERMISSIONS_CHANGED,
-      this.recompute
+      this.handlePermissionsChanged
     )
 
     removeListener(
       this.permissionsService,
       EVENTS.ROUTE_PERMISSIONS_CHANGED,
-      this.recompute
+      this.handleRoutePermissionsChanged
     )
-  },
+  }
 
   compute ([routeName]) {
     return this.permissionsService.canAccessRoute(routeName)
   }
-})
+
+  @action
+  handlePermissionsChanged () {
+    this.recompute()
+  }
+
+  @action
+  handleRoutePermissionsChanged () {
+    this.recompute()
+  }
+}
