@@ -1,14 +1,12 @@
+import PermissionsService from '@bagaar/ember-permissions/services/permissions'
 import Application from '@ember/application'
-
+import { run } from '@ember/runloop'
 import { initialize } from 'dummy/instance-initializers/ember-permissions'
 import { module, test } from 'qunit'
-import { run } from '@ember/runloop'
-
-import PermissionsService from '@bagaar/ember-permissions/services/permissions'
 
 module('Unit | Instance Initializer | ember-permissions', function (hooks) {
   hooks.beforeEach(function () {
-    this.TestApplication = Application.extend()
+    this.TestApplication = class TestApplication extends Application {}
     this.TestApplication.instanceInitializer({
       name: 'initializer under test',
       initialize

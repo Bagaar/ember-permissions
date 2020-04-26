@@ -1,5 +1,6 @@
-import { module, test } from 'qunit'
+import { addListener, removeListener } from '@ember/object/events'
 import { setupTest } from 'ember-qunit'
+import { module, test } from 'qunit'
 
 const PERMISSION_A = 'PERMISSION_A'
 const PERMISSION_B = 'PERMISSION_B'
@@ -9,35 +10,63 @@ const ROUTE_B = 'ROUTE_B'
 module('Unit | Service | permissions', function (hooks) {
   setupTest(hooks)
 
+  test('setPermissions throws', function (assert) {
+    const permissionsService = this.owner.lookup('service:permissions')
+
+    assert.throws(() => {
+      permissionsService.setPermissions()
+    })
+
+    permissionsService.setPermissions([])
+  })
+
   test('setPermissions', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
     let isHandlerCalled = false
 
     function handler () {
       isHandlerCalled = true
     }
 
-    permissionsService.on('permissions-changed', handler)
+    addListener(permissionsService, 'permissions-changed', handler)
+
     permissionsService.setPermissions([PERMISSION_A])
-    permissionsService.off('permissions-changed', handler)
+
+    removeListener(permissionsService, 'permissions-changed', handler)
 
     assert.ok(isHandlerCalled)
     assert.deepEqual(permissionsService.permissions, [PERMISSION_A])
   })
 
+  test('setRoutePermissions throws', function (assert) {
+    const permissionsService = this.owner.lookup('service:permissions')
+
+    assert.throws(() => {
+      permissionsService.setRoutePermissions()
+    })
+
+    assert.throws(() => {
+      permissionsService.setRoutePermissions(null)
+    })
+
+    permissionsService.setRoutePermissions({})
+  })
+
   test('setRoutePermissions', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
     let isHandlerCalled = false
 
     function handler () {
       isHandlerCalled = true
     }
 
-    permissionsService.on('route-permissions-changed', handler)
+    addListener(permissionsService, 'route-permissions-changed', handler)
+
     permissionsService.setRoutePermissions({
       [ROUTE_A]: [PERMISSION_A]
     })
-    permissionsService.off('route-permissions-changed', handler)
+
+    removeListener(permissionsService, 'route-permissions-changed', handler)
 
     assert.ok(isHandlerCalled)
     assert.deepEqual(permissionsService.routePermissions, {
@@ -46,7 +75,7 @@ module('Unit | Service | permissions', function (hooks) {
   })
 
   test('hasPermissions', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
 
     permissionsService.setPermissions([PERMISSION_A])
 
@@ -57,8 +86,22 @@ module('Unit | Service | permissions', function (hooks) {
     assert.notOk(permissionsService.hasPermissions([PERMISSION_B]))
   })
 
+  test('canAccessRoute throws', function (assert) {
+    const permissionsService = this.owner.lookup('service:permissions')
+
+    assert.throws(() => {
+      permissionsService.canAccessRoute()
+    })
+
+    assert.throws(() => {
+      permissionsService.canAccessRoute('')
+    })
+
+    permissionsService.canAccessRoute('route-name')
+  })
+
   test('canAccessRoute', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
 
     permissionsService.setPermissions([PERMISSION_A])
     permissionsService.setRoutePermissions({
@@ -71,7 +114,7 @@ module('Unit | Service | permissions', function (hooks) {
   })
 
   test('getRouteTreePermissions', function (assert) {
-    let permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions')
 
     const ROUTE_A_ROUTE_B = `${ROUTE_A}.${ROUTE_B}`
 

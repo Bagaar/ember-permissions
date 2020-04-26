@@ -1,79 +1,86 @@
 import { EVENTS } from '@bagaar/ember-permissions/config'
-import Evented from '@ember/object/evented'
+import { assert } from '@ember/debug'
+import { addListener, sendEvent } from '@ember/object/events'
 import Service, { inject as service } from '@ember/service'
 
-export default Service.extend(Evented, {
-  /**
-   * Services
-   */
+export default class PermissionsService extends Service {
+  @service('router') routerService
 
-  routerService: service('router'),
-
-  /**
-   * State
-   */
-
-  initialTransition: null,
-  isRouteValidationEnabled: false,
-  permissions: null,
-  routePermissions: null,
-
-  /**
-   * Hooks
-   */
-
-  init () {
-    this._super(...arguments)
-
-    this.setPermissions([])
-    this.setRoutePermissions({})
-  },
-
-  /**
-   * Methods
-   */
+  initialTransition = null
+  isRouteValidationEnabled = false
+  permissions = []
+  routePermissions = {}
 
   setPermissions (permissions) {
-    this.set('permissions', permissions)
-    this.trigger(EVENTS.PERMISSIONS_CHANGED)
-  },
+    assert(
+      '`permissions` is required and should be an array.',
+      permissions && Array.isArray(permissions)
+    )
+
+    this.permissions = permissions
+
+    sendEvent(this, EVENTS.PERMISSIONS_CHANGED)
+  }
 
   setRoutePermissions (routePermissions) {
-    this.set('routePermissions', routePermissions)
-    this.trigger(EVENTS.ROUTE_PERMISSIONS_CHANGED)
-  },
+    assert(
+      '`routePermissions` is required and should be an object.',
+      routePermissions && typeof routePermissions === 'object'
+    )
+
+    this.routePermissions = routePermissions
+
+    sendEvent(this, EVENTS.ROUTE_PERMISSIONS_CHANGED)
+  }
 
   cacheInitialTransition () {
-    this.routerService.one('routeWillChange', transition => {
-      this.set('initialTransition', transition)
-    })
+    addListener(
+      this.routerService,
+      'routeWillChange',
+      this,
+      transition => {
+        this.initialTransition = transition
+      },
+      true
+    )
 
-    this.routerService.one('routeDidChange', () => {
-      this.set('initialTransition', null)
-    })
-  },
+    addListener(
+      this.routerService,
+      'routeDidChange',
+      this,
+      () => {
+        this.initialTransition = null
+      },
+      true
+    )
+  }
 
   hasPermissions (...args) {
-    let permissions = Array.isArray(args[0]) ? args[0] : args
+    const permissions = Array.isArray(args[0]) ? args[0] : args
 
     return permissions.every(permission => {
       return this.permissions.includes(permission)
     })
-  },
+  }
 
   canAccessRoute (routeName) {
-    let routeTreePermissions = this.getRouteTreePermissions(routeName)
+    assert(
+      '`routeName` is required and should be a string.',
+      routeName && typeof routeName === 'string'
+    )
+
+    const routeTreePermissions = this.getRouteTreePermissions(routeName)
 
     return this.hasPermissions(routeTreePermissions)
-  },
+  }
 
   getRouteTreePermissions (routeName) {
-    let routeNameSplitted = routeName.split('.')
-    let routeTreePermissions = []
+    const routeNameSplitted = routeName.split('.')
+    const routeTreePermissions = []
 
     for (let index = 0; index < routeNameSplitted.length; index++) {
-      let routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.')
-      let routePermissions = this.routePermissions[routeNameJoined]
+      const routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.')
+      const routePermissions = this.routePermissions[routeNameJoined]
 
       if (routePermissions) {
         routeTreePermissions.push(...routePermissions)
@@ -81,27 +88,27 @@ export default Service.extend(Evented, {
     }
 
     return routeTreePermissions
-  },
+  }
 
   enableRouteValidation () {
     if (this.isRouteValidationEnabled) {
       return
     }
 
-    this.set('isRouteValidationEnabled', true)
+    this.isRouteValidationEnabled = true
 
     // Validate the initial transition if `enableRouteValidation` was called during it.
     if (
       this.initialTransition &&
       !this.canAccessRoute(this.initialTransition.to.name)
     ) {
-      this.trigger('route-access-denied', this.initialTransition)
+      sendEvent(this, 'route-access-denied', [this.initialTransition])
     }
 
-    this.routerService.on('routeWillChange', transition => {
+    addListener(this.routerService, 'routeWillChange', transition => {
       if (transition.to && !this.canAccessRoute(transition.to.name)) {
-        this.trigger('route-access-denied', transition)
+        sendEvent(this, 'route-access-denied', [transition])
       }
     })
   }
-})
+}
