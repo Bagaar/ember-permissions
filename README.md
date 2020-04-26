@@ -23,6 +23,8 @@ Permission management for Ember applications.
 
 **`@bagaar/ember-permissions` supports Ember v3.12 and up.**
 
+For a version that is compatible with older versions of Ember, check out the [v0.X](https://github.com/Bagaar/ember-permissions/tree/v0.X) branch.
+
 ## Installation
 
 ```shell
