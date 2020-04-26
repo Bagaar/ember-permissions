@@ -1,8 +1,4 @@
-# Bagaar Ember Permissions
-
-![Bagaar Logo](https://bagaar.be/hubfs/logo-bagaar-black.svg)
-
-**`@bagaar/ember-permissions` is built and maintained by [Bagaar](https://bagaar.be).**
+# Ember Permissions
 
 [![NPM Version](https://badge.fury.io/js/%40bagaar%2Fember-permissions.svg)](https://badge.fury.io/js/%40bagaar%2Fember-permissions) [![Build Status](https://travis-ci.com/Bagaar/ember-permissions.svg?branch=master)](https://travis-ci.com/Bagaar/ember-permissions) [![Ember Observer Score](https://emberobserver.com/badges/-bagaar-ember-permissions.svg)](https://emberobserver.com/addons/@bagaar/ember-permissions) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
@@ -17,6 +13,7 @@ Permission management for Ember applications.
 - [Public API](#public-api)
 - [Contributing](#contributing)
 - [License](#license)
+- [Maintenance](#maintenance)
 
 ## Introduction
 
@@ -320,3 +317,9 @@ See the [Contributing](./CONTRIBUTING.md) guide for details.
 ## License
 
 This project is licensed under the [MIT License](./LICENSE.md).
+
+## Maintenance
+
+**`@bagaar/ember-permissions` is built and maintained by [Bagaar](https://bagaar.be).**
+
+![Bagaar Logo](https://bagaar.be/hubfs/logo-bagaar-black.svg)
