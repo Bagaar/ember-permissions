@@ -9,7 +9,7 @@ const ROUTE_A = 'ROUTE_A'
 module('Integration | Helper | can-access-route', function (hooks) {
   setupRenderingTest(hooks)
 
-  test(`it renders 'true' or 'false' based on the provided (route) permissions`, async function (assert) {
+  test('it renders `true` or `false` based on the provided (route) permissions', async function (assert) {
     const permissionsService = this.owner.lookup('service:permissions')
 
     permissionsService.setPermissions([PERMISSION_A])

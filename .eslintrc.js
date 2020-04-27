@@ -11,7 +11,7 @@ module.exports = {
     }
   },
   plugins: ['ember'],
-  extends: ['plugin:ember/recommended'],
+  extends: ['standard', 'plugin:ember/recommended'],
   env: {
     browser: true
   },

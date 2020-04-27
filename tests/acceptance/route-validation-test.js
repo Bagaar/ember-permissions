@@ -10,7 +10,7 @@ const ROUTE_B = 'ROUTE_B'
 module('Acceptance | route validation', function (hooks) {
   setupApplicationTest(hooks)
 
-  test(`it only triggers the 'route-access-denied' event when 'enableRouteValidation' is called`, async function (assert) {
+  test('it only triggers the `route-access-denied` event when `enableRouteValidation` is called', async function (assert) {
     const permissionsService = this.owner.lookup('service:permissions')
     const Router = this.owner.resolveRegistration('router:main')
 
