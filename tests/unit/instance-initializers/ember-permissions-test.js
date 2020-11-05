@@ -14,6 +14,7 @@ module('Unit | Instance Initializer | ember-permissions', function (hooks) {
     this.application = this.TestApplication.create({ autoboot: false })
     this.instance = this.application.buildInstance()
   })
+
   hooks.afterEach(function () {
     run(this.application, 'destroy')
     run(this.instance, 'destroy')
