@@ -1,4 +1,4 @@
-import { EVENTS } from '@bagaar/ember-permissions/config'
+import { EVENTS } from '@bagaar/ember-permissions/-private/config'
 import { assert } from '@ember/debug'
 import { addListener, sendEvent } from '@ember/object/events'
 import Service, { inject as service } from '@ember/service'

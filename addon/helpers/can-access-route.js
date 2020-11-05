@@ -1,4 +1,4 @@
-import { EVENTS } from '@bagaar/ember-permissions/config'
+import { EVENTS } from '@bagaar/ember-permissions/-private/config'
 import Helper from '@ember/component/helper'
 import { action } from '@ember/object'
 import { addListener, removeListener } from '@ember/object/events'
