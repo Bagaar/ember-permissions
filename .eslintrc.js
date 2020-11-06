@@ -20,6 +20,7 @@ module.exports = {
     // node files
     {
       files: [
+        '.commitlintrc.js',
         '.eslintrc.js',
         '.template-lintrc.js',
         'ember-cli-build.js',
