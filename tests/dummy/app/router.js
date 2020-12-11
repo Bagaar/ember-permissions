@@ -6,4 +6,5 @@ export default class Router extends EmberRouter {
   rootURL = config.rootURL
 }
 
+// eslint-disable-next-line array-callback-return
 Router.map(function () {})
