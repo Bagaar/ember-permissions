@@ -1,4 +1,4 @@
 export {
   default,
-  canAccessRoute
-} from '@bagaar/ember-permissions/helpers/can-access-route'
+  canAccessRoute,
+} from '@bagaar/ember-permissions/helpers/can-access-route';
