@@ -1,4 +1,4 @@
 export {
   default,
-  hasPermissions
-} from '@bagaar/ember-permissions/helpers/has-permissions'
+  hasPermissions,
+} from '@bagaar/ember-permissions/helpers/has-permissions';

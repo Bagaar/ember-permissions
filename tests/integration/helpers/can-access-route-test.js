@@ -1,30 +1,30 @@
-import { render } from '@ember/test-helpers'
-import { setupRenderingTest } from 'ember-qunit'
-import hbs from 'htmlbars-inline-precompile'
-import { module, test } from 'qunit'
+import { render } from '@ember/test-helpers';
+import { setupRenderingTest } from 'ember-qunit';
+import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
-const PERMISSION_A = 'PERMISSION_A'
-const ROUTE_A = 'ROUTE_A'
+const PERMISSION_A = 'PERMISSION_A';
+const ROUTE_A = 'ROUTE_A';
 
 module('Integration | Helper | can-access-route', function (hooks) {
-  setupRenderingTest(hooks)
+  setupRenderingTest(hooks);
 
   test('it renders `true` or `false` based on the provided (route) permissions', async function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions');
 
-    permissionsService.setPermissions([PERMISSION_A])
+    permissionsService.setPermissions([PERMISSION_A]);
     permissionsService.setRoutePermissions({
-      [ROUTE_A]: [PERMISSION_A]
-    })
+      [ROUTE_A]: [PERMISSION_A],
+    });
 
-    this.routeName = ROUTE_A
+    this.routeName = ROUTE_A;
 
-    await render(hbs`{{can-access-route this.routeName}}`)
+    await render(hbs`{{can-access-route this.routeName}}`);
 
-    assert.dom().hasText('true')
+    assert.dom().hasText('true');
 
-    permissionsService.setPermissions([])
+    permissionsService.setPermissions([]);
 
-    assert.dom().hasText('false')
-  })
-})
+    assert.dom().hasText('false');
+  });
+});

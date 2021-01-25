@@ -1,26 +1,26 @@
-import { render } from '@ember/test-helpers'
-import { setupRenderingTest } from 'ember-qunit'
-import hbs from 'htmlbars-inline-precompile'
-import { module, test } from 'qunit'
+import { render } from '@ember/test-helpers';
+import { setupRenderingTest } from 'ember-qunit';
+import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
-const PERMISSION_A = 'PERMISSION_A'
+const PERMISSION_A = 'PERMISSION_A';
 
 module('Integration | Helper | has-permissions', function (hooks) {
-  setupRenderingTest(hooks)
+  setupRenderingTest(hooks);
 
   test('it renders `true` or `false` based on the provided permissions', async function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions')
+    const permissionsService = this.owner.lookup('service:permissions');
 
-    permissionsService.setPermissions([PERMISSION_A])
+    permissionsService.setPermissions([PERMISSION_A]);
 
-    this.permission = PERMISSION_A
+    this.permission = PERMISSION_A;
 
-    await render(hbs`{{has-permissions this.permission}}`)
+    await render(hbs`{{has-permissions this.permission}}`);
 
-    assert.dom().hasText('true')
+    assert.dom().hasText('true');
 
-    permissionsService.setPermissions([])
+    permissionsService.setPermissions([]);
 
-    assert.dom().hasText('false')
-  })
-})
+    assert.dom().hasText('false');
+  });
+});

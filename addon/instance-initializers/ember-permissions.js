@@ -1,9 +1,9 @@
-export function initialize (applicationInstance) {
-  const permissionsService = applicationInstance.lookup('service:permissions')
+export function initialize(applicationInstance) {
+  const permissionsService = applicationInstance.lookup('service:permissions');
 
-  permissionsService.cacheInitialTransition()
+  permissionsService.cacheInitialTransition();
 }
 
 export default {
-  initialize
-}
+  initialize,
+};

@@ -1,114 +1,114 @@
-import { EVENTS } from '@bagaar/ember-permissions/-private/config'
-import { assert } from '@ember/debug'
-import { addListener, sendEvent } from '@ember/object/events'
-import Service, { inject as service } from '@ember/service'
+import { EVENTS } from '@bagaar/ember-permissions/-private/config';
+import { assert } from '@ember/debug';
+import { addListener, sendEvent } from '@ember/object/events';
+import Service, { inject as service } from '@ember/service';
 
 export default class PermissionsService extends Service {
-  @service('router') routerService
+  @service('router') routerService;
 
-  initialTransition = null
-  isRouteValidationEnabled = false
-  permissions = []
-  routePermissions = {}
+  initialTransition = null;
+  isRouteValidationEnabled = false;
+  permissions = [];
+  routePermissions = {};
 
-  setPermissions (permissions) {
+  setPermissions(permissions) {
     assert(
       '`permissions` is required and should be an array.',
       permissions && Array.isArray(permissions)
-    )
+    );
 
-    this.permissions = permissions
+    this.permissions = permissions;
 
-    sendEvent(this, EVENTS.PERMISSIONS_CHANGED)
+    sendEvent(this, EVENTS.PERMISSIONS_CHANGED);
   }
 
-  setRoutePermissions (routePermissions) {
+  setRoutePermissions(routePermissions) {
     assert(
       '`routePermissions` is required and should be an object.',
       routePermissions && typeof routePermissions === 'object'
-    )
+    );
 
-    this.routePermissions = routePermissions
+    this.routePermissions = routePermissions;
 
-    sendEvent(this, EVENTS.ROUTE_PERMISSIONS_CHANGED)
+    sendEvent(this, EVENTS.ROUTE_PERMISSIONS_CHANGED);
   }
 
-  cacheInitialTransition () {
+  cacheInitialTransition() {
     addListener(
       this.routerService,
       'routeWillChange',
       this,
-      transition => {
-        this.initialTransition = transition
+      (transition) => {
+        this.initialTransition = transition;
       },
       true
-    )
+    );
 
     addListener(
       this.routerService,
       'routeDidChange',
       this,
       () => {
-        this.initialTransition = null
+        this.initialTransition = null;
       },
       true
-    )
+    );
   }
 
-  hasPermissions (...args) {
-    const permissions = Array.isArray(args[0]) ? args[0] : args
+  hasPermissions(...args) {
+    const permissions = Array.isArray(args[0]) ? args[0] : args;
 
-    return permissions.every(permission => {
-      return this.permissions.includes(permission)
-    })
+    return permissions.every((permission) => {
+      return this.permissions.includes(permission);
+    });
   }
 
-  canAccessRoute (routeName) {
+  canAccessRoute(routeName) {
     assert(
       '`routeName` is required and should be a string.',
       routeName && typeof routeName === 'string'
-    )
+    );
 
-    const routeTreePermissions = this.getRouteTreePermissions(routeName)
+    const routeTreePermissions = this.getRouteTreePermissions(routeName);
 
-    return this.hasPermissions(routeTreePermissions)
+    return this.hasPermissions(routeTreePermissions);
   }
 
-  getRouteTreePermissions (routeName) {
-    const routeNameSplitted = routeName.split('.')
-    const routeTreePermissions = []
+  getRouteTreePermissions(routeName) {
+    const routeNameSplitted = routeName.split('.');
+    const routeTreePermissions = [];
 
     for (let index = 0; index < routeNameSplitted.length; index++) {
-      const routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.')
-      const routePermissions = this.routePermissions[routeNameJoined]
+      const routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.');
+      const routePermissions = this.routePermissions[routeNameJoined];
 
       if (routePermissions) {
-        routeTreePermissions.push(...routePermissions)
+        routeTreePermissions.push(...routePermissions);
       }
     }
 
-    return routeTreePermissions
+    return routeTreePermissions;
   }
 
-  enableRouteValidation () {
+  enableRouteValidation() {
     if (this.isRouteValidationEnabled) {
-      return
+      return;
     }
 
-    this.isRouteValidationEnabled = true
+    this.isRouteValidationEnabled = true;
 
     // Validate the initial transition if `enableRouteValidation` was called during it.
     if (
       this.initialTransition &&
       !this.canAccessRoute(this.initialTransition.to.name)
     ) {
-      sendEvent(this, 'route-access-denied', [this.initialTransition])
+      sendEvent(this, 'route-access-denied', [this.initialTransition]);
     }
 
-    addListener(this.routerService, 'routeWillChange', transition => {
+    addListener(this.routerService, 'routeWillChange', (transition) => {
       if (transition.to && !this.canAccessRoute(transition.to.name)) {
-        sendEvent(this, 'route-access-denied', [transition])
+        sendEvent(this, 'route-access-denied', [transition]);
       }
-    })
+    });
   }
 }
