@@ -1,17 +1,25 @@
 import { EVENTS } from '@bagaar/ember-permissions/-private/config';
 import { assert } from '@ember/debug';
-import { addListener, sendEvent } from '@ember/object/events';
+import { sendEvent } from '@ember/object/events';
+import Transition from '@ember/routing/-private/transition';
+import RouterService from '@ember/routing/router-service';
 import Service, { inject as service } from '@ember/service';
 
+type Permission = string;
+type UserPermissions = Permission[];
+interface RoutePermissions {
+  [routeName: string]: Permission[];
+}
+
 export default class PermissionsService extends Service {
-  @service('router') routerService;
+  @service('router') declare routerService: RouterService;
 
-  initialTransition = null;
+  initialTransition: Transition | null = null;
   isRouteValidationEnabled = false;
-  permissions = [];
-  routePermissions = {};
+  permissions: UserPermissions = [];
+  routePermissions: RoutePermissions = {};
 
-  setPermissions(permissions) {
+  setPermissions(permissions: UserPermissions): void {
     assert(
       '`permissions` is required and should be an array.',
       permissions && Array.isArray(permissions)
@@ -22,7 +30,7 @@ export default class PermissionsService extends Service {
     sendEvent(this, EVENTS.PERMISSIONS_CHANGED);
   }
 
-  setRoutePermissions(routePermissions) {
+  setRoutePermissions(routePermissions: RoutePermissions): void {
     assert(
       '`routePermissions` is required and should be an object.',
       routePermissions && typeof routePermissions === 'object'
@@ -33,37 +41,29 @@ export default class PermissionsService extends Service {
     sendEvent(this, EVENTS.ROUTE_PERMISSIONS_CHANGED);
   }
 
-  cacheInitialTransition() {
-    addListener(
-      this.routerService,
-      'routeWillChange',
-      this,
-      (transition) => {
-        this.initialTransition = transition;
-      },
-      true
-    );
+  cacheInitialTransition(): void {
+    this.routerService.on('routeWillChange', (transition: Transition) => {
+      this.initialTransition = transition;
+    });
 
-    addListener(
-      this.routerService,
-      'routeDidChange',
-      this,
-      () => {
-        this.initialTransition = null;
-      },
-      true
-    );
+    this.routerService.on('routeDidChange', () => {
+      this.initialTransition = null;
+    });
   }
 
-  hasPermissions(...args) {
-    const permissions = Array.isArray(args[0]) ? args[0] : args;
+  hasPermissions(permissions: Permission[]): boolean;
+  hasPermissions(...permissions: Permission[]): boolean;
+  hasPermissions(...args: Permission[] | [Permission[]]): boolean {
+    const permissions = (Array.isArray(args[0])
+      ? args[0]
+      : args) as Permission[];
 
     return permissions.every((permission) => {
       return this.permissions.includes(permission);
     });
   }
 
-  canAccessRoute(routeName) {
+  canAccessRoute(routeName: string): boolean {
     assert(
       '`routeName` is required and should be a string.',
       routeName && typeof routeName === 'string'
@@ -74,9 +74,9 @@ export default class PermissionsService extends Service {
     return this.hasPermissions(routeTreePermissions);
   }
 
-  getRouteTreePermissions(routeName) {
+  getRouteTreePermissions(routeName: string): Permission[] {
     const routeNameSplitted = routeName.split('.');
-    const routeTreePermissions = [];
+    const routeTreePermissions: Permission[] = [];
 
     for (let index = 0; index < routeNameSplitted.length; index++) {
       const routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.');
@@ -90,7 +90,7 @@ export default class PermissionsService extends Service {
     return routeTreePermissions;
   }
 
-  enableRouteValidation() {
+  enableRouteValidation(): void {
     if (this.isRouteValidationEnabled) {
       return;
     }
@@ -105,10 +105,16 @@ export default class PermissionsService extends Service {
       sendEvent(this, 'route-access-denied', [this.initialTransition]);
     }
 
-    addListener(this.routerService, 'routeWillChange', (transition) => {
+    this.routerService.on('routeWillChange', (transition: Transition) => {
       if (transition.to && !this.canAccessRoute(transition.to.name)) {
         sendEvent(this, 'route-access-denied', [transition]);
       }
     });
+  }
+}
+
+declare module '@ember/service' {
+  interface Registry {
+    permissions: PermissionsService;
   }
 }
