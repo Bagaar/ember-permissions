@@ -27,10 +27,13 @@
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
     "test:ember-compatibility": "ember try:each",
-    "release": "standard-version"
+    "release": "standard-version",
+    "prepack": "ember ts:precompile",
+    "postpack": "ember ts:clean"
   },
   "dependencies": {
-    "ember-cli-babel": "^7.23.1"
+    "ember-cli-babel": "^7.23.1",
+    "ember-cli-typescript": "^4.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
@@ -39,6 +42,11 @@
     "@ember/test-helpers": "^2.1.4",
     "@glimmer/component": "^1.0.3",
     "@glimmer/tracking": "^1.0.3",
+    "@types/ember": "^3.16.3",
+    "@types/ember-qunit": "^3.4.13",
+    "@types/ember-resolver": "^5.0.10",
+    "@types/ember__test-helpers": "^1.7.3",
+    "@types/qunit": "^2.11.1",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^1.10.1",
@@ -48,6 +56,7 @@
     "ember-cli-inject-live-reload": "^2.0.2",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.1",
+    "ember-cli-typescript-blueprints": "^3.0.0",
     "ember-disable-prototype-extensions": "^1.1.3",
     "ember-export-application-global": "^2.0.1",
     "ember-load-initializers": "^2.1.2",
@@ -71,7 +80,8 @@
     "prettier": "^2.2.1",
     "qunit": "^2.13.0",
     "qunit-dom": "^1.6.0",
-    "standard-version": "^9.1.0"
+    "standard-version": "^9.1.0",
+    "typescript": "^4.1.3"
   },
   "engines": {
     "node": "10.* || >= 12"
