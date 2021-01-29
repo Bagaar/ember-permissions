@@ -1,53 +1,60 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { EVENTS } from '@bagaar/ember-permissions/-private/config';
+import PermissionsService from '@bagaar/ember-permissions/services/permissions';
 import Helper from '@ember/component/helper';
 import { action } from '@ember/object';
 import { addListener, removeListener } from '@ember/object/events';
 import { inject as service } from '@ember/service';
 
 export default class CanAccessRouteHelper extends Helper {
-  @service('permissions') permissionsService;
+  @service('permissions') declare permissionsService: PermissionsService;
 
-  constructor() {
-    super(...arguments);
+  constructor(owner: unknown) {
+    // @ts-ignore
+    super(owner);
 
     addListener(
       this.permissionsService,
+      // @ts-ignore
       EVENTS.PERMISSIONS_CHANGED,
       this.handlePermissionsChanged
     );
 
     addListener(
       this.permissionsService,
+      // @ts-ignore
       EVENTS.ROUTE_PERMISSIONS_CHANGED,
       this.handleRoutePermissionsChanged
     );
   }
 
-  willDestroy() {
+  willDestroy(): void {
     removeListener(
       this.permissionsService,
+      // @ts-ignore
       EVENTS.PERMISSIONS_CHANGED,
       this.handlePermissionsChanged
     );
 
     removeListener(
       this.permissionsService,
+      // @ts-ignore
       EVENTS.ROUTE_PERMISSIONS_CHANGED,
       this.handleRoutePermissionsChanged
     );
   }
 
-  compute([routeName]) {
+  compute([routeName]: [string]): boolean {
     return this.permissionsService.canAccessRoute(routeName);
   }
 
   @action
-  handlePermissionsChanged() {
+  handlePermissionsChanged(): void {
     this.recompute();
   }
 
   @action
-  handleRoutePermissionsChanged() {
+  handleRoutePermissionsChanged(): void {
     this.recompute();
   }
 }
