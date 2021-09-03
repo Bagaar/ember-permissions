@@ -1,6 +1,9 @@
 # Ember Permissions
 
-[![NPM Version](https://badge.fury.io/js/%40bagaar%2Fember-permissions.svg)](https://badge.fury.io/js/%40bagaar%2Fember-permissions) [![Build Status](https://travis-ci.com/Bagaar/ember-permissions.svg?branch=master)](https://travis-ci.com/Bagaar/ember-permissions) [![Ember Observer Score](https://emberobserver.com/badges/-bagaar-ember-permissions.svg)](https://emberobserver.com/addons/@bagaar/ember-permissions) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![CI](https://github.com/Bagaar/ember-permissions/workflows/CI/badge.svg)](https://github.com/Bagaar/ember-permissions/actions?query=workflow%3ACI)
+[![NPM Version](https://badge.fury.io/js/%40bagaar%2Fember-permissions.svg)](https://badge.fury.io/js/%40bagaar%2Fember-permissions)
+[![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 Permission management for Ember applications.
 
