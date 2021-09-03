@@ -20,7 +20,7 @@ Permission management for Ember applications.
 
 ## Introduction
 
-`@bagaar/ember-permissions` is an addon that allows you to **manage and validate permissions** for the current user session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is not allowed, a specific event is triggered so you can decide how to handle the denied transition.
+`@bagaar/ember-permissions` is an addon that allows you to **manage and validate permissions** for the current session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is not allowed, a [`route-access-denied`](#route-access-denied) event is triggered so you can decide how to handle the denied transition.
 
 ## Support
 
@@ -38,27 +38,27 @@ ember install @bagaar/ember-permissions
 
 ### 1\. Setting up User Session Permissions
 
-First, we need to let the `permissions` service know which permissions are available for the current user session. In the example below, we're using an additional service to request the permissions from a server API. Afterwards, we pass along the permissions to the `permissions` service via the [`setPermissions`](#setpermissions) method.
+First, we need to let the `permissions` service know which permissions are available for the current session. In the example below, we're using an additional service to request the permissions from an API. Afterwards, we pass along the permissions to the `permissions` service via the [`setPermissions`](#setpermissions) method.
 
 ```javascript
 // app/routes/application.js
 
-import Route from '@ember/routing/route'
-import { inject as service } from '@ember/service'
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class ApplicationRoute extends Route {
-  @service('api') apiService
-  @service('permissions') permissionsService
-  
-  async beforeModel () {
-    const permissions = await this.apiService.request('/permissions')
-    
-    this.permissionsService.setPermissions(permissions)
+  @service('api') apiService;
+  @service('permissions') permissionsService;
+
+  async beforeModel() {
+    const permissions = await this.apiService.request('/permissions');
+
+    this.permissionsService.setPermissions(permissions);
   }
 }
 ```
 
-Once the permissions are set, we can start checking their presence. In the example below, we use the [`has-permissions`](#has-permissions) helper to conditionally render a button based on the presence of a specific permission.
+Once the permissions are set, we can start checking their presence. In the example below, we use the [`has-permissions`](#has-permissions) helper to conditionally render a delete button based on the presence of the `delete-users` permission.
 
 ```handlebars
 {{! app/templates/users/index.hbs }}
@@ -82,8 +82,8 @@ Start off with defining the required permissions per route. You're free to defin
 export default {
   'users.index': ['view-users'],
   'users.create': ['create-users'],
-  'users.edit': ['edit-users']
-}
+  'users.edit': ['edit-users'],
+};
 ```
 
 Next, edit the `application` route from step 1 as follows:
@@ -95,28 +95,28 @@ Next, edit the `application` route from step 1 as follows:
 ```javascript
 // app/routes/application.js
 
-import { addListener } from '@ember/object/events'
-import Route from '@ember/routing/route'
-import { inject as service } from '@ember/service'
-import routePermissions from 'app-name/route-permissions'
+import { addListener } from '@ember/object/events';
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
+import routePermissions from 'app-name/route-permissions';
 
 export default class ApplicationRoute extends Route {
-  @service('api') apiService
-  @service('permissions') permissionsService
-  
-  async beforeModel () {
-    const permissions = await this.apiService.request('/permissions')
-    
-    this.permissionsService.setPermissions(permissions)
-    this.permissionsService.setRoutePermissions(routePermissions)
-    
+  @service('api') apiService;
+  @service('permissions') permissionsService;
+
+  async beforeModel() {
+    const permissions = await this.apiService.request('/permissions');
+
+    this.permissionsService.setPermissions(permissions);
+    this.permissionsService.setRoutePermissions(routePermissions);
+
     addListener(this.permissionsService, 'route-access-denied', () => {
       // Handle the 'route-access-denied' event.
       // E.g. redirect to a generic error route.
-      this.transitionTo('error', { error: 'route-access-denied' })
-    })
+      this.transitionTo('error', { error: 'route-access-denied' });
+    });
 
-    this.permissionsService.enableRouteValidation()
+    this.permissionsService.enableRouteValidation();
   }
 }
 ```
@@ -147,7 +147,7 @@ Since the required permissions per route are now set, we can start checking if r
 
 ##### setPermissions
 
-Allows you to set the permissions for the current user session.
+Allows you to set the permissions for the current session.
 
 ###### Arguments
 
@@ -163,8 +163,8 @@ An array of permissions.
 permissionsService.setPermissions([
   'view-users',
   'create-users',
-  'edit-users'
-])
+  'edit-users',
+]);
 ```
 
 ##### setRoutePermissions
@@ -185,13 +185,13 @@ An object of which the keys are route names and the values are arrays of require
 permissionsService.setRoutePermissions({
   'users.index': ['view-users'],
   'users.create': ['create-users'],
-  'users.edit': ['edit-users']
-})
+  'users.edit': ['edit-users'],
+});
 ```
 
 ##### hasPermissions
 
-Checks if all the provided permissions are available for the current user session.
+Checks if all the provided permissions are available for the current session.
 
 ###### Arguments
 
@@ -199,7 +199,7 @@ Separate permissions OR an array of permissions.
 
 ###### Returns
 
-Returns `true` if all the provided permissions are available for the current user session, `false` if otherwise.
+Returns `true` if all the provided permissions are available for the current session, `false` if otherwise.
 
 ###### Example
 
@@ -209,14 +209,14 @@ permissionsService.hasPermissions(
   'view-users',
   'create-users',
   'edit-users'
-)
+);
 
 // As an array of permissions.
 permissionsService.hasPermissions([
   'view-users',
   'create-users',
-  'edit-users'
-])
+  'edit-users',
+]);
 ```
 
 ##### canAccessRoute
@@ -234,7 +234,7 @@ Returns `true` if the provided route can be accessed, `false` if otherwise.
 ###### Example
 
 ```javascript
-permissionsService.canAccessRoute('users.index')
+permissionsService.canAccessRoute('users.index');
 ```
 
 ##### enableRouteValidation
@@ -252,7 +252,7 @@ This will tell the service that it should start validating each transition and c
 ###### Example
 
 ```javascript
-permissionsService.enableRouteValidation()
+permissionsService.enableRouteValidation();
 ```
 
 #### Events
@@ -271,8 +271,8 @@ The denied transition.
 addListener(permissionsService, 'route-access-denied', ( /* deniedTransition */ ) => {
   // Handle the 'route-access-denied' event.
   // E.g. redirect to a generic error route.
-  routerService.transitionTo('error', { error: 'route-access-denied' })
-})
+  routerService.transitionTo('error', { error: 'route-access-denied' });
+});
 ```
 
 --------------------------------------------------------------------------------
@@ -281,7 +281,7 @@ addListener(permissionsService, 'route-access-denied', ( /* deniedTransition */ 
 
 #### has-permissions
 
-Checks if all the provided permissions are available for the current user session.
+Checks if all the provided permissions are available for the current session.
 
 ###### Arguments
 
@@ -289,7 +289,7 @@ Separate permissions.
 
 ###### Returns
 
-Returns `true` if all the provided permissions are available for the current user session, `false` if otherwise.
+Returns `true` if all the provided permissions are available for the current session, `false` if otherwise.
 
 ###### Example
 
