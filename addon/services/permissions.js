@@ -1,16 +1,17 @@
-import { EVENTS } from '@bagaar/ember-permissions/-private/config';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { addListener, removeListener, sendEvent } from '@ember/object/events';
 import Service, { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class PermissionsService extends Service {
   @service('router') routerService;
 
+  @tracked permissions = [];
+  @tracked routePermissions = {};
+
   initialTransition = null;
   isRouteValidationEnabled = false;
-  permissions = [];
-  routePermissions = {};
 
   setPermissions(permissions) {
     assert(
@@ -19,8 +20,6 @@ export default class PermissionsService extends Service {
     );
 
     this.permissions = permissions;
-
-    sendEvent(this, EVENTS.PERMISSIONS_CHANGED);
   }
 
   setRoutePermissions(routePermissions) {
@@ -30,8 +29,6 @@ export default class PermissionsService extends Service {
     );
 
     this.routePermissions = routePermissions;
-
-    sendEvent(this, EVENTS.ROUTE_PERMISSIONS_CHANGED);
   }
 
   cacheInitialTransition() {

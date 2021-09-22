@@ -1,4 +1,3 @@
-import { addListener, removeListener } from '@ember/object/events';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -22,19 +21,9 @@ module('Unit | Service | permissions', function (hooks) {
 
   test('setPermissions', function (assert) {
     const permissionsService = this.owner.lookup('service:permissions');
-    let isHandlerCalled = false;
-
-    function handler() {
-      isHandlerCalled = true;
-    }
-
-    addListener(permissionsService, 'permissions-changed', handler);
 
     permissionsService.setPermissions([PERMISSION_A]);
 
-    removeListener(permissionsService, 'permissions-changed', handler);
-
-    assert.ok(isHandlerCalled);
     assert.deepEqual(permissionsService.permissions, [PERMISSION_A]);
   });
 
@@ -54,21 +43,11 @@ module('Unit | Service | permissions', function (hooks) {
 
   test('setRoutePermissions', function (assert) {
     const permissionsService = this.owner.lookup('service:permissions');
-    let isHandlerCalled = false;
-
-    function handler() {
-      isHandlerCalled = true;
-    }
-
-    addListener(permissionsService, 'route-permissions-changed', handler);
 
     permissionsService.setRoutePermissions({
       [ROUTE_A]: [PERMISSION_A],
     });
 
-    removeListener(permissionsService, 'route-permissions-changed', handler);
-
-    assert.ok(isHandlerCalled);
     assert.deepEqual(permissionsService.routePermissions, {
       [ROUTE_A]: [PERMISSION_A],
     });

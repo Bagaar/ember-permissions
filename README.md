@@ -10,7 +10,7 @@ Permission management for Ember applications.
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Support](#support)
+- [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Public API](#public-api)
@@ -22,11 +22,11 @@ Permission management for Ember applications.
 
 `@bagaar/ember-permissions` is an addon that allows you to **manage and validate permissions** for the current session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is not allowed, a [`route-access-denied`](#route-access-denied) event is triggered so you can decide how to handle the denied transition.
 
-## Support
+## Compatibility
 
-`@bagaar/ember-permissions` supports **Ember v3.12 and up**.
-
-For a version that is compatible with older versions of Ember, check out the [v0.X](https://github.com/Bagaar/ember-permissions/tree/v0.X) branch.
+- Ember.js v3.16 or above
+- Ember CLI v3.16 or above
+- Node.js v12 or above
 
 ## Installation
 

@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { render, settled } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -24,6 +24,8 @@ module('Integration | Helper | can-access-route', function (hooks) {
     assert.dom().hasText('true');
 
     permissionsService.setPermissions([]);
+
+    await settled();
 
     assert.dom().hasText('false');
   });
