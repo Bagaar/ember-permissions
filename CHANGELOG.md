@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/Bagaar/ember-permissions/compare/v0.2.0...v1.0.0) (2021-09-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* Dropped support for Ember versions below `v3.12` ([c9ed817](https://github.com/Bagaar/ember-permissions/commit/c9ed817637435df962f50e7e9cc3d1278ca66931))
+* Removed use of the `Evented` mixin ([9de3632](https://github.com/Bagaar/ember-permissions/commit/9de3632f3af7ba009c58cd88c5d664f56f64a2ad))
+* Switched to native classes ([89c8f6b](https://github.com/Bagaar/ember-permissions/commit/89c8f6b4c9aa7863c430444f0a25c82a21d1d5d7))
+
+### Bug Fixes
+
+* Remove `routeWillChange` listener on destroy ([e90a96f](https://github.com/Bagaar/ember-permissions/commit/e90a96f55e43b5eadbf9596e98d7743b14b8fee1))
+
+
 ## [1.0.0-beta.0](https://github.com/Bagaar/ember-permissions/compare/v0.2.0...v1.0.0-beta.0) (2020-04-26)
 
 
