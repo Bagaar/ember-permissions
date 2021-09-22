@@ -14,7 +14,6 @@ module('Acceptance | route validation', function (hooks) {
     const permissionsService = this.owner.lookup('service:permissions');
     const Router = this.owner.resolveRegistration('router:main');
 
-    // eslint-disable-next-line array-callback-return
     Router.map(function () {
       this.route(ROUTE_A);
       this.route(ROUTE_B);
