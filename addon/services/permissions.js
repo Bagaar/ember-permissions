@@ -1,6 +1,7 @@
 import { EVENTS } from '@bagaar/ember-permissions/-private/config';
 import { assert } from '@ember/debug';
-import { addListener, sendEvent } from '@ember/object/events';
+import { action } from '@ember/object';
+import { addListener, removeListener, sendEvent } from '@ember/object/events';
 import Service, { inject as service } from '@ember/service';
 
 export default class PermissionsService extends Service {
@@ -91,24 +92,31 @@ export default class PermissionsService extends Service {
   }
 
   enableRouteValidation() {
-    if (this.isRouteValidationEnabled) {
+    if (this.isRouteValidationEnabled === true) {
       return;
     }
 
     this.isRouteValidationEnabled = true;
 
-    // Validate the initial transition if `enableRouteValidation` was called during it.
-    if (
-      this.initialTransition &&
-      !this.canAccessRoute(this.initialTransition.to.name)
-    ) {
-      sendEvent(this, 'route-access-denied', [this.initialTransition]);
-    }
+    this.validateTransition(this.initialTransition);
 
-    addListener(this.routerService, 'routeWillChange', (transition) => {
-      if (transition.to && !this.canAccessRoute(transition.to.name)) {
-        sendEvent(this, 'route-access-denied', [transition]);
-      }
-    });
+    addListener(this.routerService, 'routeWillChange', this.validateTransition);
+  }
+
+  @action
+  validateTransition(transition) {
+    if (transition && this.canAccessRoute(transition.to.name) === false) {
+      sendEvent(this, 'route-access-denied', [transition]);
+    }
+  }
+
+  willDestroy() {
+    if (this.isRouteValidationEnabled === true) {
+      removeListener(
+        this.routerService,
+        'routeWillChange',
+        this.validateTransition
+      );
+    }
   }
 }
