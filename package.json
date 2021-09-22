@@ -24,11 +24,11 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "prepare": "husky install",
+    "release": "standard-version",
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each",
-    "release": "standard-version"
+    "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
     "ember-cli-babel": "^7.26.6"
