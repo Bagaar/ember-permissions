@@ -195,7 +195,7 @@ Checks if all the provided permissions are available for the current session.
 
 ###### Arguments
 
-Separate permissions OR an array of permissions.
+An array of permissions.
 
 ###### Returns
 
@@ -204,14 +204,6 @@ Returns `true` if all the provided permissions are available for the current ses
 ###### Example
 
 ```javascript
-// As separate permissions.
-permissionsService.hasPermissions(
-  'view-users',
-  'create-users',
-  'edit-users'
-);
-
-// As an array of permissions.
 permissionsService.hasPermissions([
   'view-users',
   'create-users',

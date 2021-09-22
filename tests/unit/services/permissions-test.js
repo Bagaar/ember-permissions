@@ -53,15 +53,24 @@ module('Unit | Service | permissions', function (hooks) {
     });
   });
 
+  test('hasPermissions throws', function (assert) {
+    const permissionsService = this.owner.lookup('service:permissions');
+
+    assert.throws(() => {
+      permissionsService.hasPermissions();
+    });
+
+    assert.throws(() => {
+      permissionsService.hasPermissions(null);
+    });
+  });
+
   test('hasPermissions', function (assert) {
     const permissionsService = this.owner.lookup('service:permissions');
 
     permissionsService.setPermissions([PERMISSION_A]);
 
-    assert.ok(permissionsService.hasPermissions(PERMISSION_A));
     assert.ok(permissionsService.hasPermissions([PERMISSION_A]));
-
-    assert.notOk(permissionsService.hasPermissions(PERMISSION_B));
     assert.notOk(permissionsService.hasPermissions([PERMISSION_B]));
   });
 
