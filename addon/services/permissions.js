@@ -53,8 +53,11 @@ export default class PermissionsService extends Service {
     );
   }
 
-  hasPermissions(...args) {
-    const permissions = Array.isArray(args[0]) ? args[0] : args;
+  hasPermissions(permissions) {
+    assert(
+      '`permissions` is required and should be an array.',
+      permissions && Array.isArray(permissions)
+    );
 
     return permissions.every((permission) => {
       return this.permissions.includes(permission);
