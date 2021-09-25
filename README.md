@@ -126,13 +126,13 @@ Now each transition will be validated based on the required permissions per rout
 Since the required permissions per route are now set, we can start checking if routes can be accessed. In the example below, we use the [`can-access-route`](#can-access-route) helper to do so.
 
 ```handlebars
-{{! app/templates/components/menu.hbs }}
+{{! app/components/menu.hbs }}
 
 {{#if (can-access-route "users.index")}}
   <li>
-    {{#link-to "users.index"}}
+    <LinkTo @route="users.index">
       Users
-    {{/link-to}}
+    </LinkTo>
   </li>
 {{/if}}
 ```
