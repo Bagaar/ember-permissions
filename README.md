@@ -317,5 +317,3 @@ This project is licensed under the [MIT License](./LICENSE.md).
 ## Maintenance
 
 `@bagaar/ember-permissions` is built and maintained by [Bagaar](https://bagaar.be).
-
-[![Bagaar Logo](https://bagaar.be/hubfs/logo-bagaar-black.svg)](https://bagaar.be)
