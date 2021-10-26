@@ -95,7 +95,6 @@ Next, edit the `application` route from step 1 as follows:
 ```javascript
 // app/routes/application.js
 
-import { addListener } from '@ember/object/events';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import routePermissions from 'app-name/route-permissions';
@@ -110,8 +109,8 @@ export default class ApplicationRoute extends Route {
     this.permissionsService.setPermissions(permissions);
     this.permissionsService.setRoutePermissions(routePermissions);
 
-    addListener(this.permissionsService, 'route-access-denied', () => {
-      // Handle the 'route-access-denied' event.
+    this.permissionsService.on('route-access-denied', ( /* deniedTransition */ ) => {
+      // Handle the `route-access-denied` event.
       // E.g. redirect to a generic error route.
       this.transitionTo('error', { error: 'route-access-denied' });
     });
@@ -260,8 +259,8 @@ The denied transition.
 ###### Example
 
 ```javascript
-addListener(permissionsService, 'route-access-denied', ( /* deniedTransition */ ) => {
-  // Handle the 'route-access-denied' event.
+permissionsService.on('route-access-denied', ( /* deniedTransition */ ) => {
+  // Handle the `route-access-denied` event.
   // E.g. redirect to a generic error route.
   routerService.transitionTo('error', { error: 'route-access-denied' });
 });
