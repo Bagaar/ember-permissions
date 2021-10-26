@@ -2,8 +2,7 @@ import { render, settled } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
-
-const PERMISSION_A = 'PERMISSION_A';
+import { PERMISSION } from '../../config';
 
 module('Integration | Helper | has-permissions', function (hooks) {
   setupRenderingTest(hooks);
@@ -11,9 +10,9 @@ module('Integration | Helper | has-permissions', function (hooks) {
   test('it renders `true` or `false` based on the provided permissions', async function (assert) {
     const permissionsService = this.owner.lookup('service:permissions');
 
-    permissionsService.setPermissions([PERMISSION_A]);
+    permissionsService.setPermissions([PERMISSION.FOO]);
 
-    this.permission = PERMISSION_A;
+    this.permission = PERMISSION.FOO;
 
     await render(hbs`{{has-permissions this.permission}}`);
 

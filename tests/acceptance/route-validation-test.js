@@ -2,10 +2,7 @@ import { addListener } from '@ember/object/events';
 import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-
-const PERMISSION_A = 'PERMISSION_A';
-const ROUTE_A = 'ROUTE_A';
-const ROUTE_B = 'ROUTE_B';
+import { PERMISSION, ROUTE } from '../config';
 
 module('Acceptance | route validation', function (hooks) {
   setupApplicationTest(hooks);
@@ -15,8 +12,8 @@ module('Acceptance | route validation', function (hooks) {
     const Router = this.owner.resolveRegistration('router:main');
 
     Router.map(function () {
-      this.route(ROUTE_A);
-      this.route(ROUTE_B);
+      this.route(ROUTE.FOO);
+      this.route(ROUTE.BAR);
     });
 
     let isHandlerCalled = false;
@@ -28,23 +25,23 @@ module('Acceptance | route validation', function (hooks) {
     addListener(permissionsService, 'route-access-denied', this, handler, true);
 
     permissionsService.setRoutePermissions({
-      [ROUTE_A]: [PERMISSION_A],
+      [ROUTE.FOO]: [PERMISSION.FOO],
     });
 
-    await visit(ROUTE_A);
+    await visit(ROUTE.FOO);
     assert.false(isHandlerCalled);
 
-    await visit(ROUTE_B);
-    permissionsService.setPermissions([PERMISSION_A]);
+    await visit(ROUTE.BAR);
+    permissionsService.setPermissions([PERMISSION.FOO]);
     permissionsService.enableRouteValidation();
 
-    await visit(ROUTE_A);
+    await visit(ROUTE.FOO);
     assert.false(isHandlerCalled);
 
-    await visit(ROUTE_B);
+    await visit(ROUTE.BAR);
     permissionsService.setPermissions([]);
 
-    await visit(ROUTE_A);
+    await visit(ROUTE.FOO);
     assert.true(isHandlerCalled);
   });
 });
