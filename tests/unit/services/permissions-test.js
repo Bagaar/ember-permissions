@@ -5,7 +5,7 @@ import { PERMISSION, ROUTE } from '../../config';
 module('Unit | Service | permissions', function (hooks) {
   setupTest(hooks);
 
-  module('setPermissions', function() {
+  module('setPermissions', function () {
     test('it validates the arguments', function (assert) {
       const permissionsService = this.owner.lookup('service:permissions');
 
@@ -27,7 +27,7 @@ module('Unit | Service | permissions', function (hooks) {
     });
   });
 
-  module('setRoutePermissions', function() {
+  module('setRoutePermissions', function () {
     test('it validates the arguments', function (assert) {
       const permissionsService = this.owner.lookup('service:permissions');
 
@@ -53,7 +53,7 @@ module('Unit | Service | permissions', function (hooks) {
     });
   });
 
-  module('hasPermissions', function() {
+  module('hasPermissions', function () {
     test('it validates the arguments', function (assert) {
       const permissionsService = this.owner.lookup('service:permissions');
 
@@ -76,7 +76,7 @@ module('Unit | Service | permissions', function (hooks) {
     });
   });
 
-  module('canAccessRoute', function() {
+  module('canAccessRoute', function () {
     test('it validates the arguments', function (assert) {
       const permissionsService = this.owner.lookup('service:permissions');
 
@@ -107,7 +107,7 @@ module('Unit | Service | permissions', function (hooks) {
     });
   });
 
-  module('getRouteTreePermissions', function() {
+  module('getRouteTreePermissions', function () {
     test('it works', function (assert) {
       const permissionsService = this.owner.lookup('service:permissions');
 
