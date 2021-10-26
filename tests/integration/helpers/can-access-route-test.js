@@ -1,10 +1,8 @@
 import { render, settled } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
-
-const PERMISSION_A = 'PERMISSION_A';
-const ROUTE_A = 'ROUTE_A';
+import { PERMISSION, ROUTE } from '../../config';
 
 module('Integration | Helper | can-access-route', function (hooks) {
   setupRenderingTest(hooks);
@@ -12,12 +10,12 @@ module('Integration | Helper | can-access-route', function (hooks) {
   test('it renders `true` or `false` based on the provided (route) permissions', async function (assert) {
     const permissionsService = this.owner.lookup('service:permissions');
 
-    permissionsService.setPermissions([PERMISSION_A]);
+    permissionsService.setPermissions([PERMISSION.FOO]);
     permissionsService.setRoutePermissions({
-      [ROUTE_A]: [PERMISSION_A],
+      [ROUTE.FOO]: [PERMISSION.FOO],
     });
 
-    this.routeName = ROUTE_A;
+    this.routeName = ROUTE.FOO;
 
     await render(hbs`{{can-access-route this.routeName}}`);
 

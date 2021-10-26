@@ -1,119 +1,127 @@
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-
-const PERMISSION_A = 'PERMISSION_A';
-const PERMISSION_B = 'PERMISSION_B';
-const ROUTE_A = 'ROUTE_A';
-const ROUTE_B = 'ROUTE_B';
+import { PERMISSION, ROUTE } from '../../config';
 
 module('Unit | Service | permissions', function (hooks) {
   setupTest(hooks);
 
-  test('setPermissions throws', function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
+  module('setPermissions', function () {
+    test('it validates the arguments', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
 
-    assert.throws(() => {
-      permissionsService.setPermissions();
+      assert.throws(() => {
+        permissionsService.setPermissions();
+      });
+
+      assert.throws(() => {
+        permissionsService.setPermissions(null);
+      });
     });
 
-    permissionsService.setPermissions([]);
-  });
+    test('it works', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
 
-  test('setPermissions', function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
+      permissionsService.setPermissions([PERMISSION.FOO]);
 
-    permissionsService.setPermissions([PERMISSION_A]);
-
-    assert.deepEqual(permissionsService.permissions, [PERMISSION_A]);
-  });
-
-  test('setRoutePermissions throws', function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
-
-    assert.throws(() => {
-      permissionsService.setRoutePermissions();
-    });
-
-    assert.throws(() => {
-      permissionsService.setRoutePermissions(null);
-    });
-
-    permissionsService.setRoutePermissions({});
-  });
-
-  test('setRoutePermissions', function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
-
-    permissionsService.setRoutePermissions({
-      [ROUTE_A]: [PERMISSION_A],
-    });
-
-    assert.deepEqual(permissionsService.routePermissions, {
-      [ROUTE_A]: [PERMISSION_A],
+      assert.deepEqual(permissionsService.permissions, [PERMISSION.FOO]);
     });
   });
 
-  test('hasPermissions throws', function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
+  module('setRoutePermissions', function () {
+    test('it validates the arguments', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
 
-    assert.throws(() => {
-      permissionsService.hasPermissions();
+      assert.throws(() => {
+        permissionsService.setRoutePermissions();
+      });
+
+      assert.throws(() => {
+        permissionsService.setRoutePermissions(null);
+      });
     });
 
-    assert.throws(() => {
-      permissionsService.hasPermissions(null);
+    test('it works', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
+
+      permissionsService.setRoutePermissions({
+        [ROUTE.FOO]: [PERMISSION.FOO],
+      });
+
+      assert.deepEqual(permissionsService.routePermissions, {
+        [ROUTE.FOO]: [PERMISSION.FOO],
+      });
     });
   });
 
-  test('hasPermissions', function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
+  module('hasPermissions', function () {
+    test('it validates the arguments', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
 
-    permissionsService.setPermissions([PERMISSION_A]);
+      assert.throws(() => {
+        permissionsService.hasPermissions();
+      });
 
-    assert.ok(permissionsService.hasPermissions([PERMISSION_A]));
-    assert.notOk(permissionsService.hasPermissions([PERMISSION_B]));
+      assert.throws(() => {
+        permissionsService.hasPermissions(null);
+      });
+    });
+
+    test('it works', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
+
+      permissionsService.setPermissions([PERMISSION.FOO]);
+
+      assert.true(permissionsService.hasPermissions([PERMISSION.FOO]));
+      assert.false(permissionsService.hasPermissions([PERMISSION.BAR]));
+    });
   });
 
-  test('canAccessRoute throws', function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
+  module('canAccessRoute', function () {
+    test('it validates the arguments', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
 
-    assert.throws(() => {
-      permissionsService.canAccessRoute();
+      assert.throws(() => {
+        permissionsService.canAccessRoute();
+      });
+
+      assert.throws(() => {
+        permissionsService.canAccessRoute(null);
+      });
+
+      assert.throws(() => {
+        permissionsService.canAccessRoute('');
+      });
     });
 
-    assert.throws(() => {
-      permissionsService.canAccessRoute('');
-    });
+    test('it works', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
 
-    permissionsService.canAccessRoute('route-name');
+      permissionsService.setPermissions([PERMISSION.FOO]);
+      permissionsService.setRoutePermissions({
+        [ROUTE.FOO]: [PERMISSION.FOO],
+        [ROUTE.BAR]: [PERMISSION.BAR],
+      });
+
+      assert.true(permissionsService.canAccessRoute(ROUTE.FOO));
+      assert.false(permissionsService.canAccessRoute(ROUTE.BAR));
+    });
   });
 
-  test('canAccessRoute', function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
+  module('getRouteTreePermissions', function () {
+    test('it works', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
 
-    permissionsService.setPermissions([PERMISSION_A]);
-    permissionsService.setRoutePermissions({
-      [ROUTE_A]: [PERMISSION_A],
-      [ROUTE_B]: [PERMISSION_B],
+      const ROUTE_FOO_ROUTE_BAR = `${ROUTE.FOO}.${ROUTE.BAR}`;
+
+      permissionsService.setRoutePermissions({
+        [ROUTE.FOO]: [PERMISSION.FOO],
+        [ROUTE_FOO_ROUTE_BAR]: [PERMISSION.BAR],
+      });
+
+      assert.deepEqual(
+        permissionsService.getRouteTreePermissions(ROUTE_FOO_ROUTE_BAR),
+        [PERMISSION.FOO, PERMISSION.BAR]
+      );
     });
-
-    assert.ok(permissionsService.canAccessRoute(ROUTE_A));
-    assert.notOk(permissionsService.canAccessRoute(ROUTE_B));
-  });
-
-  test('getRouteTreePermissions', function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
-
-    const ROUTE_A_ROUTE_B = `${ROUTE_A}.${ROUTE_B}`;
-
-    permissionsService.setRoutePermissions({
-      [ROUTE_A]: [PERMISSION_A],
-      [ROUTE_A_ROUTE_B]: [PERMISSION_B],
-    });
-
-    assert.deepEqual(
-      permissionsService.getRouteTreePermissions(ROUTE_A_ROUTE_B),
-      [PERMISSION_A, PERMISSION_B]
-    );
   });
 });
