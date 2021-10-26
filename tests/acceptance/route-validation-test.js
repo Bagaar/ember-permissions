@@ -17,11 +17,9 @@ module('Acceptance | route validation', function (hooks) {
 
     let isHandlerCalled = false;
 
-    function handler() {
+    permissionsService.one('route-access-denied', () => {
       isHandlerCalled = true;
-    }
-
-    permissionsService.one('route-access-denied', handler);
+    });
 
     permissionsService.setRoutePermissions({
       [ROUTE.FOO]: [PERMISSION.FOO],
