@@ -13,6 +13,22 @@ export default class PermissionsService extends Service {
   initialTransition = null;
   isRouteValidationEnabled = false;
 
+  on(name, target, handler) {
+    addListener(this, name, target, handler);
+  }
+
+  one(name, target, handler) {
+    addListener(this, name, target, handler, true);
+  }
+
+  off(name, target, handler) {
+    removeListener(this, name, target, handler);
+  }
+
+  trigger(name, ...args) {
+    sendEvent(this, name, args);
+  }
+
   setPermissions(permissions) {
     assert(
       '`permissions` is required and should be an array.',
@@ -32,25 +48,13 @@ export default class PermissionsService extends Service {
   }
 
   cacheInitialTransition() {
-    addListener(
-      this.routerService,
-      'routeWillChange',
-      this,
-      (transition) => {
-        this.initialTransition = transition;
-      },
-      true
-    );
+    this.routerService.one('routeWillChange', (transition) => {
+      this.initialTransition = transition;
+    });
 
-    addListener(
-      this.routerService,
-      'routeDidChange',
-      this,
-      () => {
-        this.initialTransition = null;
-      },
-      true
-    );
+    this.routerService.one('routeDidChange', () => {
+      this.initialTransition = null;
+    });
   }
 
   hasPermissions(permissions) {
@@ -100,23 +104,19 @@ export default class PermissionsService extends Service {
 
     this.validateTransition(this.initialTransition);
 
-    addListener(this.routerService, 'routeWillChange', this.validateTransition);
+    this.routerService.on('routeWillChange', this.validateTransition);
   }
 
   @action
   validateTransition(transition) {
     if (transition && this.canAccessRoute(transition.to.name) === false) {
-      sendEvent(this, 'route-access-denied', [transition]);
+      this.trigger('route-access-denied', transition);
     }
   }
 
   willDestroy() {
     if (this.isRouteValidationEnabled === true) {
-      removeListener(
-        this.routerService,
-        'routeWillChange',
-        this.validateTransition
-      );
+      this.routerService.off('routeWillChange', this.validateTransition);
     }
   }
 }
