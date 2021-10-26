@@ -30,6 +30,6 @@ module('Unit | Instance Initializer | ember-permissions', function (hooks) {
   test('it works', async function (assert) {
     await this.instance.boot();
 
-    assert.ok(true);
+    assert.true(true);
   });
 });

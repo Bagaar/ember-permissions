@@ -32,19 +32,19 @@ module('Acceptance | route validation', function (hooks) {
     });
 
     await visit(ROUTE_A);
-    assert.notOk(isHandlerCalled);
+    assert.false(isHandlerCalled);
 
     await visit(ROUTE_B);
     permissionsService.setPermissions([PERMISSION_A]);
     permissionsService.enableRouteValidation();
 
     await visit(ROUTE_A);
-    assert.notOk(isHandlerCalled);
+    assert.false(isHandlerCalled);
 
     await visit(ROUTE_B);
     permissionsService.setPermissions([]);
 
     await visit(ROUTE_A);
-    assert.ok(isHandlerCalled);
+    assert.true(isHandlerCalled);
   });
 });

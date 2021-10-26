@@ -70,8 +70,8 @@ module('Unit | Service | permissions', function (hooks) {
 
     permissionsService.setPermissions([PERMISSION_A]);
 
-    assert.ok(permissionsService.hasPermissions([PERMISSION_A]));
-    assert.notOk(permissionsService.hasPermissions([PERMISSION_B]));
+    assert.true(permissionsService.hasPermissions([PERMISSION_A]));
+    assert.false(permissionsService.hasPermissions([PERMISSION_B]));
   });
 
   test('canAccessRoute throws', function (assert) {
@@ -97,8 +97,8 @@ module('Unit | Service | permissions', function (hooks) {
       [ROUTE_B]: [PERMISSION_B],
     });
 
-    assert.ok(permissionsService.canAccessRoute(ROUTE_A));
-    assert.notOk(permissionsService.canAccessRoute(ROUTE_B));
+    assert.true(permissionsService.canAccessRoute(ROUTE_A));
+    assert.false(permissionsService.canAccessRoute(ROUTE_B));
   });
 
   test('getRouteTreePermissions', function (assert) {
