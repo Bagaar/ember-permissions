@@ -16,7 +16,9 @@ module('Unit | Service | permissions', function (hooks) {
       permissionsService.setPermissions();
     });
 
-    permissionsService.setPermissions([]);
+    assert.throws(() => {
+      permissionsService.setPermissions(null);
+    });
   });
 
   test('setPermissions', function (assert) {
@@ -37,8 +39,6 @@ module('Unit | Service | permissions', function (hooks) {
     assert.throws(() => {
       permissionsService.setRoutePermissions(null);
     });
-
-    permissionsService.setRoutePermissions({});
   });
 
   test('setRoutePermissions', function (assert) {
@@ -82,10 +82,12 @@ module('Unit | Service | permissions', function (hooks) {
     });
 
     assert.throws(() => {
-      permissionsService.canAccessRoute('');
+      permissionsService.canAccessRoute(null);
     });
 
-    permissionsService.canAccessRoute('route-name');
+    assert.throws(() => {
+      permissionsService.canAccessRoute('');
+    });
   });
 
   test('canAccessRoute', function (assert) {
