@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/Bagaar/ember-permissions/compare/v0.2.0...v2.0.0) (2021-11-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* `hasPermissions` now only accepts an array of permissions
+* use tracked properties instead of internal events
+* drop support for Ember versions below 3.12
+* switch to native classes
+* remove use of Evented mixin
+
+### Features
+
+* bring back the event methods ([8cbc8e5](https://github.com/Bagaar/ember-permissions/commit/8cbc8e58c4a14b1277ea251ce414d67a52309885))
+
+
+### Bug Fixes
+
+* remove `routeWillChange` listener on destroy ([e90a96f](https://github.com/Bagaar/ember-permissions/commit/e90a96f55e43b5eadbf9596e98d7743b14b8fee1))
+
+
+* `hasPermissions` now only accepts an array of permissions ([ad16cd7](https://github.com/Bagaar/ember-permissions/commit/ad16cd72fce81237a999ccc1ab82d82b8c91b874))
+* drop support for Ember versions below 3.12 ([c9ed817](https://github.com/Bagaar/ember-permissions/commit/c9ed817637435df962f50e7e9cc3d1278ca66931))
+* remove use of Evented mixin ([9de3632](https://github.com/Bagaar/ember-permissions/commit/9de3632f3af7ba009c58cd88c5d664f56f64a2ad))
+* switch to native classes ([89c8f6b](https://github.com/Bagaar/ember-permissions/commit/89c8f6b4c9aa7863c430444f0a25c82a21d1d5d7))
+* use tracked properties instead of internal events ([c18ea8f](https://github.com/Bagaar/ember-permissions/commit/c18ea8ff6e28408b996b690a59b6371e78610c82))
+
 ## [1.0.0](https://github.com/Bagaar/ember-permissions/compare/v0.2.0...v1.0.0) (2021-09-22)
 
 
