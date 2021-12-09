@@ -124,4 +124,31 @@ module('Unit | Service | permissions', function (hooks) {
       );
     });
   });
+
+  module('validateTransition', function () {
+    test('it works', function (assert) {
+      const permissionsService = this.owner.lookup('service:permissions');
+
+      let timesCalled = 0;
+
+      function handler() {
+        timesCalled += 1;
+      }
+
+      permissionsService.setRoutePermissions({
+        [ROUTE.FOO]: [PERMISSION.FOO],
+      });
+
+      permissionsService.on('route-access-denied', handler);
+
+      permissionsService.validateTransition();
+      permissionsService.validateTransition({});
+      permissionsService.validateTransition({ to: {} });
+      permissionsService.validateTransition({ to: { name: ROUTE.FOO } });
+
+      permissionsService.off('route-access-denied', handler);
+
+      assert.strictEqual(timesCalled, 1);
+    });
+  });
 });

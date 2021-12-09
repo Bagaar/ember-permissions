@@ -109,7 +109,9 @@ export default class PermissionsService extends Service {
 
   @action
   validateTransition(transition) {
-    if (transition && this.canAccessRoute(transition.to.name) === false) {
+    const routeName = transition?.to?.name;
+
+    if (routeName && this.canAccessRoute(routeName) === false) {
       this.trigger('route-access-denied', transition);
     }
   }
