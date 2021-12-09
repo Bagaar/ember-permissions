@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [2.0.0](https://github.com/Bagaar/ember-permissions/compare/v0.2.0...v2.0.0) (2021-11-16)
+## [2.0.0](https://github.com/Bagaar/ember-permissions/compare/v1.0.0...v2.0.0) (2021-11-16)
 
 
 ### ⚠ BREAKING CHANGES
