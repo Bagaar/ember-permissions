@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/Bagaar/ember-permissions/compare/v2.0.0...v2.0.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* Don't assume `transition.to` is always present when validating transitions ([b60ca08](https://github.com/Bagaar/ember-permissions/commit/b60ca08a9e1b001e3a2b311236e4ad927133e51c))
+
+
 ## [2.0.0](https://github.com/Bagaar/ember-permissions/compare/v1.0.0...v2.0.0) (2021-11-16)
 
 
