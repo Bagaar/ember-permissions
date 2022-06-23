@@ -1,7 +1,7 @@
 import { visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
+import { PERMISSION, ROUTE } from 'dummy/tests/config';
+import { setupApplicationTest } from 'dummy/tests/helpers';
 import { module, test } from 'qunit';
-import { PERMISSION, ROUTE } from '../config';
 
 module('Acceptance | route validation', function (hooks) {
   setupApplicationTest(hooks);
