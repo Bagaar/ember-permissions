@@ -76,7 +76,7 @@
     "webpack": "^5.72.1"
   },
   "engines": {
-    "node": "12.* || 14.* || >= 16"
+    "node": "14.* || >= 16"
   },
   "ember": {
     "edition": "octane"
@@ -85,7 +85,7 @@
     "configPath": "tests/dummy/config"
   },
   "volta": {
-    "node": "12.22.7",
+    "node": "14.19.3",
     "yarn": "1.22.17"
   }
 }
