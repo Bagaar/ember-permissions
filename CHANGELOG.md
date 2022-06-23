@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/Bagaar/ember-permissions/compare/v2.0.1...v3.0.0) (2022-06-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for Ember versions below v3.28
+* drop support for Node v12
+
+* drop support for Ember versions below v3.28 ([5cbb371](https://github.com/Bagaar/ember-permissions/commit/5cbb3711abb05b947fccc759b4de99f285af6884))
+* drop support for Node v12 ([3870698](https://github.com/Bagaar/ember-permissions/commit/3870698e271622d94dbd3856c1c14e448436f67a))
+
 ### [2.0.1](https://github.com/Bagaar/ember-permissions/compare/v2.0.0...v2.0.1) (2021-12-09)
 
 
