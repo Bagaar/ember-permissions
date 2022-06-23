@@ -1,8 +1,8 @@
 import { render, settled } from '@ember/test-helpers';
+import { PERMISSION, ROUTE } from 'dummy/tests/config';
+import { setupRenderingTest } from 'dummy/tests/helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { PERMISSION, ROUTE } from '../../config';
 
 module('Integration | Helper | can-access-route', function (hooks) {
   setupRenderingTest(hooks);

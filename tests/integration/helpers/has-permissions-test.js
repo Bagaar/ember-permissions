@@ -1,8 +1,8 @@
 import { render, settled } from '@ember/test-helpers';
+import { PERMISSION } from 'dummy/tests/config';
+import { setupRenderingTest } from 'dummy/tests/helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { PERMISSION } from '../../config';
 
 module('Integration | Helper | has-permissions', function (hooks) {
   setupRenderingTest(hooks);

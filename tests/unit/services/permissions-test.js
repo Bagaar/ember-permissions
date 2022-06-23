@@ -1,6 +1,6 @@
-import { setupTest } from 'ember-qunit';
+import { PERMISSION, ROUTE } from 'dummy/tests/config';
+import { setupTest } from 'dummy/tests/helpers';
 import { module, test } from 'qunit';
-import { PERMISSION, ROUTE } from '../../config';
 
 module('Unit | Service | permissions', function (hooks) {
   setupTest(hooks);
