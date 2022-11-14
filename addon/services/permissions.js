@@ -1,4 +1,4 @@
-import { assert } from '@ember/debug';
+import { assert, deprecate } from '@ember/debug';
 import { action } from '@ember/object';
 import { addListener, removeListener, sendEvent } from '@ember/object/events';
 import Service, { inject as service } from '@ember/service';
@@ -13,20 +13,72 @@ export default class PermissionsService extends Service {
   initialTransition = null;
   isRouteValidationEnabled = false;
 
+  #routeAccessDeniedHandlers = new Set();
+
   on(name, target, handler) {
+    deprecate(
+      '`PermissionsService.on` is deprecated. Please use `PermissionsService.addRouteAccessDeniedHandler` instead.',
+      false,
+      {
+        for: '@bagaar/ember-permissions',
+        id: '@bagaar/ember-permissions.permissions-service-on-method',
+        since: {
+          available: '3.1.0',
+          enabled: '3.1.0',
+        },
+        until: '4.0.0',
+      }
+    );
+
     addListener(this, name, target, handler);
   }
 
   one(name, target, handler) {
+    deprecate(
+      '`PermissionsService.one` is deprecated. Please use `PermissionsService.addRouteAccessDeniedHandler` instead.',
+      false,
+      {
+        for: '@bagaar/ember-permissions',
+        id: '@bagaar/ember-permissions.permissions-service-one-method',
+        since: {
+          available: '3.1.0',
+          enabled: '3.1.0',
+        },
+        until: '4.0.0',
+      }
+    );
+
     addListener(this, name, target, handler, true);
   }
 
   off(name, target, handler) {
+    deprecate(
+      '`PermissionsService.off` is deprecated. Please use `PermissionsService.removeRouteAccessDeniedHandler` instead.',
+      false,
+      {
+        for: '@bagaar/ember-permissions',
+        id: '@bagaar/ember-permissions.permissions-service-off-method',
+        since: {
+          available: '3.1.0',
+          enabled: '3.1.0',
+        },
+        until: '4.0.0',
+      }
+    );
+
     removeListener(this, name, target, handler);
   }
 
   trigger(name, ...args) {
     sendEvent(this, name, args);
+  }
+
+  addRouteAccessDeniedHandler(handler) {
+    this.#routeAccessDeniedHandlers.add(handler);
+  }
+
+  removeRouteAccessDeniedHandler(handler) {
+    this.#routeAccessDeniedHandlers.delete(handler);
   }
 
   setPermissions(permissions) {
@@ -113,6 +165,10 @@ export default class PermissionsService extends Service {
 
     if (routeName && this.canAccessRoute(routeName) === false) {
       this.trigger('route-access-denied', transition);
+
+      this.#routeAccessDeniedHandlers.forEach((handler) => {
+        handler(transition);
+      });
     }
   }
 

@@ -139,14 +139,14 @@ module('Unit | Service | permissions', function (hooks) {
         [ROUTE.FOO]: [PERMISSION.FOO],
       });
 
-      permissionsService.on('route-access-denied', handler);
+      permissionsService.addRouteAccessDeniedHandler(handler);
 
       permissionsService.validateTransition();
       permissionsService.validateTransition({});
       permissionsService.validateTransition({ to: {} });
       permissionsService.validateTransition({ to: { name: ROUTE.FOO } });
 
-      permissionsService.off('route-access-denied', handler);
+      permissionsService.removeRouteAccessDeniedHandler(handler);
 
       assert.strictEqual(timesCalled, 1);
     });

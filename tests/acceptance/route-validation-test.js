@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 module('Acceptance | route validation', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('it only triggers the `route-access-denied` event when `enableRouteValidation` was called', async function (assert) {
+  test('it only calls route-access-denied handlers when route validation is enabled', async function (assert) {
     const permissionsService = this.owner.lookup('service:permissions');
     const Router = this.owner.resolveRegistration('router:main');
 
@@ -17,9 +17,9 @@ module('Acceptance | route validation', function (hooks) {
 
     let isHandlerCalled = false;
 
-    permissionsService.one('route-access-denied', () => {
-      isHandlerCalled = true;
-    });
+    const handler = () => (isHandlerCalled = true);
+
+    permissionsService.addRouteAccessDeniedHandler(handler);
 
     permissionsService.setRoutePermissions({
       [ROUTE.FOO]: [PERMISSION.FOO],
@@ -40,5 +40,7 @@ module('Acceptance | route validation', function (hooks) {
 
     await visit(ROUTE.FOO);
     assert.true(isHandlerCalled);
+
+    permissionsService.removeRouteAccessDeniedHandler(handler);
   });
 });
