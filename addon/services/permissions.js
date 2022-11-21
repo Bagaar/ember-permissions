@@ -1,6 +1,5 @@
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
-import { addListener, removeListener, sendEvent } from '@ember/object/events';
 import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
@@ -10,23 +9,25 @@ export default class PermissionsService extends Service {
   @tracked permissions = [];
   @tracked routePermissions = {};
 
-  initialTransition = null;
-  isRouteValidationEnabled = false;
+  #eventHandlers = {
+    'route-access-denied': new Set(),
+  };
 
-  on(name, target, handler) {
-    addListener(this, name, target, handler);
+  #initialTransition = null;
+  #isRouteValidationEnabled = false;
+
+  on(eventName, eventHandler) {
+    this.#eventHandlers[eventName].add(eventHandler);
   }
 
-  one(name, target, handler) {
-    addListener(this, name, target, handler, true);
+  off(eventName, eventHandler) {
+    this.#eventHandlers[eventName].delete(eventHandler);
   }
 
-  off(name, target, handler) {
-    removeListener(this, name, target, handler);
-  }
-
-  trigger(name, ...args) {
-    sendEvent(this, name, args);
+  trigger(eventName, args) {
+    this.#eventHandlers[eventName].forEach((eventHandler) => {
+      eventHandler(...args);
+    });
   }
 
   setPermissions(permissions) {
@@ -49,11 +50,11 @@ export default class PermissionsService extends Service {
 
   cacheInitialTransition() {
     this.routerService.one('routeWillChange', (transition) => {
-      this.initialTransition = transition;
+      this.#initialTransition = transition;
     });
 
     this.routerService.one('routeDidChange', () => {
-      this.initialTransition = null;
+      this.#initialTransition = null;
     });
   }
 
@@ -96,13 +97,13 @@ export default class PermissionsService extends Service {
   }
 
   enableRouteValidation() {
-    if (this.isRouteValidationEnabled === true) {
+    if (this.#isRouteValidationEnabled === true) {
       return;
     }
 
-    this.isRouteValidationEnabled = true;
+    this.#isRouteValidationEnabled = true;
 
-    this.validateTransition(this.initialTransition);
+    this.validateTransition(this.#initialTransition);
 
     this.routerService.on('routeWillChange', this.validateTransition);
   }
@@ -112,12 +113,12 @@ export default class PermissionsService extends Service {
     const routeName = transition?.to?.name;
 
     if (routeName && this.canAccessRoute(routeName) === false) {
-      this.trigger('route-access-denied', transition);
+      this.trigger('route-access-denied', [transition]);
     }
   }
 
   willDestroy() {
-    if (this.isRouteValidationEnabled === true) {
+    if (this.#isRouteValidationEnabled === true) {
       this.routerService.off('routeWillChange', this.validateTransition);
     }
   }
