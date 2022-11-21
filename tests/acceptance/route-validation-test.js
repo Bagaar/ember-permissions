@@ -15,30 +15,32 @@ module('Acceptance | route validation', function (hooks) {
       this.route(ROUTE.BAR);
     });
 
-    let isHandlerCalled = false;
+    let deniedTransition = null;
 
-    permissionsService.one('route-access-denied', () => {
-      isHandlerCalled = true;
-    });
+    const handler = (transition) => (deniedTransition = transition);
+
+    permissionsService.on('route-access-denied', handler);
 
     permissionsService.setRoutePermissions({
       [ROUTE.FOO]: [PERMISSION.FOO],
     });
 
     await visit(ROUTE.FOO);
-    assert.false(isHandlerCalled);
+    assert.strictEqual(deniedTransition, null);
 
     await visit(ROUTE.BAR);
     permissionsService.setPermissions([PERMISSION.FOO]);
     permissionsService.enableRouteValidation();
 
     await visit(ROUTE.FOO);
-    assert.false(isHandlerCalled);
+    assert.strictEqual(deniedTransition, null);
 
     await visit(ROUTE.BAR);
     permissionsService.setPermissions([]);
 
     await visit(ROUTE.FOO);
-    assert.true(isHandlerCalled);
+    assert.strictEqual(deniedTransition.to.name, ROUTE.FOO);
+
+    permissionsService.off('route-access-denied', handler);
   });
 });
