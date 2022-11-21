@@ -1,4 +1,4 @@
-# Ember Permissions
+# @bagaar/ember-permissions
 
 [![CI](https://github.com/Bagaar/ember-permissions/workflows/CI/badge.svg)](https://github.com/Bagaar/ember-permissions/actions?query=workflow%3ACI)
 [![NPM Version](https://badge.fury.io/js/%40bagaar%2Fember-permissions.svg)](https://badge.fury.io/js/%40bagaar%2Fember-permissions)
@@ -14,13 +14,25 @@ Permission management for Ember applications.
 - [Installation](#installation)
 - [Usage](#usage)
 - [Public API](#public-api)
+  - [`permissions` Service](#permissions-service)
+    - Methods:
+      - [`setPermissions`](#setpermissions)
+      - [`setRoutePermissions`](#setroutepermissions)
+      - [`hasPermissions`](#haspermissions)
+      - [`canAccessRoute`](#canaccessroute)
+      - [`enableRouteValidation`](#enableroutevalidation)
+    - Events:
+      - [`route-access-denied`](#route-access-denied)
+  - [Helpers](#helpers)
+    - [`has-permissions`](#has-permissions)
+    - [`can-access-route`](#can-access-route)
 - [Contributing](#contributing)
 - [License](#license)
 - [Maintenance](#maintenance)
 
 ## Introduction
 
-`@bagaar/ember-permissions` is an addon that allows you to **manage and validate permissions** for the current session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is not allowed, a [`route-access-denied`](#route-access-denied) event is triggered so you can decide how to handle the denied transition.
+`@bagaar/ember-permissions` is an addon that allows you to **manage and validate permissions** for the current session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is denied, a [`route-access-denied`](#route-access-denied) event is triggered so you can decide how to handle the denied transition.
 
 ## Compatibility
 
@@ -36,17 +48,17 @@ ember install @bagaar/ember-permissions
 
 ## Usage
 
-### 1\. Setting up User Session Permissions
+### 1\. Setting up Session Permissions
 
-First, we need to let the `permissions` service know which permissions are available for the current session. In the example below, we're using an additional service to request the permissions from an API. Afterwards, we pass along the permissions to the `permissions` service via the [`setPermissions`](#setpermissions) method.
+First, we need to let the `permissions` service know which permissions are available for the current session. In the example below, we're using an additional `api` service to request the permissions from an API. Afterwards, we pass along the permissions to the `permissions` service via the [`setPermissions`](#setpermissions) method.
 
 ```javascript
-// app/routes/application.js
+// app/routes/protected.js
 
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
-export default class ApplicationRoute extends Route {
+export default class ProtectedRoute extends Route {
   @service('api') apiService;
   @service('permissions') permissionsService;
 
@@ -86,20 +98,20 @@ export default {
 };
 ```
 
-Next, edit the `application` route from step 1 as follows:
+Next, edit the `protected` route from step 1 as follows:
 
 1. Use the [`setRoutePermissions`](#setroutepermissions) method to pass along the required permissions per route to the `permissions` service.
 2. Handle the [`route-access-denied`](#route-access-denied) event to determine what to do when a transition is denied.
 3. Call [`enableRouteValidation`](#enableroutevalidation).
 
 ```javascript
-// app/routes/application.js
+// app/routes/protected.js
 
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import routePermissions from 'app-name/route-permissions';
 
-export default class ApplicationRoute extends Route {
+export default class ProtectedRoute extends Route {
   @service('api') apiService;
   @service('permissions') permissionsService;
 
@@ -120,7 +132,7 @@ export default class ApplicationRoute extends Route {
 }
 ```
 
-Now each transition will be validated based on the required permissions per route. If a transition is not allowed the [`route-access-denied`](#route-access-denied) event will be triggered.
+Now, each transition will be validated against the required permissions per route. If a transition is denied, the [`route-access-denied`](#route-access-denied) event will be triggered.
 
 Since the required permissions per route are now set, we can start checking if routes can be accessed. In the example below, we use the [`can-access-route`](#can-access-route) helper to do so.
 
@@ -140,13 +152,13 @@ Since the required permissions per route are now set, we can start checking if r
 
 ## Public API
 
-### Permissions Service
+### `permissions` Service
 
 #### Methods
 
-##### setPermissions
+##### `setPermissions`
 
-Allows you to set the permissions for the current session.
+Set the permissions for the current session.
 
 ###### Arguments
 
@@ -166,9 +178,9 @@ permissionsService.setPermissions([
 ]);
 ```
 
-##### setRoutePermissions
+##### `setRoutePermissions`
 
-Allows you to set the required permissions per route.
+Set the required permissions per route.
 
 ###### Arguments
 
@@ -188,9 +200,9 @@ permissionsService.setRoutePermissions({
 });
 ```
 
-##### hasPermissions
+##### `hasPermissions`
 
-Checks if all the provided permissions are available for the current session.
+Check if all the provided permissions are available for the current session.
 
 ###### Arguments
 
@@ -210,9 +222,9 @@ permissionsService.hasPermissions([
 ]);
 ```
 
-##### canAccessRoute
+##### `canAccessRoute`
 
-Checks if the provided route can be accessed.
+Check if the provided route can be accessed.
 
 ###### Arguments
 
@@ -228,9 +240,9 @@ Returns `true` if the provided route can be accessed, `false` if otherwise.
 permissionsService.canAccessRoute('users.index');
 ```
 
-##### enableRouteValidation
+##### `enableRouteValidation`
 
-This will tell the service that it should start validating each transition and confirm that it's allowed based on the required permissions per route. If a transition is not allowed the [`route-access-denied`](#route-access-denied) event will be triggered.
+Tell the `permissions` service that it should start validating each transition and confirm that it's allowed based on the required permissions per route. If a transition is denied the [`route-access-denied`](#route-access-denied) event will be triggered.
 
 ###### Arguments
 
@@ -248,9 +260,9 @@ permissionsService.enableRouteValidation();
 
 #### Events
 
-##### route-access-denied
+##### `route-access-denied`
 
-Triggered when a transition occurs that is not allowed.
+Triggered when a transition occurs that is denied.
 
 ###### Parameters
 
@@ -270,9 +282,9 @@ permissionsService.on('route-access-denied', ( /* deniedTransition */ ) => {
 
 ### Helpers
 
-#### has-permissions
+#### `has-permissions`
 
-Checks if all the provided permissions are available for the current session.
+Check if all the provided permissions are available for the current session.
 
 ###### Arguments
 
@@ -288,9 +300,9 @@ Returns `true` if all the provided permissions are available for the current ses
 {{has-permissions "view-users" "create-users" "edit-users"}}
 ```
 
-#### can-access-route
+#### `can-access-route`
 
-Checks if the provided route can be accessed.
+Check if the provided route can be accessed.
 
 ###### Arguments
 
