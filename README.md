@@ -252,7 +252,7 @@ Tell the `permissions` service that it should start validating each transition a
 
 ###### Arguments
 
-A [`Transition`](https://api.emberjs.com/ember/release/classes/Transition) instance.
+The initial transition.
 
 ###### Returns
 
