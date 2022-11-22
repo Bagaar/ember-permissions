@@ -139,7 +139,7 @@ module('Unit | Service | permissions', function (hooks) {
         [ROUTE.FOO]: [PERMISSION.FOO],
       });
 
-      this.permissionsService.on('route-access-denied', handler);
+      this.permissionsService.addRouteAccessDeniedHandler(handler);
 
       // @ts-expect-error: Testing runtime validation.
       this.permissionsService.validateTransition();
@@ -150,7 +150,7 @@ module('Unit | Service | permissions', function (hooks) {
       // @ts-expect-error: Mock `RouteInfo`.
       this.permissionsService.validateTransition({ to: { name: ROUTE.FOO } });
 
-      this.permissionsService.off('route-access-denied', handler);
+      this.permissionsService.removeRouteAccessDeniedHandler(handler);
 
       assert.strictEqual(timesCalled, 1);
     });

@@ -13,7 +13,7 @@ import { module, test } from 'qunit';
 module('Acceptance | route validation', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('it only triggers the `route-access-denied` event when `enableRouteValidation` was called', async function (assert) {
+  test('it only calls route-access-denied handlers when route validation is enabled', async function (assert) {
     const permissionsService = this.owner.lookup(
       'service:permissions'
     ) as PermissionsService;
@@ -28,7 +28,7 @@ module('Acceptance | route validation', function (hooks) {
     const handler = (deniedTransition: Transition) =>
       (deniedTransitionToName = deniedTransition.to.name);
 
-    permissionsService.on('route-access-denied', handler);
+    permissionsService.addRouteAccessDeniedHandler(handler);
 
     permissionsService.setRoutePermissions({
       [ROUTE.FOO]: [PERMISSION.FOO],
@@ -50,7 +50,7 @@ module('Acceptance | route validation', function (hooks) {
     await visit(ROUTE.FOO);
     assert.strictEqual(deniedTransitionToName, ROUTE.FOO);
 
-    permissionsService.off('route-access-denied', handler);
+    permissionsService.removeRouteAccessDeniedHandler(handler);
   });
 
   test('it validates the initial transition', async function (assert) {
@@ -72,10 +72,10 @@ module('Acceptance | route validation', function (hooks) {
           this.routerService.replaceWith('access-denied');
         };
 
-        this.permissionsService.on('route-access-denied', handler);
+        this.permissionsService.addRouteAccessDeniedHandler(handler);
 
         registerDestructor(this, () => {
-          this.permissionsService.off('route-access-denied', handler);
+          this.permissionsService.removeRouteAccessDeniedHandler(handler);
         });
 
         this.permissionsService.enableRouteValidation(transition);
