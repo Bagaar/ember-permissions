@@ -13,7 +13,6 @@ export default class PermissionsService extends Service {
     'route-access-denied': new Set(),
   };
 
-  #initialTransition = null;
   #isRouteValidationEnabled = false;
 
   on(eventName, eventHandler) {
@@ -46,16 +45,6 @@ export default class PermissionsService extends Service {
     );
 
     this.routePermissions = routePermissions;
-  }
-
-  cacheInitialTransition() {
-    this.routerService.one('routeWillChange', (transition) => {
-      this.#initialTransition = transition;
-    });
-
-    this.routerService.one('routeDidChange', () => {
-      this.#initialTransition = null;
-    });
   }
 
   hasPermissions(permissions) {
@@ -96,14 +85,14 @@ export default class PermissionsService extends Service {
     return routeTreePermissions;
   }
 
-  enableRouteValidation() {
+  enableRouteValidation(initialTransition) {
     if (this.#isRouteValidationEnabled === true) {
       return;
     }
 
     this.#isRouteValidationEnabled = true;
 
-    this.validateTransition(this.#initialTransition);
+    this.validateTransition(initialTransition);
 
     this.routerService.on('routeWillChange', this.validateTransition);
   }
