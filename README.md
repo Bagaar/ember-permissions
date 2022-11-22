@@ -100,39 +100,45 @@ export default {
 
 Next, edit the `protected` route from step 1 as follows:
 
-1. Use the [`setRoutePermissions`](#setroutepermissions) method to pass along the required permissions per route to the `permissions` service.
-2. Handle the [`route-access-denied`](#route-access-denied) event to determine what to do when a transition is denied.
-3. Call [`enableRouteValidation`](#enableroutevalidation).
+1. Use the [`setRoutePermissions`](#setroutepermissions) method to pass along the required permissions per route to the `permissions` service
+2. Handle the [`route-access-denied`](#route-access-denied) event to determine what to do when a transition is denied
+3. Call [`enableRouteValidation`](#enableroutevalidation) with the initial transition
 
 ```javascript
 // app/routes/protected.js
 
+import { registerDestructor } from '@ember/destroyable';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import routePermissions from 'app-name/route-permissions';
+import ROUTE_PERMISSIONS from 'app-name/route-permissions';
 
 export default class ProtectedRoute extends Route {
   @service('api') apiService;
   @service('permissions') permissionsService;
+  @service('router') routerService;
 
-  async beforeModel() {
+  async beforeModel(transition) {
     const permissions = await this.apiService.request('/permissions');
 
     this.permissionsService.setPermissions(permissions);
-    this.permissionsService.setRoutePermissions(routePermissions);
+    this.permissionsService.setRoutePermissions(ROUTE_PERMISSIONS);
 
-    this.permissionsService.on('route-access-denied', ( /* deniedTransition */ ) => {
-      // Handle the `route-access-denied` event.
-      // E.g. redirect to a generic error route.
-      this.transitionTo('error', { error: 'route-access-denied' });
+    const accessDeniedHandler = (/* deniedTransition */) => {
+      this.routerService.replaceWith('error', { error: 'access-denied' });
+    };
+
+    this.permissionsService.on('route-access-denied', accessDeniedHandler);
+
+    registerDestructor(this, () => {
+      this.permissionsService.off('route-access-denied', accessDeniedHandler);
     });
 
-    this.permissionsService.enableRouteValidation();
+    this.permissionsService.enableRouteValidation(transition);
   }
 }
 ```
 
-Now, each transition will be validated against the required permissions per route. If a transition is denied, the [`route-access-denied`](#route-access-denied) event will be triggered.
+Now, each transition will be validated (including the provided initial transition) against the required permissions per route. If a transition is denied, the [`route-access-denied`](#route-access-denied) event will be triggered.
 
 Since the required permissions per route are now set, we can start checking if routes can be accessed. In the example below, we use the [`can-access-route`](#can-access-route) helper to do so.
 
@@ -271,11 +277,11 @@ The denied transition.
 ###### Example
 
 ```javascript
-permissionsService.on('route-access-denied', ( /* deniedTransition */ ) => {
-  // Handle the `route-access-denied` event.
-  // E.g. redirect to a generic error route.
-  routerService.transitionTo('error', { error: 'route-access-denied' });
-});
+const accessDeniedHandler = (/* deniedTransition */) => {
+  routerService.replaceWith('error', { error: 'access-denied' });
+};
+
+permissionsService.on('route-access-denied', accessDeniedHandler);
 ```
 
 --------------------------------------------------------------------------------
