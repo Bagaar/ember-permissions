@@ -1,35 +1,47 @@
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
+import type RouterService from '@ember/routing/router-service';
 import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+export type Permission = string;
+export type Permissions = Permission[];
+export type RouteName = string;
+export type Transition = ReturnType<RouterService['transitionTo']>;
+
+type EventName = 'route-access-denied';
+type EventHandler = Function; // eslint-disable-line @typescript-eslint/ban-types
+type EventHandlerArgs = unknown[];
+type EventHandlers = { [key in EventName]: Set<EventHandler> };
+type RoutePermissions = { [routeName: RouteName]: Permissions };
+
 export default class PermissionsService extends Service {
-  @service('router') routerService;
+  @service('router') declare routerService: RouterService;
 
-  @tracked permissions = [];
-  @tracked routePermissions = {};
+  @tracked permissions: Permissions = [];
+  @tracked routePermissions: RoutePermissions = {};
 
-  #eventHandlers = {
+  #eventHandlers: EventHandlers = {
     'route-access-denied': new Set(),
   };
 
   #isRouteValidationEnabled = false;
 
-  on(eventName, eventHandler) {
+  on(eventName: EventName, eventHandler: EventHandler): void {
     this.#eventHandlers[eventName].add(eventHandler);
   }
 
-  off(eventName, eventHandler) {
+  off(eventName: EventName, eventHandler: EventHandler): void {
     this.#eventHandlers[eventName].delete(eventHandler);
   }
 
-  trigger(eventName, args) {
+  trigger(eventName: EventName, args: EventHandlerArgs): void {
     this.#eventHandlers[eventName].forEach((eventHandler) => {
       eventHandler(...args);
     });
   }
 
-  setPermissions(permissions) {
+  setPermissions(permissions: Permissions): void {
     assert(
       '`permissions` is required and should be an array.',
       permissions && Array.isArray(permissions)
@@ -38,7 +50,7 @@ export default class PermissionsService extends Service {
     this.permissions = permissions;
   }
 
-  setRoutePermissions(routePermissions) {
+  setRoutePermissions(routePermissions: RoutePermissions): void {
     assert(
       '`routePermissions` is required and should be an object.',
       routePermissions && typeof routePermissions === 'object'
@@ -47,7 +59,7 @@ export default class PermissionsService extends Service {
     this.routePermissions = routePermissions;
   }
 
-  hasPermissions(permissions) {
+  hasPermissions(permissions: Permissions): boolean {
     assert(
       '`permissions` is required and should be an array.',
       permissions && Array.isArray(permissions)
@@ -58,7 +70,7 @@ export default class PermissionsService extends Service {
     });
   }
 
-  canAccessRoute(routeName) {
+  canAccessRoute(routeName: RouteName): boolean {
     assert(
       '`routeName` is required and should be a string.',
       routeName && typeof routeName === 'string'
@@ -69,7 +81,7 @@ export default class PermissionsService extends Service {
     return this.hasPermissions(routeTreePermissions);
   }
 
-  getRouteTreePermissions(routeName) {
+  getRouteTreePermissions(routeName: RouteName): Permissions {
     const routeNameSplitted = routeName.split('.');
     const routeTreePermissions = [];
 
@@ -85,20 +97,22 @@ export default class PermissionsService extends Service {
     return routeTreePermissions;
   }
 
-  enableRouteValidation(initialTransition) {
+  enableRouteValidation(initialTransition?: Transition): void {
     if (this.#isRouteValidationEnabled === true) {
       return;
     }
 
     this.#isRouteValidationEnabled = true;
 
-    this.validateTransition(initialTransition);
+    if (initialTransition) {
+      this.validateTransition(initialTransition);
+    }
 
     this.routerService.on('routeWillChange', this.validateTransition);
   }
 
   @action
-  validateTransition(transition) {
+  validateTransition(transition: Transition): void {
     const routeName = transition?.to?.name;
 
     if (routeName && this.canAccessRoute(routeName) === false) {
@@ -106,9 +120,15 @@ export default class PermissionsService extends Service {
     }
   }
 
-  willDestroy() {
+  willDestroy(): void {
     if (this.#isRouteValidationEnabled === true) {
       this.routerService.off('routeWillChange', this.validateTransition);
     }
+  }
+}
+
+declare module '@ember/service' {
+  interface Registry {
+    permissions: PermissionsService;
   }
 }

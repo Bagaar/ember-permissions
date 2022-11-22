@@ -21,7 +21,9 @@
 /CONTRIBUTING.md
 /ember-cli-build.js
 /testem.js
+/tsconfig.json
 /tests/
+/types/
 /yarn-error.log
 /yarn.lock
 .gitkeep
