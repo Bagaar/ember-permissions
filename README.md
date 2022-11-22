@@ -252,7 +252,7 @@ Tell the `permissions` service that it should start validating each transition a
 
 ###### Arguments
 
-/
+A [`Transition`](https://api.emberjs.com/ember/release/classes/Transition) instance.
 
 ###### Returns
 
@@ -261,7 +261,7 @@ Tell the `permissions` service that it should start validating each transition a
 ###### Example
 
 ```javascript
-permissionsService.enableRouteValidation();
+permissionsService.enableRouteValidation(transition);
 ```
 
 #### Events
