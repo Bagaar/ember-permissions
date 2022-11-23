@@ -1,14 +1,22 @@
-import { render, settled } from '@ember/test-helpers';
+import type PermissionsService from '@bagaar/ember-permissions/services/permissions';
+import type { RouteName } from '@bagaar/ember-permissions/services/permissions';
+import { render, settled, TestContext } from '@ember/test-helpers';
 import { PERMISSION, ROUTE } from 'dummy/tests/config';
 import { setupRenderingTest } from 'dummy/tests/helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
+interface LocalTestContext extends TestContext {
+  routeName: RouteName;
+}
+
 module('Integration | Helper | can-access-route', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders `true` or `false` based on the provided (route) permissions', async function (assert) {
-    const permissionsService = this.owner.lookup('service:permissions');
+  test('it renders `true` or `false` based on the provided (route) permissions', async function (this: LocalTestContext, assert) {
+    const permissionsService = this.owner.lookup(
+      'service:permissions'
+    ) as PermissionsService;
 
     permissionsService.setPermissions([PERMISSION.FOO]);
     permissionsService.setRoutePermissions({
