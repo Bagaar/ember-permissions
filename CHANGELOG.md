@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/Bagaar/ember-permissions/compare/v3.0.0...v4.0.0) (2023-01-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* add new `addRouteAccessDeniedHandler` and `removeRouteAccessDeniedHandler` service methods
+* require users to provide the initial transition
+
+### Features
+
+* add new `addRouteAccessDeniedHandler` and `removeRouteAccessDeniedHandler` service methods ([859ecd3](https://github.com/Bagaar/ember-permissions/commit/859ecd30e62cae302fceed5f2d50d9fd8c228cea))
+* require users to provide the initial transition ([ce60cff](https://github.com/Bagaar/ember-permissions/commit/ce60cffa0b4a318d0d1d4afb7c788b250621156e))
+
 ## [3.0.0](https://github.com/Bagaar/ember-permissions/compare/v2.0.1...v3.0.0) (2022-06-23)
 
 
