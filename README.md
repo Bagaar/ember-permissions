@@ -15,14 +15,13 @@ Permission management for Ember applications.
 - [Usage](#usage)
 - [Public API](#public-api)
   - [`permissions` Service](#permissions-service)
-    - Methods:
-      - [`setPermissions`](#setpermissions)
-      - [`setRoutePermissions`](#setroutepermissions)
-      - [`hasPermissions`](#haspermissions)
-      - [`canAccessRoute`](#canaccessroute)
-      - [`enableRouteValidation`](#enableroutevalidation)
-    - Events:
-      - [`route-access-denied`](#route-access-denied)
+    - [`setPermissions`](#setpermissions)
+    - [`setRoutePermissions`](#setroutepermissions)
+    - [`hasPermissions`](#haspermissions)
+    - [`canAccessRoute`](#canaccessroute)
+    - [`enableRouteValidation`](#enableroutevalidation)
+    - [`addRouteAccessDeniedHandler`](#addrouteaccessdeniedhandler)
+    - [`removeRouteAccessDeniedHandler`](#removerouteaccessdeniedhandler)
   - [Helpers](#helpers)
     - [`has-permissions`](#has-permissions)
     - [`can-access-route`](#can-access-route)
@@ -32,7 +31,7 @@ Permission management for Ember applications.
 
 ## Introduction
 
-`@bagaar/ember-permissions` is an addon that allows you to **manage and validate permissions** for the current session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Whenever a transition occurs that is denied, a [`route-access-denied`](#route-access-denied) event is triggered so you can decide how to handle the denied transition.
+`@bagaar/ember-permissions` is an addon that allows you to **manage and validate permissions** for the current session. It also allows you to **define required permissions per route** so you can protect specific parts of your application. Instead of using a mixin to protect your routes, the addon allows you to define the required permissions per route in a single file. Specific handlers can be added to determine what needs to happen when a transition occurs that is denied.
 
 ## Compatibility
 
@@ -101,7 +100,7 @@ export default {
 Next, edit the `protected` route from step 1 as follows:
 
 1. Use the [`setRoutePermissions`](#setroutepermissions) method to pass along the required permissions per route to the `permissions` service
-2. Handle the [`route-access-denied`](#route-access-denied) event to determine what to do when a transition is denied
+2. Add a route-access-denied handler to determine what needs to happen when a transition occurs that is denied
 3. Call [`enableRouteValidation`](#enableroutevalidation) with the initial transition
 
 ```javascript
@@ -123,14 +122,16 @@ export default class ProtectedRoute extends Route {
     this.permissionsService.setPermissions(permissions);
     this.permissionsService.setRoutePermissions(ROUTE_PERMISSIONS);
 
-    const accessDeniedHandler = (/* deniedTransition */) => {
+    const handler = (/* deniedTransition */) => {
+      // Handle the denied transition.
+      // E.g. redirect to a generic error route:
       this.routerService.replaceWith('error', { error: 'access-denied' });
     };
 
-    this.permissionsService.on('route-access-denied', accessDeniedHandler);
+    this.permissionsService.addRouteAccessDeniedHandler(handler);
 
     registerDestructor(this, () => {
-      this.permissionsService.off('route-access-denied', accessDeniedHandler);
+      this.permissionsService.removeRouteAccessDeniedHandler(handler);
     });
 
     this.permissionsService.enableRouteValidation(transition);
@@ -138,7 +139,7 @@ export default class ProtectedRoute extends Route {
 }
 ```
 
-Now, each transition will be validated (including the provided initial transition) against the required permissions per route. If a transition is denied, the [`route-access-denied`](#route-access-denied) event will be triggered.
+Now, each transition will be validated (including the provided initial transition) against the required permissions per route. If a transition is denied, the added route-access-denied handler will be called with the denied transition.
 
 Since the required permissions per route are now set, we can start checking if routes can be accessed. In the example below, we use the [`can-access-route`](#can-access-route) helper to do so.
 
@@ -248,7 +249,7 @@ permissionsService.canAccessRoute('users.index');
 
 ##### `enableRouteValidation`
 
-Tell the `permissions` service that it should start validating each transition and confirm that it's allowed based on the required permissions per route. If a transition is denied the [`route-access-denied`](#route-access-denied) event will be triggered.
+Tell the `permissions` service that it should start validating each transition (including the provided initial transition) and confirm that it's allowed based on the required permissions per route. If a transition is denied, all added route-access-denied handlers will be called with the denied transtion.
 
 ###### Arguments
 
@@ -264,27 +265,53 @@ The initial transition.
 permissionsService.enableRouteValidation(transition);
 ```
 
-#### Events
+##### `addRouteAccessDeniedHandler`
 
-##### `route-access-denied`
+Add a route-access-denied handler.
 
-Triggered when a transition occurs that is denied.
+###### Arguments
 
-###### Parameters
+A handler.
 
-The denied transition.
+###### Returns
+
+/
 
 ###### Example
 
 ```javascript
-const accessDeniedHandler = (/* deniedTransition */) => {
-  routerService.replaceWith('error', { error: 'access-denied' });
+const handler = (/* deniedTransition */) => {
+  // Handle the denied transition.
+  // E.g. redirect to a generic error route:
+  this.routerService.replaceWith('error', { error: 'access-denied' });
 };
 
-permissionsService.on('route-access-denied', accessDeniedHandler);
+this.permissionsService.addRouteAccessDeniedHandler(handler);
 ```
 
---------------------------------------------------------------------------------
+##### `removeRouteAccessDeniedHandler`
+
+Remove a previously added route-access-denied handler.
+
+###### Arguments
+
+A handler.
+
+###### Returns
+
+/
+
+###### Example
+
+```javascript
+const handler = (/* deniedTransition */) => {
+  // Handle the denied transition.
+  // E.g. redirect to a generic error route:
+  this.routerService.replaceWith('error', { error: 'access-denied' });
+};
+
+this.permissionsService.removeRouteAccessDeniedHandler(handler);
+```
 
 ### Helpers
 

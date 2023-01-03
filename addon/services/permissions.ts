@@ -9,10 +9,7 @@ export type Permissions = Permission[];
 export type RouteName = string;
 export type Transition = ReturnType<RouterService['transitionTo']>;
 
-type EventName = 'route-access-denied';
-type EventHandler = Function; // eslint-disable-line @typescript-eslint/ban-types
-type EventHandlerArgs = unknown[];
-type EventHandlers = { [key in EventName]: Set<EventHandler> };
+type RouteAccessDeniedHandler = (deniedTransition: Transition) => void;
 type RoutePermissions = { [routeName: RouteName]: Permissions };
 
 export default class PermissionsService extends Service {
@@ -21,24 +18,15 @@ export default class PermissionsService extends Service {
   @tracked permissions: Permissions = [];
   @tracked routePermissions: RoutePermissions = {};
 
-  #eventHandlers: EventHandlers = {
-    'route-access-denied': new Set(),
-  };
-
   #isRouteValidationEnabled = false;
+  #routeAccessDeniedHandlers = new Set<RouteAccessDeniedHandler>();
 
-  on(eventName: EventName, eventHandler: EventHandler): void {
-    this.#eventHandlers[eventName].add(eventHandler);
+  addRouteAccessDeniedHandler(handler: RouteAccessDeniedHandler) {
+    this.#routeAccessDeniedHandlers.add(handler);
   }
 
-  off(eventName: EventName, eventHandler: EventHandler): void {
-    this.#eventHandlers[eventName].delete(eventHandler);
-  }
-
-  trigger(eventName: EventName, args: EventHandlerArgs): void {
-    this.#eventHandlers[eventName].forEach((eventHandler) => {
-      eventHandler(...args);
-    });
+  removeRouteAccessDeniedHandler(handler: RouteAccessDeniedHandler) {
+    this.#routeAccessDeniedHandlers.delete(handler);
   }
 
   setPermissions(permissions: Permissions): void {
@@ -116,7 +104,7 @@ export default class PermissionsService extends Service {
     const routeName = transition?.to?.name;
 
     if (routeName && this.canAccessRoute(routeName) === false) {
-      this.trigger('route-access-denied', [transition]);
+      this.#routeAccessDeniedHandlers.forEach((handler) => handler(transition));
     }
   }
 
