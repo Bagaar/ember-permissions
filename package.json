@@ -39,7 +39,7 @@
     "ember-cli-typescript": "^5.2.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.3.0",
+    "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.3.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.9.3",
