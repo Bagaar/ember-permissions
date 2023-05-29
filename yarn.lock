@@ -5078,10 +5078,10 @@ ember-source@~4.9.1:
     semver "^7.3.7"
     silent-error "^1.1.1"
 
-ember-template-imports@^3.1.1, ember-template-imports@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/ember-template-imports/-/ember-template-imports-3.4.0.tgz#c40757e2d41e289ce08c0fe80671000bf216e0ef"
-  integrity sha512-3Cwcj3NXA129g3ZhmrQ/nYOxksFonTmB/qxyaSNTHrLBSoc93UZys47hBz13DlcfoeSCCrNt2Qpq1j890I04PQ==
+ember-template-imports@^3.4.0, ember-template-imports@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/ember-template-imports/-/ember-template-imports-3.4.2.tgz#6cf7de7d4b8348a0fddf3aaec4947aa1211289e6"
+  integrity sha512-OS8TUVG2kQYYwP3netunLVfeijPoOKIs1SvPQRTNOQX4Pu8xGGBEZmrv0U1YTnQn12Eg+p6w/0UdGbUnITjyzw==
   dependencies:
     babel-import-util "^0.2.0"
     broccoli-stew "^3.0.0"
@@ -5346,21 +5346,21 @@ eslint-formatter-kakoune@^1.0.0:
   resolved "https://registry.yarnpkg.com/eslint-formatter-kakoune/-/eslint-formatter-kakoune-1.0.0.tgz#a95cc4fe1fbc06b84e0f2397e83f5f0b68340125"
   integrity sha512-Uk/TVLt6Nf6Xoz7C1iYuZjOSdJxe5aaauGRke8JhKeJwD66Y61/pY2FjtLP04Ooq9PwV34bzrkKkU2UZ5FtDRA==
 
-eslint-plugin-ember@^11.4.0:
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-11.4.0.tgz#440aba8a002408b64b9c5b979d7d44c3689554cd"
-  integrity sha512-T6e3eQ6dhhkMFmr5L9UsIbKqDAfCyFcy09xu9oG0EVcDflP7phWX60oWfcaBFFc8MqDy28y8Ukp3gaSbSV6IIw==
+eslint-plugin-ember@^11.7.2:
+  version "11.7.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-11.7.2.tgz#767da3cda62b2345b2d39da16286a0d70f92244a"
+  integrity sha512-sCDz6OIUWGMhIZj3boFRsbbLfZ/HC7Ubv2VKHrtufAYzE+9MpJrjwJULHuSZetNLVaNHIemo6lTmPsayI4n/kQ==
   dependencies:
     "@ember-data/rfc395-data" "^0.0.4"
     "@glimmer/syntax" "^0.84.2"
     css-tree "^2.0.4"
     ember-rfc176-data "^0.3.15"
-    ember-template-imports "^3.1.1"
+    ember-template-imports "^3.4.2"
     eslint-utils "^3.0.0"
     estraverse "^5.2.0"
     lodash.camelcase "^4.1.1"
     lodash.kebabcase "^4.1.1"
-    magic-string "^0.27.0"
+    magic-string "^0.30.0"
     requireindex "^1.2.0"
     snake-case "^3.0.3"
 
@@ -7848,10 +7848,10 @@ magic-string@^0.26.0:
   dependencies:
     sourcemap-codec "^1.4.8"
 
-magic-string@^0.27.0:
-  version "0.27.0"
-  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.27.0.tgz#e4a3413b4bab6d98d2becffd48b4a257effdbbf3"
-  integrity sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==
+magic-string@^0.30.0:
+  version "0.30.0"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.30.0.tgz#fd58a4748c5c4547338a424e90fa5dd17f4de529"
+  integrity sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==
   dependencies:
     "@jridgewell/sourcemap-codec" "^1.4.13"
 
