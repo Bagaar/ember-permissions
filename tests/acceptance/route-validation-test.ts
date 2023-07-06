@@ -26,7 +26,7 @@ module('Acceptance | route validation', function (hooks) {
     let deniedTransitionToName = null;
 
     const handler = (deniedTransition: Transition) =>
-      (deniedTransitionToName = deniedTransition.to.name);
+      (deniedTransitionToName = deniedTransition.to?.name);
 
     permissionsService.addRouteAccessDeniedHandler(handler);
 
