@@ -52,7 +52,7 @@
     "@types/qunit": "^2.19.6",
     "@types/rsvp": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
+    "@typescript-eslint/parser": "^5.62.0",
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^8.2.0",
     "ember-auto-import": "^2.6.3",
