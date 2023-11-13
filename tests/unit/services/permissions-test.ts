@@ -1,3 +1,4 @@
+import { hasSomePermissions } from '@bagaar/ember-permissions';
 import type PermissionsService from '@bagaar/ember-permissions/services/permissions';
 import { type TestContext } from '@ember/test-helpers';
 import { PERMISSION, ROUTE } from 'dummy/tests/config';
@@ -82,6 +83,35 @@ module('Unit | Service | permissions', function (hooks) {
     });
   });
 
+  module('hasSomePermissions', function () {
+    test('it validates the arguments', function (this: LocalTestContext, assert) {
+      assert.throws(() => {
+        // @ts-expect-error: Testing runtime validation.
+        this.permissionsService.hasSomePermissions();
+      });
+
+      assert.throws(() => {
+        // @ts-expect-error: Testing runtime validation.
+        this.permissionsService.hasSomePermissions(null);
+      });
+    });
+
+    test('it works', function (this: LocalTestContext, assert) {
+      this.permissionsService.setPermissions([PERMISSION.FOO]);
+
+      assert.true(
+        this.permissionsService.hasSomePermissions([
+          PERMISSION.FOO,
+          PERMISSION.BAR,
+        ])
+      );
+
+      assert.false(
+        this.permissionsService.hasSomePermissions([PERMISSION.BAR])
+      );
+    });
+  });
+
   module('canAccessRoute', function () {
     test('it validates the arguments', function (this: LocalTestContext, assert) {
       assert.throws(() => {
@@ -100,30 +130,21 @@ module('Unit | Service | permissions', function (hooks) {
     });
 
     test('it works', function (this: LocalTestContext, assert) {
+      const ROUTE_FOO_ROUTE_BAR = `${ROUTE.FOO}.${ROUTE.BAR}`;
+
       this.permissionsService.setPermissions([PERMISSION.FOO]);
       this.permissionsService.setRoutePermissions({
         [ROUTE.FOO]: [PERMISSION.FOO],
+        [ROUTE_FOO_ROUTE_BAR]: hasSomePermissions([
+          PERMISSION.FOO,
+          PERMISSION.BAR,
+        ]),
         [ROUTE.BAR]: [PERMISSION.BAR],
       });
 
       assert.true(this.permissionsService.canAccessRoute(ROUTE.FOO));
+      assert.true(this.permissionsService.canAccessRoute(ROUTE_FOO_ROUTE_BAR));
       assert.false(this.permissionsService.canAccessRoute(ROUTE.BAR));
-    });
-  });
-
-  module('getRouteTreePermissions', function () {
-    test('it works', function (this: LocalTestContext, assert) {
-      const ROUTE_FOO_ROUTE_BAR = `${ROUTE.FOO}.${ROUTE.BAR}`;
-
-      this.permissionsService.setRoutePermissions({
-        [ROUTE.FOO]: [PERMISSION.FOO],
-        [ROUTE_FOO_ROUTE_BAR]: [PERMISSION.BAR],
-      });
-
-      assert.deepEqual(
-        this.permissionsService.getRouteTreePermissions(ROUTE_FOO_ROUTE_BAR),
-        [PERMISSION.FOO, PERMISSION.BAR]
-      );
     });
   });
 

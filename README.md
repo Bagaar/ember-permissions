@@ -18,12 +18,14 @@ Permission management for Ember applications.
     - [`setPermissions`](#setpermissions)
     - [`setRoutePermissions`](#setroutepermissions)
     - [`hasPermissions`](#haspermissions)
+    - [`hasSomePermissions`](#hassomepermissions)
     - [`canAccessRoute`](#canaccessroute)
     - [`enableRouteValidation`](#enableroutevalidation)
     - [`addRouteAccessDeniedHandler`](#addrouteaccessdeniedhandler)
     - [`removeRouteAccessDeniedHandler`](#removerouteaccessdeniedhandler)
   - [Helpers](#helpers)
     - [`has-permissions`](#has-permissions)
+    - [`has-some-permissions`](#has-some-permissions)
     - [`can-access-route`](#can-access-route)
 - [Contributing](#contributing)
 - [License](#license)
@@ -81,7 +83,7 @@ Once the permissions are set, we can start checking their presence. In the examp
 {{/if}}
 ```
 
-> **NOTE:** If you need to validate permissions inside a JavaScript file, you can use the [`hasPermissions`](#haspermissions) method on the `permissions` service instead.
+> **NOTE:** If you need to validate permissions inside a JavaScript file, you can use the [`hasPermissions`](#haspermissions) or the [`hasSomePermissions`](#hassomepermissions) method on the `permissions` service instead.
 
 ### 2\. Setting up Route Permissions
 
@@ -229,6 +231,28 @@ permissionsService.hasPermissions([
 ]);
 ```
 
+##### `hasSomePermissions`
+
+Check if some of the provided permissions are available for the current session.
+
+###### Arguments
+
+An array of permissions.
+
+###### Returns
+
+Returns `true` if some of the provided permissions are available for the current session, `false` if otherwise.
+
+###### Example
+
+```javascript
+permissionsService.hasSomePermissions([
+  'view-users',
+  'create-users',
+  'edit-users',
+]);
+```
+
 ##### `canAccessRoute`
 
 Check if the provided route can be accessed.
@@ -331,6 +355,24 @@ Returns `true` if all the provided permissions are available for the current ses
 
 ```handlebars
 {{has-permissions "view-users" "create-users" "edit-users"}}
+```
+
+#### `has-some-permissions`
+
+Check if some of the provided permissions are available for the current session.
+
+###### Arguments
+
+Separate permissions.
+
+###### Returns
+
+Returns `true` if some of the provided permissions are available for the current session, `false` if otherwise.
+
+###### Example
+
+```handlebars
+{{has-some-permissions "view-users" "create-users" "edit-users"}}
 ```
 
 #### `can-access-route`
