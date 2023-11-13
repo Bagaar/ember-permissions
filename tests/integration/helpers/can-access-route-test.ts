@@ -1,6 +1,6 @@
 import type PermissionsService from '@bagaar/ember-permissions/services/permissions';
 import type { RouteName } from '@bagaar/ember-permissions/services/permissions';
-import { render, settled, TestContext } from '@ember/test-helpers';
+import { render, settled, type TestContext } from '@ember/test-helpers';
 import { PERMISSION, ROUTE } from 'dummy/tests/config';
 import { setupRenderingTest } from 'dummy/tests/helpers';
 import { hbs } from 'ember-cli-htmlbars';
