@@ -1,5 +1,5 @@
 import type PermissionsService from '@bagaar/ember-permissions/services/permissions';
-import { TestContext } from '@ember/test-helpers';
+import { type TestContext } from '@ember/test-helpers';
 import { PERMISSION, ROUTE } from 'dummy/tests/config';
 import { setupTest } from 'dummy/tests/helpers';
 import { module, test } from 'qunit';
