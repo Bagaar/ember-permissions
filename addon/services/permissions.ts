@@ -4,13 +4,16 @@ import type RouterService from '@ember/routing/router-service';
 import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+export type CanAccessRouteHandler = (service: PermissionsService) => boolean;
 export type Permission = string;
 export type Permissions = Permission[];
 export type RouteName = string;
 export type Transition = ReturnType<RouterService['transitionTo']>;
 
 type RouteAccessDeniedHandler = (deniedTransition: Transition) => void;
-type RoutePermissions = { [routeName: RouteName]: Permissions };
+type RoutePermissions = {
+  [routeName: RouteName]: Permissions | CanAccessRouteHandler;
+};
 
 export default class PermissionsService extends Service {
   @service('router') declare routerService: RouterService;
@@ -58,31 +61,43 @@ export default class PermissionsService extends Service {
     });
   }
 
+  hasSomePermissions(permissions: Permissions): boolean {
+    assert(
+      '`permissions` is required and should be an array.',
+      permissions && Array.isArray(permissions)
+    );
+
+    return permissions.some((permission) => {
+      return this.permissions.includes(permission);
+    });
+  }
+
   canAccessRoute(routeName: RouteName): boolean {
     assert(
       '`routeName` is required and should be a string.',
       routeName && typeof routeName === 'string'
     );
 
-    const routeTreePermissions = this.getRouteTreePermissions(routeName);
+    const routeNameSegments = routeName.split('.');
 
-    return this.hasPermissions(routeTreePermissions);
-  }
+    for (let index = 0; index < routeNameSegments.length; index++) {
+      const permissionsOrHandler =
+        this.routePermissions[routeNameSegments.slice(0, index + 1).join('.')];
 
-  getRouteTreePermissions(routeName: RouteName): Permissions {
-    const routeNameSplitted = routeName.split('.');
-    const routeTreePermissions = [];
-
-    for (let index = 0; index < routeNameSplitted.length; index++) {
-      const routeNameJoined = routeNameSplitted.slice(0, index + 1).join('.');
-      const routePermissions = this.routePermissions[routeNameJoined];
-
-      if (routePermissions) {
-        routeTreePermissions.push(...routePermissions);
+      if (
+        Array.isArray(permissionsOrHandler) &&
+        this.hasPermissions(permissionsOrHandler) === false
+      ) {
+        return false;
+      } else if (
+        typeof permissionsOrHandler === 'function' &&
+        permissionsOrHandler(this) === false
+      ) {
+        return false;
       }
     }
 
-    return routeTreePermissions;
+    return true;
   }
 
   enableRouteValidation(initialTransition?: Transition): void {
