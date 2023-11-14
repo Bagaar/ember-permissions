@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/Bagaar/ember-permissions/compare/v4.0.0...v5.0.0) (2023-11-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for Node v16
+* drop support for Ember v4.4 and below
+* drop support for Node v14
+
+### Features
+
+* add support for checking if some of the provided permissions are available for the current session ([a705865](https://github.com/Bagaar/ember-permissions/commit/a705865b2c382d22be320f6b349157bb0be03a29))
+* add support for Ember v5.0 ([30a7e74](https://github.com/Bagaar/ember-permissions/commit/30a7e74b7d27ea904a9e4b52fa6393f173a13a9d))
+
+
+* drop support for Ember v4.4 and below ([fd43e59](https://github.com/Bagaar/ember-permissions/commit/fd43e5990fed195b57bffe7ca6d6a3bed16ce171))
+* drop support for Node v14 ([148c5bf](https://github.com/Bagaar/ember-permissions/commit/148c5bf94808f0185c4f40815776f0fb56e32a69))
+* drop support for Node v16 ([1d26067](https://github.com/Bagaar/ember-permissions/commit/1d2606761ad8df5fd665044558406878104606a4))
+
 ## [4.0.0](https://github.com/Bagaar/ember-permissions/compare/v3.0.0...v4.0.0) (2023-01-03)
 
 
