@@ -78,6 +78,7 @@ jobs:
         run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
 
   pack:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
