@@ -15,7 +15,7 @@ module('Acceptance | route validation', function (hooks) {
 
   test('it only calls route-access-denied handlers when route validation is enabled', async function (assert) {
     const permissionsService = this.owner.lookup(
-      'service:permissions'
+      'service:permissions',
     ) as PermissionsService;
 
     DummyRouter.map(function () {

@@ -14,7 +14,7 @@ module('Unit | Service | permissions', function (hooks) {
 
   hooks.beforeEach(function (this: LocalTestContext) {
     this.permissionsService = this.owner.lookup(
-      'service:permissions'
+      'service:permissions',
     ) as PermissionsService;
   });
 
@@ -103,11 +103,11 @@ module('Unit | Service | permissions', function (hooks) {
         this.permissionsService.hasSomePermissions([
           PERMISSION.FOO,
           PERMISSION.BAR,
-        ])
+        ]),
       );
 
       assert.false(
-        this.permissionsService.hasSomePermissions([PERMISSION.BAR])
+        this.permissionsService.hasSomePermissions([PERMISSION.BAR]),
       );
     });
   });

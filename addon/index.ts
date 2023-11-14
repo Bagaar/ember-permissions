@@ -4,13 +4,13 @@ import type {
 } from '@bagaar/ember-permissions/services/permissions';
 
 export function hasPermissions(
-  permissions: Permissions
+  permissions: Permissions,
 ): CanAccessRouteHandler {
   return (service) => service.hasPermissions(permissions);
 }
 
 export function hasSomePermissions(
-  permissions: Permissions
+  permissions: Permissions,
 ): CanAccessRouteHandler {
   return (service) => service.hasSomePermissions(permissions);
 }

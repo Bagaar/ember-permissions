@@ -11,6 +11,21 @@
   "repository": "https://github.com/Bagaar/ember-permissions",
   "license": "MIT",
   "author": "Bagaar",
+  "typesVersions": {
+    "*": {
+      "test-support": [
+        "declarations/addon-test-support/index.d.ts"
+      ],
+      "test-support/*": [
+        "declarations/addon-test-support/*",
+        "declarations/addon-test-support/*/index.d.ts"
+      ],
+      "*": [
+        "declarations/addon/*",
+        "declarations/addon/*/index.d.ts"
+      ]
+    }
+  },
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -26,8 +41,8 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "lint:types": "tsc --noEmit",
-    "prepack": "ember ts:precompile",
-    "postpack": "ember ts:clean",
+    "prepack": "tsc --project tsconfig.declarations.json",
+    "postpack": "rimraf declarations",
     "prepare": "husky install",
     "release": "standard-version",
     "start": "ember serve",
@@ -36,73 +51,75 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@babel/core": "^7.23.2",
     "@glimmer/tracking": "^1.1.2",
-    "ember-cli-babel": "^7.26.11",
-    "ember-cli-typescript": "^5.2.1"
+    "ember-cli-babel": "^8.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.6.6",
-    "@commitlint/config-conventional": "^17.6.6",
+    "@commitlint/cli": "^18.4.1",
+    "@commitlint/config-conventional": "^18.4.0",
     "@ember/optional-features": "^2.0.0",
-    "@ember/string": "^3.1.1",
-    "@ember/test-helpers": "^3.1.0",
-    "@embroider/test-setup": "^3.0.1",
+    "@ember/test-helpers": "^3.2.0",
+    "@embroider/test-setup": "^3.0.3",
     "@glimmer/component": "^1.1.2",
-    "@tsconfig/ember": "^3.0.0",
-    "@types/qunit": "^2.19.6",
-    "@types/rsvp": "^4.0.4",
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
+    "@glint/environment-ember-loose": "^1.2.1",
+    "@glint/template": "^1.2.1",
+    "@tsconfig/ember": "^3.0.2",
+    "@types/qunit": "^2.19.8",
+    "@types/rsvp": "^4.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
     "broccoli-asset-rev": "^3.0.0",
-    "concurrently": "^8.2.0",
+    "concurrently": "^8.2.2",
     "ember-auto-import": "^2.6.3",
-    "ember-cli": "~5.1.0",
-    "ember-cli-clean-css": "^2.0.0",
+    "ember-cli": "~5.4.0",
+    "ember-cli-clean-css": "^3.0.0",
     "ember-cli-dependency-checker": "^3.3.2",
-    "ember-cli-htmlbars": "^6.2.0",
+    "ember-cli-htmlbars": "^6.3.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-load-initializers": "^2.1.2",
-    "ember-page-title": "^7.0.0",
-    "ember-qunit": "^7.0.0",
-    "ember-resolver": "^10.1.1",
-    "ember-source": "~5.1.1",
+    "ember-page-title": "^8.1.0",
+    "ember-qunit": "^8.0.2",
+    "ember-resolver": "^11.0.1",
+    "ember-source": "~5.4.0",
     "ember-source-channel-url": "^3.0.0",
-    "ember-template-lint": "^5.11.0",
-    "ember-try": "^2.0.0",
-    "eslint": "^8.43.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-ember": "^11.9.0",
-    "eslint-plugin-n": "^16.0.1",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-qunit": "^8.0.0",
+    "ember-template-lint": "^5.12.0",
+    "ember-try": "^3.0.0",
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-ember": "^11.11.1",
+    "eslint-plugin-n": "^16.3.1",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-qunit": "^8.0.1",
     "husky": "^8.0.3",
     "loader.js": "^4.7.0",
-    "prettier": "^2.8.8",
-    "qunit": "^2.19.4",
-    "qunit-dom": "^2.0.0",
+    "prettier": "^3.1.0",
+    "qunit": "^2.20.0",
+    "qunit-dom": "^3.0.0",
+    "rimraf": "^5.0.1",
     "standard-version": "^9.5.0",
-    "stylelint": "^15.9.0",
+    "stylelint": "^15.11.0",
     "stylelint-config-standard": "^34.0.0",
-    "stylelint-prettier": "^3.0.0",
-    "typescript": "^5.1.6",
-    "webpack": "^5.88.1"
+    "stylelint-prettier": "^4.0.2",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0"
   },
   "peerDependencies": {
     "ember-source": "^4.8.0 || ^5.0.0"
   },
   "engines": {
-    "node": "16.* || >= 18"
+    "node": ">= 16"
+  },
+  "volta": {
+    "node": "18.18.2",
+    "yarn": "1.22.19"
   },
   "ember": {
     "edition": "octane"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
-  },
-  "volta": {
-    "node": "16.20.1",
-    "yarn": "1.22.19"
   }
 }

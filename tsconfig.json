@@ -6,36 +6,13 @@
     // work with TypeScript.
     "baseUrl": ".",
     "paths": {
-      "dummy/tests/*": [
-        "tests/*"
-      ],
-      "dummy/*": [
-        "tests/dummy/app/*",
-        "app/*"
-      ],
-      "@bagaar/ember-permissions": [
-        "addon"
-      ],
-      "@bagaar/ember-permissions/*": [
-        "addon/*"
-      ],
-      "@bagaar/ember-permissions/test-support": [
-        "addon-test-support"
-      ],
-      "@bagaar/ember-permissions/test-support/*": [
-        "addon-test-support/*"
-      ],
-      "*": [
-        "types/*"
-      ]
+      "dummy/tests/*": ["tests/*"],
+      "dummy/*": ["tests/dummy/app/*", "app/*"],
+      "@bagaar/ember-permissions": ["addon"],
+      "@bagaar/ember-permissions/*": ["addon/*"],
+      "@bagaar/ember-permissions/test-support": ["addon-test-support"],
+      "@bagaar/ember-permissions/test-support/*": ["addon-test-support/*"],
+      "*": ["types/*"]
     }
-  },
-  "include": [
-    "app/**/*",
-    "addon/**/*",
-    "tests/**/*",
-    "types/**/*",
-    "test-support/**/*",
-    "addon-test-support/**/*"
-  ]
+  }
 }
