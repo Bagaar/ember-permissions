@@ -15,7 +15,7 @@ module('Integration | Helper | has-permissions', function (hooks) {
 
   test('it renders `true` or `false` based on the provided permissions', async function (this: LocalTestContext, assert) {
     const permissionsService = this.owner.lookup(
-      'service:permissions'
+      'service:permissions',
     ) as PermissionsService;
 
     permissionsService.setPermissions([PERMISSION.FOO]);

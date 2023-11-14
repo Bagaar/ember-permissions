@@ -35,7 +35,7 @@ export default class PermissionsService extends Service {
   setPermissions(permissions: Permissions): void {
     assert(
       '`permissions` is required and should be an array.',
-      permissions && Array.isArray(permissions)
+      permissions && Array.isArray(permissions),
     );
 
     this.permissions = permissions;
@@ -44,7 +44,7 @@ export default class PermissionsService extends Service {
   setRoutePermissions(routePermissions: RoutePermissions): void {
     assert(
       '`routePermissions` is required and should be an object.',
-      routePermissions && typeof routePermissions === 'object'
+      routePermissions && typeof routePermissions === 'object',
     );
 
     this.routePermissions = routePermissions;
@@ -53,7 +53,7 @@ export default class PermissionsService extends Service {
   hasPermissions(permissions: Permissions): boolean {
     assert(
       '`permissions` is required and should be an array.',
-      permissions && Array.isArray(permissions)
+      permissions && Array.isArray(permissions),
     );
 
     return permissions.every((permission) => {
@@ -64,7 +64,7 @@ export default class PermissionsService extends Service {
   hasSomePermissions(permissions: Permissions): boolean {
     assert(
       '`permissions` is required and should be an array.',
-      permissions && Array.isArray(permissions)
+      permissions && Array.isArray(permissions),
     );
 
     return permissions.some((permission) => {
@@ -75,7 +75,7 @@ export default class PermissionsService extends Service {
   canAccessRoute(routeName: RouteName): boolean {
     assert(
       '`routeName` is required and should be a string.',
-      routeName && typeof routeName === 'string'
+      routeName && typeof routeName === 'string',
     );
 
     const routeNameSegments = routeName.split('.');
