@@ -1,5 +1,4 @@
 import type PermissionsService from '@bagaar/ember-permissions/services/permissions';
-import type { RouteName } from '@bagaar/ember-permissions/services/permissions';
 import { render, settled, type TestContext } from '@ember/test-helpers';
 import { PERMISSION, ROUTE } from 'dummy/tests/config';
 import { setupRenderingTest } from 'dummy/tests/helpers';
@@ -7,7 +6,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 
 interface LocalTestContext extends TestContext {
-  routeName: RouteName;
+  routeName: string;
 }
 
 module('Integration | Helper | can-access-route', function (hooks) {

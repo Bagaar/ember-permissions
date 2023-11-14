@@ -5,14 +5,12 @@ import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export type CanAccessRouteHandler = (service: PermissionsService) => boolean;
-export type Permission = string;
-export type Permissions = Permission[];
-export type RouteName = string;
+export type Permissions = string[];
 export type Transition = ReturnType<RouterService['transitionTo']>;
 
 type RouteAccessDeniedHandler = (deniedTransition: Transition) => void;
 type RoutePermissions = {
-  [routeName: RouteName]: Permissions | CanAccessRouteHandler;
+  [routeName: string]: Permissions | CanAccessRouteHandler;
 };
 
 export default class PermissionsService extends Service {
@@ -72,7 +70,7 @@ export default class PermissionsService extends Service {
     });
   }
 
-  canAccessRoute(routeName: RouteName): boolean {
+  canAccessRoute(routeName: string): boolean {
     assert(
       '`routeName` is required and should be a string.',
       routeName && typeof routeName === 'string',
