@@ -37,7 +37,7 @@ Permission management for Ember applications.
 
 - Ember.js v4.8 or above
 - Ember CLI v4.8 or above
-- Node.js v16 or above
+- Node.js v18 or above
 
 ## Installation
 
