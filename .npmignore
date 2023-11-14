@@ -1,6 +1,5 @@
 # compiled output
 /dist/
-/tmp/
 
 # misc
 /.commitlintrc.js
@@ -23,6 +22,7 @@
 /CONTRIBUTING.md
 /ember-cli-build.js
 /testem.js
+/tsconfig.declarations.json
 /tsconfig.json
 /tests/
 /types/
