@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.0](https://github.com/Bagaar/ember-permissions/compare/v5.0.0...v5.1.0) (2024-03-04)
+
+
+### Features
+
+* provide an extendable template registry ([85ffa54](https://github.com/Bagaar/ember-permissions/commit/85ffa54c8a558d398f2eec3c6e585f67ea7761d5))
+
 ## [5.0.0](https://github.com/Bagaar/ember-permissions/compare/v4.0.0...v5.0.0) (2023-11-14)
 
 
