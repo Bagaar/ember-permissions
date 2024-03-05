@@ -3,7 +3,8 @@
   "version": "5.1.0",
   "description": "Permission management for Ember applications.",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "permissions"
   ],
   "repository": "https://github.com/bagaar/ember-permissions",
   "license": "MIT",
@@ -119,5 +120,8 @@
       "release": true,
       "tokenRef": "GITHUB_TOKEN"
     }
+  },
+  "volta": {
+    "extends": "../package.json"
   }
 }
