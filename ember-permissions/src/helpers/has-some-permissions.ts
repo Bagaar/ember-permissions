@@ -1,5 +1,5 @@
 import Helper from '@ember/component/helper';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import type PermissionsService from '../services/permissions';
 import type { Permissions } from '../services/permissions';
 

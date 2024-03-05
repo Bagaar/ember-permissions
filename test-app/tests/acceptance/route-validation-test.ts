@@ -3,7 +3,7 @@ import type { Transition } from '@bagaar/ember-permissions/services/permissions'
 import { registerDestructor } from '@ember/destroyable';
 import Route from '@ember/routing/route';
 import type RouterService from '@ember/routing/router-service';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { currentURL, visit } from '@ember/test-helpers';
 import DummyRouter from 'test-app/router';
 import { PERMISSION, ROUTE } from 'test-app/tests/config';
