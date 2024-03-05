@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+
+## v6.0.0 (2024-03-05)
+
+#### :boom: Breaking Change
+* [#411](https://github.com/Bagaar/ember-permissions/pull/411) Convert to v2 addon ([@bertdeblock](https://github.com/bertdeblock))
+
+#### Committers: 1
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+
 ## [5.1.0](https://github.com/bagaar/ember-permissions/compare/v5.0.0...v5.1.0) (2024-03-04)
 
 
