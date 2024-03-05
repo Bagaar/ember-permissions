@@ -1,7 +1,7 @@
 import Helper from '@ember/component/helper';
 import { service } from '@ember/service';
-import type PermissionsService from '../services/permissions';
-import type { Permissions } from '../services/permissions';
+import type PermissionsService from '../services/permissions.ts';
+import type { Permissions } from '../services/permissions.ts';
 
 export default class HasSomePermissionsHelper extends Helper {
   @service('permissions') declare permissionsService: PermissionsService;
