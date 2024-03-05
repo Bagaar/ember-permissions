@@ -1,7 +1,7 @@
 import type {
   CanAccessRouteHandler,
   Permissions,
-} from './services/permissions';
+} from './services/permissions.ts';
 
 export function hasPermissions(
   permissions: Permissions,

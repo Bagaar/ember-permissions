@@ -1,6 +1,6 @@
 import Helper from '@ember/component/helper';
 import { service } from '@ember/service';
-import type PermissionsService from '../services/permissions';
+import type PermissionsService from '../services/permissions.ts';
 
 export default class CanAccessRouteHelper extends Helper {
   @service('permissions') declare permissionsService: PermissionsService;
