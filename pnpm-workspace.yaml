@@ -1,0 +1,3 @@
+packages:
+  - 'ember-permissions'
+  - 'test-app'

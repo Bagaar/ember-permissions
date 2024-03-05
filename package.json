@@ -1,125 +1,28 @@
 {
-  "name": "@bagaar/ember-permissions",
-  "version": "5.1.0",
-  "description": "Permission management for Ember applications.",
-  "keywords": [
-    "bagaar",
-    "ember",
-    "ember-addon",
-    "permissions"
-  ],
-  "repository": "https://github.com/Bagaar/ember-permissions",
+  "private": true,
+  "repository": "https://github.com/bagaar/ember-permissions",
   "license": "MIT",
   "author": "Bagaar",
-  "typesVersions": {
-    "*": {
-      "test-support": [
-        "declarations/addon-test-support/index.d.ts"
-      ],
-      "test-support/*": [
-        "declarations/addon-test-support/*",
-        "declarations/addon-test-support/*/index.d.ts"
-      ],
-      "*": [
-        "declarations/addon/*",
-        "declarations/addon/*/index.d.ts"
-      ]
-    }
-  },
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
   "scripts": {
-    "build": "ember build --environment=production",
-    "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
-    "lint:css": "stylelint \"**/*.css\"",
-    "lint:css:fix": "concurrently \"npm:lint:css -- --fix\"",
-    "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
-    "lint:hbs": "ember-template-lint .",
-    "lint:hbs:fix": "ember-template-lint . --fix",
-    "lint:js": "eslint . --cache",
-    "lint:js:fix": "eslint . --fix",
-    "lint:types": "tsc --noEmit",
-    "prepack": "tsc --project tsconfig.declarations.json",
-    "postpack": "rimraf declarations",
-    "prepare": "husky install",
-    "release": "standard-version",
-    "start": "ember serve",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each"
-  },
-  "dependencies": {
-    "@babel/core": "^7.23.2",
-    "@glimmer/tracking": "^1.1.2",
-    "ember-cli-babel": "^8.2.0"
+    "build": "pnpm --filter ember-permissions build",
+    "lint": "pnpm --filter '*' lint",
+    "lint:fix": "pnpm --filter '*' lint:fix",
+    "prepare": "pnpm build",
+    "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
+    "start:addon": "pnpm --filter ember-permissions start --no-watch.clearScreen",
+    "start:test-app": "pnpm --filter test-app start",
+    "test": "pnpm --filter '*' test",
+    "test:ember": "pnpm --filter '*' test:ember"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.4.1",
-    "@commitlint/config-conventional": "^18.4.0",
-    "@ember/optional-features": "^2.0.0",
-    "@ember/test-helpers": "^3.2.0",
-    "@embroider/test-setup": "^3.0.3",
-    "@glimmer/component": "^1.1.2",
-    "@glint/environment-ember-loose": "^1.2.1",
-    "@glint/template": "^1.2.1",
-    "@tsconfig/ember": "^3.0.2",
-    "@types/qunit": "^2.19.8",
-    "@types/rsvp": "^4.0.7",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
-    "@typescript-eslint/parser": "^6.11.0",
-    "broccoli-asset-rev": "^3.0.0",
-    "concurrently": "^8.2.2",
-    "ember-auto-import": "^2.6.3",
-    "ember-cli": "~5.4.0",
-    "ember-cli-clean-css": "^3.0.0",
-    "ember-cli-dependency-checker": "^3.3.2",
-    "ember-cli-htmlbars": "^6.3.0",
-    "ember-cli-inject-live-reload": "^2.1.0",
-    "ember-cli-sri": "^2.1.1",
-    "ember-cli-terser": "^4.0.2",
-    "ember-load-initializers": "^2.1.2",
-    "ember-page-title": "^8.1.0",
-    "ember-qunit": "^8.0.2",
-    "ember-resolver": "^11.0.1",
-    "ember-source": "~5.4.0",
-    "ember-source-channel-url": "^3.0.0",
-    "ember-template-lint": "^5.12.0",
-    "ember-try": "^3.0.0",
-    "eslint": "^8.53.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-ember": "^11.11.1",
-    "eslint-plugin-n": "^16.3.1",
-    "eslint-plugin-prettier": "^5.0.1",
-    "eslint-plugin-qunit": "^8.0.1",
-    "husky": "^8.0.3",
-    "loader.js": "^4.7.0",
-    "prettier": "^3.1.0",
-    "qunit": "^2.20.0",
-    "qunit-dom": "^3.0.0",
-    "rimraf": "^5.0.1",
-    "standard-version": "^9.5.0",
-    "stylelint": "^15.11.0",
-    "stylelint-config-standard": "^34.0.0",
-    "stylelint-prettier": "^4.0.2",
-    "typescript": "^5.2.2",
-    "webpack": "^5.89.0"
+    "concurrently": "^8.2.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-ember-template-tag": "^1.1.0",
+    "@glint/core": "^1.2.1"
   },
-  "peerDependencies": {
-    "ember-source": "^4.8.0 || ^5.0.0"
-  },
-  "engines": {
-    "node": ">= 18"
-  },
-  "volta": {
-    "node": "18.18.2",
-    "yarn": "1.22.19"
-  },
-  "ember": {
-    "edition": "octane"
-  },
-  "ember-addon": {
-    "configPath": "tests/dummy/config"
+  "pnpm": {
+    "overrides": {
+      "@types/eslint": "^7.0.0"
+    }
   }
 }
