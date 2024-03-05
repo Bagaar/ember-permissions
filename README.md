@@ -1,6 +1,6 @@
 # @bagaar/ember-permissions
 
-[![CI](https://github.com/Bagaar/ember-permissions/workflows/CI/badge.svg)](https://github.com/Bagaar/ember-permissions/actions?query=workflow%3ACI)
+[![CI](https://github.com/bagaar/ember-permissions/workflows/CI/badge.svg)](https://github.com/bagaar/ember-permissions/actions?query=workflow%3ACI)
 [![NPM Version](https://badge.fury.io/js/%40bagaar%2Fember-permissions.svg)](https://badge.fury.io/js/%40bagaar%2Fember-permissions)
 
 Permission management for Ember applications.
@@ -27,7 +27,6 @@ Permission management for Ember applications.
     - [`can-access-route`](#can-access-route)
 - [Contributing](#contributing)
 - [License](#license)
-- [Maintenance](#maintenance)
 
 ## Introduction
 
@@ -36,8 +35,7 @@ Permission management for Ember applications.
 ## Compatibility
 
 - Ember.js v4.8 or above
-- Ember CLI v4.8 or above
-- Node.js v18 or above
+- Embroider or ember-auto-import v2
 
 ## Installation
 
@@ -398,7 +396,3 @@ See the [Contributing](./CONTRIBUTING.md) guide for details.
 ## License
 
 This project is licensed under the [MIT License](./LICENSE.md).
-
-## Maintenance
-
-`@bagaar/ember-permissions` is built and maintained by [Bagaar](https://bagaar.be).
