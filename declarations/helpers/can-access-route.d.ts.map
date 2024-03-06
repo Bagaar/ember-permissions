@@ -1,0 +1,1 @@
+{"version":3,"file":"can-access-route.d.ts","sourceRoot":"","sources":["../../src/helpers/can-access-route.ts"],"names":[],"mappings":";AAAA,OAAO,MAAM,MAAM,yBAAyB,CAAC;AAE7C,OAAO,KAAK,kBAAkB,MAAM,4BAA4B,CAAC;AAEjE,MAAM,CAAC,OAAO,OAAO,oBAAqB,SAAQ,MAAM;IACtB,kBAAkB,EAAE,kBAAkB,CAAC;IAEvE,OAAO,CAAC,CAAC,SAAS,CAAC,EAAE,CAAC,MAAM,CAAC;CAG9B"}

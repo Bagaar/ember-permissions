@@ -1,0 +1,1 @@
+{"version":3,"file":"has-some-permissions.d.ts","sourceRoot":"","sources":["../../src/helpers/has-some-permissions.ts"],"names":[],"mappings":";AAAA,OAAO,MAAM,MAAM,yBAAyB,CAAC;AAE7C,OAAO,KAAK,kBAAkB,MAAM,4BAA4B,CAAC;AACjE,OAAO,KAAK,EAAE,WAAW,EAAE,MAAM,4BAA4B,CAAC;AAE9D,MAAM,CAAC,OAAO,OAAO,wBAAyB,SAAQ,MAAM;IAC1B,kBAAkB,EAAE,kBAAkB,CAAC;IAEvE,OAAO,CAAC,WAAW,EAAE,WAAW;CAGjC"}
