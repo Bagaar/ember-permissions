@@ -1,5 +1,20 @@
 # Changelog
 
+## Release (2024-03-06)
+
+@bagaar/ember-permissions 6.0.1 (patch)
+
+#### :bug: Bug Fix
+* `@bagaar/ember-permissions`
+  * [#412](https://github.com/Bagaar/ember-permissions/pull/412) Include extension for relative imports ([@bertdeblock](https://github.com/bertdeblock))
+
+#### :house: Internal
+* `@bagaar/ember-permissions`
+  * [#413](https://github.com/Bagaar/ember-permissions/pull/413) Set up Release Plan ([@bertdeblock](https://github.com/bertdeblock))
+
+#### Committers: 1
+- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))
+
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 

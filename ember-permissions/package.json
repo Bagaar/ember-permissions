@@ -1,6 +1,6 @@
 {
   "name": "@bagaar/ember-permissions",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "Permission management for Ember applications.",
   "keywords": [
     "ember-addon",
