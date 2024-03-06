@@ -40,7 +40,15 @@ Permission management for Ember applications.
 ## Installation
 
 ```shell
-ember install @bagaar/ember-permissions
+npm install -D @bagaar/ember-permissions
+```
+
+```shell
+pnpm add -D @bagaar/ember-permissions
+```
+
+```shell
+yarn add -D @bagaar/ember-permissions
 ```
 
 ## Usage
@@ -391,8 +399,8 @@ Returns `true` if the provided route can be accessed, `false` if otherwise.
 
 ## Contributing
 
-See the [Contributing](./CONTRIBUTING.md) guide for details.
+See the [Contributing](CONTRIBUTING.md) guide for details.
 
 ## License
 
-This project is licensed under the [MIT License](./LICENSE.md).
+This project is licensed under the [MIT License](LICENSE.md).
