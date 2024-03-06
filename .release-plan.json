@@ -1,0 +1,21 @@
+{
+  "solution": {
+    "@bagaar/ember-permissions": {
+      "impact": "patch",
+      "oldVersion": "6.0.0",
+      "newVersion": "6.0.1",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./ember-permissions/package.json"
+    }
+  },
+  "description": "## Release (2024-03-06)\n\n@bagaar/ember-permissions 6.0.1 (patch)\n\n#### :bug: Bug Fix\n* `@bagaar/ember-permissions`\n  * [#412](https://github.com/Bagaar/ember-permissions/pull/412) Include extension for relative imports ([@bertdeblock](https://github.com/bertdeblock))\n\n#### :house: Internal\n* `@bagaar/ember-permissions`\n  * [#413](https://github.com/Bagaar/ember-permissions/pull/413) Set up Release Plan ([@bertdeblock](https://github.com/bertdeblock))\n\n#### Committers: 1\n- Bert De Block ([@bertdeblock](https://github.com/bertdeblock))\n"
+}
